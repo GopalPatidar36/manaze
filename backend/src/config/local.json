@@ -1,0 +1,9 @@
+{
+  "DBAdminAccessSecret": {
+    "HOST": "",
+    "PORT": "",
+    "SCHEMA": "",
+    "USERNAME": "",
+    "PASSWORD": ""
+  }
+}
