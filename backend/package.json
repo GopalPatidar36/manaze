@@ -10,8 +10,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.2",
+    "config": "^3.3.11",
     "cors": "^2.8.5",
     "express": "^4.19.2",
+    "http-errors": "^2.0.0",
+    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.10.0",
     "sequelize": "^6.37.3",
     "umzug": "^3.8.1"
