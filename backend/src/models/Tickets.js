@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
 
 class Tickets extends Sequelize.Model {
   static init(sequelize, DataTypes) {
-  return sequelize.define('Tickets', {
+  return sequelize.define('Ticket', {
     id: {
       autoIncrement: true,
       type: DataTypes.BIGINT.UNSIGNED,

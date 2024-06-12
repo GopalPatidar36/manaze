@@ -1,3 +1,4 @@
+const bcrypt = require('bcrypt');
 const Sequelize = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   return Users.init(sequelize, DataTypes);
@@ -5,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
 
 class Users extends Sequelize.Model {
   static init(sequelize, DataTypes) {
-  return sequelize.define('Users', {
+  return sequelize.define('User', {
     id: {
       autoIncrement: true,
       type: DataTypes.BIGINT.UNSIGNED,
@@ -15,19 +16,24 @@ class Users extends Sequelize.Model {
     uid: {
       type: DataTypes.CHAR(36),
       allowNull: true,
-      unique: "uid"
+      unique: "uid",
+      defaultValue: DataTypes.UUIDV4
     },
-    user_email: {
+    userEmail: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: false,
+      unique: "user_email",
+      field: "user_email"
     },
-    first_name: {
+    firstName: {
       type: DataTypes.STRING(100),
-      allowNull: false
+      allowNull: false,
+      field: "first_name"
     },
-    last_name: {
+    lastName: {
       type: DataTypes.STRING(100),
-      allowNull: true
+      allowNull: true,
+      field: "last_name"
     },
     role: {
       type: DataTypes.STRING(25),
@@ -35,7 +41,10 @@ class Users extends Sequelize.Model {
     },
     password: {
       type: DataTypes.STRING(100),
-      allowNull: true
+      allowNull: true,
+      set(value) {
+        this.setDataValue("password", bcrypt.hashSync(value, 10));
+      }
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -68,6 +77,14 @@ class Users extends Sequelize.Model {
         using: "BTREE",
         fields: [
           { name: "id" },
+        ]
+      },
+      {
+        name: "user_email",
+        unique: true,
+        using: "BTREE",
+        fields: [
+          { name: "user_email" },
         ]
       },
       {

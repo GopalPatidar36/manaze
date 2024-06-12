@@ -1,16 +1,17 @@
 const { Sequelize } = require("sequelize");
+const config = require('config');
 
 const database = async function () {
-  const sequelize = new Sequelize("", "", "", {
+  config.db = new Sequelize("manaze", "sitaram", "mindfire", {
     port: 3306,
     host: "localhost",
     dialect: "mysql",
   });
 
-  require("./index")({ sequelize });
-  require('../models/init-models')(sequelize);
+  require("./index")({ sequelize: config.db });
+  require('../models/init-models')(config.db);
   try {
-    await sequelize.authenticate(sequelize);
+    await config.db.authenticate(config.db);
     console.log("Connection has been established successfully.");
   } catch (error) {
     console.error("Unable to connect to the database:", error);

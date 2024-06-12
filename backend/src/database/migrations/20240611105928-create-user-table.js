@@ -20,6 +20,7 @@ module.exports = {
       user_email: {
         type: Sequelize.DataTypes.STRING(100),
         allowNull: false,
+        unique: true,
       },
       first_name: {
         type: Sequelize.DataTypes.STRING(100),
@@ -44,7 +45,7 @@ module.exports = {
         allowNull: true,
       },
       password: {
-        type: Sequelize.DataTypes.STRING(100),
+        type: Sequelize.DataTypes.STRING(500),
         allowNull: true,
       },
       role: {
