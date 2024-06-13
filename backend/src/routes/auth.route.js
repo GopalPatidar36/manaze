@@ -18,6 +18,7 @@ async function login(req, res, next) {
     if (!_User || !pass) return next(createError(404));
     var token = jsonwebtoken.sign({ userEmail: _User.userEmail }, privateKey, {
       algorithm: "RS256",
+      expiresIn: '1h'
     });
     res.json({ token });
   } catch (err) {
