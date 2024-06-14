@@ -1,7 +1,8 @@
 import React, { useState } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 
-const Login = (props) => {
+const ResetPassword = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -14,7 +15,7 @@ const Login = (props) => {
   return (
     <div className={"mainContainer"}>
       <div className={"titleContainer"}>
-        <div>Login</div>
+        <div>ResetPassword</div>
       </div>
       <br />
       <div className={"inputContainer"}>
@@ -51,4 +52,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default connect()(ResetPassword);

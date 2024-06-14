@@ -14,11 +14,11 @@ async function login(req, res, next) {
     const _User = await User.findOne({
       where: { userEmail: req.body.userEmail },
     });
-    const pass = bcrypt.compareSync(req.body.password, _User.password);
+    const pass = bcrypt.compareSync(req.body.password, _User?.password);
     if (!_User || !pass) return next(createError(404));
     var token = jsonwebtoken.sign({ userEmail: _User.userEmail }, privateKey, {
       algorithm: "RS256",
-      expiresIn: '1h'
+      expiresIn: "1h",
     });
     res.json({ token });
   } catch (err) {

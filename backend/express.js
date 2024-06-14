@@ -6,8 +6,9 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const isAuthorized = require("./src/middlewares/isAuthorized");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 6036;
 const app = express();
+app.use(cors())
 app.use(bodyParser.json());
 
 app.all("*", isAuthorized);

@@ -1,14 +1,18 @@
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/slices/authSlice";
 import { Link } from "react-router-dom";
 
 const Login = (props) => {
-  const [email, setEmail] = useState("");
+  const [userEmail, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const dispatch = useDispatch();
 
-  const onButtonClick = (e) => {
-    // You'll update this function later...
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(login({ userEmail, password }));
     setEmail("");
     setPassword("");
     setEmailError("");
@@ -22,34 +26,38 @@ const Login = (props) => {
           <div>Login</div>
         </div>
         <br />
-        <div className={"inputContainer"}>
-          <input
-            value={email}
-            placeholder="Enter your email here"
-            onChange={(ev) => setEmail(ev.target.value)}
-            className={"inputBox"}
-          />
-          <label className="errorLabel">{emailError}</label>
-        </div>
-        <br />
-        <div className={"inputContainer"}>
-          <input
-            value={password}
-            placeholder="Enter your password here"
-            onChange={(ev) => setPassword(ev.target.value)}
-            className={"inputBox"}
-          />
-          <label className="errorLabel">{passwordError}</label>
-        </div>
-        <br />
-        <div className={"inputContainer"}>
-          <input
-            className={"inputButton"}
-            type="button"
-            onClick={onButtonClick}
-            value={"Log in"}
-          />
-        </div>
+        <form
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+          onSubmit={handleSubmit}
+        >
+          <div className={"inputContainer"}>
+            <input
+              value={userEmail}
+              placeholder="Enter your email here"
+              onChange={(ev) => setEmail(ev.target.value)}
+              className={"inputBox"}
+            />
+            <label className="errorLabel">{emailError}</label>
+          </div>
+          <br />
+          <div className={"inputContainer"}>
+            <input
+              value={password}
+              placeholder="Enter your password here"
+              onChange={(ev) => setPassword(ev.target.value)}
+              className={"inputBox"}
+            />
+            <label className="errorLabel">{passwordError}</label>
+          </div>
+          <br />
+          <button className={"inputButton"} type="submit">
+            Login
+          </button>
+        </form>
         <br />
         <Link to="/signup">If you don't have account</Link>
       </div>

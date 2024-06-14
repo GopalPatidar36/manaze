@@ -7,13 +7,16 @@ export default [
   {
     path: "/",
     element: <Login />,
+    isAuthRoute: true
   },
   {
     path: "/resetpassword",
     element: <ResetPassword />,
+    isAuthRoute: true
   },
   {
     path: "/signup",
     element: <Signup />,
+    isAuthRoute: true
   },
 ];
