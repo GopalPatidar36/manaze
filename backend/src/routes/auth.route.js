@@ -20,7 +20,8 @@ async function login(req, res, next) {
       algorithm: "RS256",
       expiresIn: "1h",
     });
-    res.json({ token });
+    const { password, ...rest } = _User.dataValues;
+    res.json({ token, user: rest });
   } catch (err) {
     next(err);
   }

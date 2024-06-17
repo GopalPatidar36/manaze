@@ -1,26 +1,33 @@
 // src/redux/slices/authSlice.js
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
+import { toatMessage } from "../../components/ToastifyAlert";
 import api from "../../plugin/axios";
 
 export const login = createAsyncThunk("auth/login", async (credentials) => {
   const response = await api.post("/auth/login", credentials);
   localStorage.setItem("accessToken", response?.data?.token);
-  return { accessToken: response?.data?.token };
+  localStorage.setItem("currentUser", response?.data?.user);
+  return response?.data;
 });
 
-export const logout = createAsyncThunk("auth/logout", async () => {
-  localStorage.removeItem("accessToken");
-});
+const initialState = {
+  accessToken: localStorage.getItem("accessToken") || null,
+  currentUser: localStorage.getItem("currentUser") || null,
+  status: "loading",
+  user: null,
+  error: null,
+};
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    accessToken: localStorage.getItem("accessToken") || null,
-    user: null,
-    status: "idle",
-    error: null,
+  initialState,
+  reducers: {
+    logout: (state) => {
+      localStorage.removeItem("accessToken");
+      state.accessToken = null;
+      state.user = null;
+    },
   },
-  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -28,18 +35,16 @@ const authSlice = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.user = action.payload.user;
-        state.accessToken = action.payload.accessToken;
+        state.accessToken = action.payload?.token;
+        state.currentUser = action.payload?.user;
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
-      })
-      .addCase(logout.fulfilled, (state, action) => {
-        state.accessToken = null;
+        toatMessage("Please enter valid username and password", "error");
       });
   },
 });
 
-export const {} = authSlice.actions;
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;

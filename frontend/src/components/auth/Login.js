@@ -12,6 +12,14 @@ const Login = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!userEmail) {
+      setEmailError("Please Enter Valide email");
+      return;
+    }
+    if (!password) {
+      setPasswordError("Please Enter password");
+      return;
+    }
     dispatch(login({ userEmail, password }));
     setEmail("");
     setPassword("");
@@ -38,7 +46,7 @@ const Login = (props) => {
             <input
               value={userEmail}
               placeholder="Enter your email here"
-              onChange={(ev) => setEmail(ev.target.value)}
+              onChange={(ev) => setEmail(ev.target.value)} 
               className={"inputBox"}
             />
             <label className="errorLabel">{emailError}</label>

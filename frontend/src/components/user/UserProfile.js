@@ -1,24 +1,10 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../redux/slices/authSlice";
 
-const ErrorPage = () => {
-  const dispatch = useDispatch();
-  const token = useSelector((state) => state.auth.accessToken);
-  const handleSubmit = (e) => {
-    dispatch(logout());
-  };
-
+const UserProfile = () => {
   return (
-    <div>
-      <h3>token:{token}</h3>{" "}
-      <input
-        className={"inputButton"}
-        type="button"
-        onClick={handleSubmit}
-        value={"Log out"}
-      />
+    <div style={{ borderColor: "orange" }}>
+      <h3>Wel-Come to the profile</h3>
     </div>
   );
 };
-export default ErrorPage;
+export default UserProfile;
