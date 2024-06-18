@@ -7,8 +7,8 @@ const Layout = () => {
   return (
     <div>
       <Header />
-      <div style={{ display: "flex", flexDirection: "row" }}>
-        <Sidebar style={{ display: "flex", justifyContent: "center" }} />
+      <Sidebar />
+      <div className="outletContainer">
         <Outlet />
       </div>
     </div>

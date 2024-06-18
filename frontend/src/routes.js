@@ -1,9 +1,9 @@
 import { Navigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import authRoute from "./auth/route";
-import userRoute from "./user/route";
-import ProtectedRoute from "./ProtectedRoute";
+import authRoute from "./components/auth/route";
+import userRoute from "./components/route";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const useAuth = () => {
   const token = useSelector((state) => state.auth.accessToken);

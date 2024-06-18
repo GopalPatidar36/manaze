@@ -1,6 +1,7 @@
 import React from "react";
-import UserProfile from "./UserProfile";
-import Layout from "../Layout";
+import UserProfile from "./user/UserProfile";
+import Backlog from "./tickets/Backlog";
+import Layout from "./Layout";
 
 export default [
   {
@@ -9,7 +10,7 @@ export default [
     children: [
       { path: "/", element: <UserProfile /> },
       { path: "/issue", element: <UserProfile /> },
-      { path: "/backlog", element: <UserProfile /> },
+      { path: "/backlog", element: <Backlog /> },
     ],
   },
 ];

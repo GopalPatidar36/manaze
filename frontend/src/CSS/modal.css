@@ -1,0 +1,37 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+  z-index: 25;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.boxMoal {
+  box-sizing: border-box;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: rgb(223, 231, 235);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.boxModalContainer {
+  padding: 25px 100px;
+  flex-direction: column;
+  display: flex;
+}
+
+.boxTitle {
+  align-self: center;
+  font-size: 36px;
+}
+
+.closeIcon {
+  align-self: end;
+  font-size: 36px;
+}

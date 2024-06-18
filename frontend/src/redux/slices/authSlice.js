@@ -1,4 +1,3 @@
-// src/redux/slices/authSlice.js
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import { toatMessage } from "../../components/ToastifyAlert";
 import api from "../../plugin/axios";

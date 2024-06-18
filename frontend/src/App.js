@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import routes from "./components/routes";
+import routes from "./routes";
 import ToastifyAlert from "./components/ToastifyAlert";
 
 const App = () => {
