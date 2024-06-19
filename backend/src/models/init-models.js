@@ -9,6 +9,8 @@ function initModels(sequelize) {
   const Tickets = _Tickets(sequelize, DataTypes);
   const UserTicket = _UserTicket(sequelize, DataTypes);
   const Users = _Users(sequelize, DataTypes);
+  Tickets.belongsToMany(Users, { as: 'ticketIdUsers', through: UserTicket, foreignKey: 'ticket', otherKey: 'assignee', targetKey: 'uid' });
+
 
   UserTicket.belongsTo(Tickets, { as: "ticket_ticket", foreignKey: "ticket"});
   Tickets.hasMany(UserTicket, { as: "userTickets", foreignKey: "ticket"});
@@ -16,8 +18,8 @@ function initModels(sequelize) {
   Users.hasMany(Tickets, { as: "tickets", foreignKey: "created_by"});
   UserTicket.belongsTo(Users, { as: "created_by_user", foreignKey: "created_by"});
   Users.hasMany(UserTicket, { as: "user_tickets", foreignKey: "created_by"});
-  UserTicket.belongsTo(Users, { as: "assignee_user", foreignKey: "assignee"});
-  Users.hasMany(UserTicket, { as: "assignee_user_tickets", foreignKey: "assignee"});
+  UserTicket.belongsTo(Users, { as: "assigneeUser", foreignKey: "assignee"});
+  Users.hasMany(UserTicket, { as: "assigneeUserTickets", foreignKey: "assignee"});
 
   return {
     MigrationsHistory,

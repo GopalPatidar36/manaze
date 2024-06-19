@@ -12,9 +12,10 @@ class UserTicket extends Sequelize.Model {
       allowNull: false,
       primaryKey: true
     },
-    created_by: {
+    createdBy: {
       type: DataTypes.CHAR(36),
       allowNull: false,
+      field:"created_by",
       references: {
         model: 'users',
         key: 'uid'
@@ -28,9 +29,10 @@ class UserTicket extends Sequelize.Model {
         key: 'uid'
       }
     },
-    ticket: {
+    ticketId: {
       type: DataTypes.BIGINT.UNSIGNED,
       allowNull: false,
+      field:"ticket",
       references: {
         model: 'tickets',
         key: 'id'

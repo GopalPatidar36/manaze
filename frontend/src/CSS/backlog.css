@@ -5,8 +5,13 @@
   margin-top: 50px;
 }
 
+.backlog2 {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 60px;
+}
+
 .createButton {
-  align-self: end;
   margin-right: 10%;
   background-color: #04aa6d; /* Green */
   border: none;
@@ -20,5 +25,5 @@
 }
 
 .createButton:hover {
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  }
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

@@ -2,20 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { FaForward, FaBackward } from "react-icons/fa6";
 
-const DataTable = ({ headers = [], api, slice } = {}) => {
+const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentpPges] = useState(1);
   const ticketCount = useSelector((state) => state[slice].count);
   const list = useSelector((state) => state[slice].list);
+  const [openAction, setOpenAction] = useState("");
 
   const tableHeader = headers.map((item) => {
     return (
-      <>
-        <th style={{ width: `${80 / headers.length}%` }} key={item}>
-          {item[0].toUpperCase() + item.slice(1)}
-        </th>
-        <th style={{ width: "2px" }} key="actionKey"></th>
-      </>
+      <th style={{ width: `${80 / headers.length}%` }} key={item}>
+        {item[0].toUpperCase() + item.slice(1)}
+      </th>
     );
   });
 
@@ -24,13 +22,30 @@ const DataTable = ({ headers = [], api, slice } = {}) => {
     list.slice(0, 15).map((item, index) => (
       <tr key={index} className="tableDataRow">
         {headers.map((header) => (
-          <td style={{ width: `${80 / headers.length}%` }} key={header}>
+          <td key={header} style={{ width: `${80 / headers.length}%` }}>
             {item[header] ? item[header] : "N/A"}
           </td>
         ))}
-        <td key="action" style={{ width: "2px" }}>
-          ::
+        <td
+          key={headers + ":"}
+          style={{ width: `1px` }}
+          onClick={() =>
+            setOpenAction((state) => (state === item.id ? false : item.id))
+          }
+        >
+          &#8942;
         </td>
+        {openAction === item.id && (
+          <div className="actionInDatatable">
+            <button
+              className="actionButton"
+              onClick={() => modalToggle(item.id)}
+            >
+              Edit
+            </button>
+            <button className="actionButton">Delete</button>
+          </div>
+        )}
       </tr>
     ));
 
@@ -83,8 +98,10 @@ const DataTable = ({ headers = [], api, slice } = {}) => {
   return (
     <div className="DataTable">
       <table>
-        <tr> {tableHeader}</tr>
-        {tableData}
+        <tbody>
+          <tr>{tableHeader}</tr>
+          {tableData}
+        </tbody>
       </table>
       {ticketCount === 0 ? (
         <p style={{ alignSelf: "center" }}>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { getTicket } from "../../redux/slices/backlogTickets";
+import { currentUserTicket } from "../../redux/slices/backlogTickets";
 import DataTable from "../DataTable";
 import AddTicket from "./addTicket";
 
@@ -9,7 +9,6 @@ const Backlog = () => {
   const [ticketId, setTicketId] = useState("");
 
   const openModel = (id) => {
-    console.log("🚀 ~ openModel ~ id:", id);
     setTicketId(id);
     setModal((item) => !item);
   };
@@ -17,7 +16,7 @@ const Backlog = () => {
   return (
     <div className="backlog">
       <div className="backlog2">
-        <h3 className="">Backlog Issue</h3>
+        <h3 className="">My Issue</h3>
         <button
           className="createButton"
           type="submit"
@@ -28,7 +27,7 @@ const Backlog = () => {
       </div>
       <DataTable
         headers={headers}
-        api={getTicket}
+        api={currentUserTicket}
         modalToggle={openModel}
         slice="backlog"
       />

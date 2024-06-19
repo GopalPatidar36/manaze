@@ -35,6 +35,14 @@ class Users extends Sequelize.Model {
       allowNull: true,
       field: "last_name"
     },
+    fullName: {
+      type: DataTypes.VIRTUAL(DataTypes.STRING, ['first_name', 'last_name']),
+      get () {
+        delete this.dataValues.first_name;
+        delete this.dataValues.last_name;
+        return `${this.firstName || ''} ${this.lastName || ''}`.replace(/\s+/g, ' ');
+      }
+    },
     role: {
       type: DataTypes.STRING(25),
       allowNull: false

@@ -6,8 +6,9 @@
   font-size: 20px;
   padding: 1em;
   overflow-y: auto;
+  background-color: white;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  z-index: 5;
+  z-index: 9;
 }
 
 .sidebar a {
@@ -39,4 +40,5 @@
   margin-left: 190px;
   height: calc(100vh - 60px);
   width: calc(100vw - 210px);
+  z-index: 0;
 }

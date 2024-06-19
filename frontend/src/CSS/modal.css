@@ -35,3 +35,35 @@
   align-self: end;
   font-size: 36px;
 }
+
+.datalistContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  padding-bottom: 15px;
+}
+
+.datalistBox {
+  height: 30px;
+  width: 300px;
+  font-size: medium;
+  border-bottom-left-radius: 8px;
+  border-top-left-radius: 8px;
+  border: 1px solid grey;
+  padding-left: 8px;
+}
+
+.datalistButton {
+  background-color: #04aa6d; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: medium;
+  cursor: pointer;
+  border-bottom-right-radius: 8px;
+  border-top-right-radius: 8px;
+}

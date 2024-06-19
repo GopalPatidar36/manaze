@@ -2,6 +2,7 @@ const router = require("express").Router();
 const config = require("config");
 const createError = require("http-errors");
 const { User } = config.db.models;
+const { filterModelData } = require("../utils/routeUtil");
 
 async function getCurrent(req, res, next) {
   const _User = await User.findOne({
@@ -17,6 +18,7 @@ async function get(req, res, next) {
     const _User = await User.findAndCountAll({
       offset: Number(offset),
       limit: Number(limit),
+      where: filterModelData({ model: User, data: req.query }),
     });
     if (!_User) {
       return next(createError(404));
