@@ -5,13 +5,13 @@ import api from "../../plugin/axios";
 export const login = createAsyncThunk("auth/login", async (credentials) => {
   const response = await api.post("/auth/login", credentials);
   localStorage.setItem("accessToken", response?.data?.token);
-  localStorage.setItem("currentUser", response?.data?.user);
+  localStorage.setItem("currentUser", JSON.stringify(response?.data?.user))
   return response?.data;
 });
 
 const initialState = {
   accessToken: localStorage.getItem("accessToken") || null,
-  currentUser: localStorage.getItem("currentUser") || null,
+  currentUser: JSON.parse(localStorage.getItem("currentUser")) || null,
   status: "loading",
   user: null,
   error: null,
@@ -33,6 +33,7 @@ const authSlice = createSlice({
         state.status = "loading";
       })
       .addCase(login.fulfilled, (state, action) => {
+        console.log("🚀 ~ .addCase ~ action:", action)
         state.status = "succeeded";
         state.accessToken = action.payload?.token;
         state.currentUser = action.payload?.user;

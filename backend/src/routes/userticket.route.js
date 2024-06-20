@@ -35,7 +35,7 @@ async function update(req, res, next) {
 
 async function deleteById(req, res, next) {
   try {
-    await UserTicket.destroy({ where: { id: req.params.id } });
+    await UserTicket.destroy({ where: { ticketId: req.params.id, assignee: req.body.uid } });
     res.send(204);
   } catch (err) {
     next(err);

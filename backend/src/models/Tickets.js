@@ -66,6 +66,17 @@ class Tickets extends Sequelize.Model {
         tableName: "tickets",
         timestamps: true,
         paranoid: true,
+        hooks:{
+          afterDestroy: function (instance, options) {
+            // eslint-disable-next-line promise/catch-or-return
+            instance.getUserTickets().then(async ticketUsers => {
+              for (const eu of ticketUsers) {
+                await eu.destroy();
+              }
+              return options;
+            });
+          },
+        },
         indexes: [
           {
             name: "PRIMARY",

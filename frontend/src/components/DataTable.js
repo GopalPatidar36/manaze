@@ -1,6 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FaForward, FaBackward } from "react-icons/fa6";
+import { FaForward, FaBackward, FaArrowUpLong, FaArrowDownLong } from "react-icons/fa6";
+import { dataFormate } from "../utils/index";
+
+const revertSort = {
+  asc: "desc",
+  desc: "asc",
+  default: "asc",
+};
+
+const date = {
+  createdAt: 1,
+  deletedAt: 1,
+  updatedAt: 1,
+};
 
 const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
   const dispatch = useDispatch();
@@ -8,11 +21,24 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
   const ticketCount = useSelector((state) => state[slice].count);
   const list = useSelector((state) => state[slice].list);
   const [openAction, setOpenAction] = useState("");
+  const [sorting, setSorting] = useState("");
+  const [direction, setDirection] = useState("");
+  const [searchText, setSearchText] = useState("");
+  const [priority, setPriority] = useState();
+  const [status, setStatus] = useState();
 
-  const tableHeader = headers.map((item) => {
+  const sortOnField = (item, sort) => {
+    const direction = revertSort[sort] || revertSort.default;
+    setSorting(item);
+    setDirection(direction);
+    fatchData({ order: `${item}:${direction}` });
+  };
+  new Date().toLocaleString();
+  const tableHeader = headers.map(({ field }) => {
     return (
-      <th style={{ width: `${80 / headers.length}%` }} key={item}>
-        {item[0].toUpperCase() + item.slice(1)}
+      <th style={{ width: `${80 / headers.length}%` }} key={field} onClick={() => sortOnField(field, direction)}>
+        {field[0].toUpperCase() + field.slice(1)}
+        {direction && sorting == field ? direction === "asc" && field === sorting ? <FaArrowDownLong /> : <FaArrowUpLong /> : ""}
       </th>
     );
   });
@@ -21,29 +47,22 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
     list &&
     list.slice(0, 15).map((item, index) => (
       <tr key={index} className="tableDataRow">
-        {headers.map((header) => (
-          <td key={header} style={{ width: `${80 / headers.length}%` }}>
-            {item[header] ? item[header] : "N/A"}
+        {headers.map(({ field }) => (
+          <td key={field} style={{ width: `${80 / headers.length}%` }}>
+            {item[field] ? (date[field] ? dataFormate(item[field]) : item[field]) : "N/A"}
           </td>
         ))}
-        <td
-          key={headers + ":"}
-          style={{ width: `1px` }}
-          onClick={() =>
-            setOpenAction((state) => (state === item.id ? false : item.id))
-          }
-        >
+        <td key={headers.length + ":"} style={{ width: `1px` }} onClick={() => setOpenAction((state) => (state === item.id ? false : item.id))}>
           &#8942;
         </td>
         {openAction === item.id && (
           <div className="actionInDatatable">
-            <button
-              className="actionButton"
-              onClick={() => modalToggle(item.id)}
-            >
+            <button className="actionButton" onClick={() => modalToggle({ id: item.id, isEdit: true })}>
               Edit
             </button>
-            <button className="actionButton">Delete</button>
+            <button className="actionButton" onClick={() => modalToggle({ id: item.id, isDelete: true })}>
+              Delete
+            </button>
           </div>
         )}
       </tr>
@@ -87,29 +106,50 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
     );
   };
 
-  const fatchData = () => {
-    dispatch(api({ offset: (currentPage - 1) * 15 }));
+  const fatchData = ({ order } = {}) => {
+    const searchOnThisFields = {};
+    if (status) searchOnThisFields.status = status;
+    if (priority) searchOnThisFields.priority = priority;
+    headers.map(({ searchable, field }) => {
+      if (searchable) searchOnThisFields[field] = `or|%${searchText}%`;
+    });
+    dispatch(api({ offset: (currentPage - 1) * 15, order, ...searchOnThisFields }));
   };
 
   useEffect(() => {
     fatchData();
-  }, [currentPage, ticketCount]);
+  }, [currentPage, ticketCount, searchText, status, priority]);
 
   return (
     <div className="DataTable">
+      <div style={{ flexDirection: "row", display: "flex" }}>
+        <input value={searchText} placeholder="Search Ticket" onChange={(ev) => setSearchText(ev.target.value)} className={"modalInput"} />
+        <div style={{ flexDirection: "column", display: "flex", marginLeft: "10px" }}>
+          <label className="label">Priority</label>
+          <select className="selectOption" id="country" value={priority} onChange={(ev) => setPriority(ev.target.value)}>
+            <option value="">None</option>
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
+          </select>
+        </div>
+        <div style={{ flexDirection: "column", display: "flex", marginLeft: "10px" }}>
+          <label className="label">Status</label>
+          <select className="selectOption" id="country" value={status} onChange={(ev) => setStatus(ev.target.value)}>
+            <option value="">None</option>
+            <option value="OPEN">Open</option>
+            <option value="INPROGRESS">In Progress</option>
+            <option value="CLOSED">Close</option>
+          </select>
+        </div>
+      </div>
       <table>
         <tbody>
           <tr>{tableHeader}</tr>
           {tableData}
         </tbody>
       </table>
-      {ticketCount === 0 ? (
-        <p style={{ alignSelf: "center" }}>
-          Empty table Please create a ticket
-        </p>
-      ) : (
-        paginationButton()
-      )}
+      {ticketCount === 0 ? <p style={{ alignSelf: "center" }}>Empty table Please create a ticket</p> : paginationButton()}
     </div>
   );
 };

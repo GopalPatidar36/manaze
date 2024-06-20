@@ -2,7 +2,7 @@ const router = require("express").Router();
 const config = require("config");
 const createError = require("http-errors");
 const { Ticket } = config.db.models;
-const { filterModelData } = require("../utils/routeUtil");
+const { filterModelData, getOrderData } = require("../utils/routeUtil");
 
 async function getCurrent(req, res, next) {
   const _Ticket = await Ticket.findAndCountAll({
@@ -13,6 +13,8 @@ async function getCurrent(req, res, next) {
         where: { assignee: req.session.uid },
       },
     ],
+    order: getOrderData({ model: Ticket, data: req.query }),
+    where: filterModelData({ model: Ticket, data: req.query }),
   });
   if (!_Ticket) return next(createError(404));
   res.json(_Ticket);
@@ -25,6 +27,8 @@ async function get(req, res, next) {
       include: [{ association: "userTickets" }],
       offset: Number(offset),
       limit: Number(limit),
+      order: getOrderData({ model: Ticket, data: req.query }),
+      where: filterModelData({ model: Ticket, data: req.query }),
     });
     if (!_Ticket) return next(createError(404));
 
@@ -86,7 +90,7 @@ async function update(req, res, next) {
 
 async function deleteById(req, res, next) {
   try {
-    await Ticket.destroy({ where: { id: req.params.id } });
+    await Ticket.destroy({ where: { id: req.params.id }, individualHooks: true });
     res.send(204);
   } catch (err) {
     next(err);

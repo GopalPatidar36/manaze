@@ -20,6 +20,19 @@ function filterOperations(update, item, key) {
   update.push(entry);
 }
 
+function getOrderData({ model, data }) {
+  const directions = { asc: "ASC", desc: "DESC" };
+  const order = [];
+  const sort = Array.isArray(data.order) ? data.order : [data.order || ""];
+  for (const item of sort) {
+    const [field, dir = directions.desc] = item.split(":");
+    if (model.tableAttributes[field]) {
+      order.push([field, directions[dir.toLowerCase()] || directions.desc]);
+    }
+  }
+  return order;
+}
+
 function filterModelData({ model, data, userId }) {
   const keys = Object.keys(model.tableAttributes);
   const virtualKeys = Array.from(model._virtualAttributes);
@@ -62,4 +75,5 @@ function filterModelData({ model, data, userId }) {
 
 module.exports = {
   filterModelData,
+  getOrderData,
 };

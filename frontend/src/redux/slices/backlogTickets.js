@@ -40,6 +40,15 @@ export const addTicket = createAsyncThunk("/ticket", async (data, thunkAPI) => {
   }
 });
 
+
+export const deleteTicket = createAsyncThunk("/ticket/deleteId", async (data, thunkAPI) => {
+  try {
+    await api.delete(`/ticket/${data.ticketId}`, data);
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+});
+
 export const updateTicket = createAsyncThunk("/updateTicket/", async (data, thunkAPI) => {
   try {
     const response = await api.post(`/ticket/${data.id}`, data);
@@ -52,8 +61,17 @@ export const updateTicket = createAsyncThunk("/updateTicket/", async (data, thun
 
 export const assignUserToTicket = createAsyncThunk("/userticket/put", async (data, thunkAPI) => {
   try {
-    const response = await api.put(`/userticket/${data.ticketId}`, data);
-    return { ...response?.data, ...data.ticketId };
+    await api.put(`/userticket/${data.ticketId}`, data);
+    return { ticketId: data.ticketId };
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
+});
+
+export const deleteUserFromTicket = createAsyncThunk("/userticket/delete", async (data, thunkAPI) => {
+  try {
+    await api.delete(`/userticket/${data.ticketId}`, { data });
+    return { ticketId: data.ticketId };
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);
   }

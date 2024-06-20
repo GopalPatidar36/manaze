@@ -18,52 +18,182 @@
   border-radius: 5px;
   display: flex;
   flex-direction: column;
+  margin: 30px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80%;
+  overflow-y: auto;
 }
 
 .boxModalContainer {
-  padding: 25px 100px;
+  padding: 10px 10px;
   flex-direction: column;
   display: flex;
 }
 
 .boxTitle {
   align-self: center;
-  font-size: 36px;
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.modalInput {
+  margin-bottom: 15px;
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: 6px 15px;
+  font-size: 20px;
+}
+
+.modalErrorLabel {
+  color: red;
+  font-size: 10px;
+  align-self: start;
+}
+
+.selectOption {
+  font-size: 20px;
+  padding: 6px 15px;
+  margin-bottom: 15px;
+}
+
+.selectContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 400px;
+}
+.innerSelectContainer {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+}
+
+.innerSelectContainer label {
+  color: grey;
 }
 
 .closeIcon {
   align-self: end;
-  font-size: 36px;
+  font-size: 26px;
+  margin: 0px;
+  font-weight: normal;
 }
 
 .datalistContainer {
   display: flex;
   flex-direction: row;
-  align-items: flex-start;
-  justify-content: center;
-  padding-bottom: 15px;
+  margin-bottom: 15px;
+  width: 100%;
+  max-width: 400px;
 }
 
 .datalistBox {
-  height: 30px;
-  width: 300px;
-  font-size: medium;
-  border-bottom-left-radius: 8px;
-  border-top-left-radius: 8px;
+  padding: 6px 15px;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
   border: 1px solid grey;
-  padding-left: 8px;
+  font-size: 20px;
 }
 
 .datalistButton {
   background-color: #04aa6d; /* Green */
   border: none;
   color: white;
-  padding: 8px 15px;
+  padding: 11px 20px;
+  text-align: center;
+  display: inline-block;
+  cursor: pointer;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.assignUser {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 400px;
+}
+
+.userInfo {
+  background-color: #f1f1f1;
+  margin-left: 10px;
+  text-align: center;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.deleteIcon {
+  color: red;
+  border: none;
+  cursor: pointer;
+}
+
+@media (min-width: 600px) {
+  .boxMoal {
+    width: 60%; /* Larger width for larger screens */
+  }
+}
+
+/* delete modal */
+.deleteBoxTitle {
+  align-self: center;
+  font-size: 16px;
+  font-weight: bolder;
+  color: red;
+  margin-top: 0px;
+}
+
+.deleteButton {
+  background-color: #e24f2a; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: medium;
+  font-size: 16px;
+  margin: 4px 2px;
   cursor: pointer;
-  border-bottom-right-radius: 8px;
-  border-top-right-radius: 8px;
+  border-radius: 3px;
+  align-self: center;
+}
+
+.deleteBoxMoal {
+  box-sizing: border-box;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: rgb(223, 231, 235);
+  border-radius: 5px;
+  margin: 30px;
+  width: 90%;
+  max-width: 500px;
+  max-height: 80%;
+  overflow-y: auto;
+}
+
+.deleteBoxMoal2 {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.createButton {
+  margin-right: 10%;
+  background-color: #04aa6d; /* Green */
+  border: none;
+  color: white;
+  padding: 14px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+
+.label {
+  color: gray;
 }
