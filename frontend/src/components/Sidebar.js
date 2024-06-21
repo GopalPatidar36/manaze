@@ -6,10 +6,10 @@ import { SiNamecheap } from "react-icons/si";
 const Sidebar = () => {
   return (
     <div className="sidebar">
-      <NavLink to="/">
+      {/* <NavLink to="/">
         <FaChalkboardTeacher className="sidebarIcon" /> Board
-      </NavLink>
-      <NavLink to="/issue">
+      </NavLink> */}
+      <NavLink to="/">
         <FaBoxTissue className="sidebarIcon" /> Issue
       </NavLink>
       <NavLink to="/backlog">

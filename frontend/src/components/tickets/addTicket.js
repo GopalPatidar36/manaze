@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicket, refreshState, getTicketById, updateTicket, deleteUserFromTicket } from "../../redux/slices/backlogTickets";
 import { searchUser, refreshUserState } from "../../redux/slices/userSlice";
-import { IoMdClose, IoMdTrash } from "react-icons/io";
+import {  IoMdTrash } from "react-icons/io";
 
 const AddTicket = ({ closeModal, ticketId } = {}) => {
   const newUsers = useSelector((state) => state.user.list);

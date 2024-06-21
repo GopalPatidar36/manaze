@@ -38,7 +38,7 @@ export const initialState = {
 };
 
 const userSlice = createSlice({
-  name: "auth",
+  name: "user",
   initialState,
   reducers: {
     refreshUserState: (state) => {
@@ -48,7 +48,7 @@ const userSlice = createSlice({
     updateCurrentUser: (state, action) => {
       state.currentUser.firstName = action.payload.firstName;
       state.currentUser.lastName = action.payload.lastName;
-      localStorage.setItem("currentUser", JSON.stringify(state.user.currentUser));
+      localStorage.setItem("currentUser", JSON.stringify(state.currentUser));
     },
   },
   extraReducers: (builder) => {

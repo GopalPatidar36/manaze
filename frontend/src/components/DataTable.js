@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { FaForward, FaBackward, FaArrowUpLong, FaArrowDownLong } from "react-icons/fa6";
 import { dataFormate } from "../utils/index";
 
@@ -17,6 +18,7 @@ const date = {
 
 const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [currentPage, setCurrentpPges] = useState(1);
   const ticketCount = useSelector((state) => state[slice].count);
   const list = useSelector((state) => state[slice].list);
@@ -26,6 +28,10 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
   const [searchText, setSearchText] = useState("");
   const [priority, setPriority] = useState();
   const [status, setStatus] = useState();
+
+  const handleNavigate = (id) => {
+    navigate(`/details/${id}`);
+  };
 
   const sortOnField = (item, sort) => {
     const direction = revertSort[sort] || revertSort.default;
@@ -48,11 +54,11 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
     list.slice(0, 15).map((item, index) => (
       <tr key={index} className="tableDataRow">
         {headers.map(({ field }) => (
-          <td key={field} style={{ width: `${80 / headers.length}%` }}>
+          <td key={field} style={{ width: `${80 / headers.length}%` }} onClick={() => handleNavigate(item.id)}>
             {item[field] ? (date[field] ? dataFormate(item[field]) : item[field]) : "N/A"}
           </td>
         ))}
-        <td key={headers.length + ":"} style={{ width: `1px` }} onClick={() => setOpenAction((state) => (state === item.id ? false : item.id))}>
+        <td key={headers.length + ":"} style={{ width: `1px`, zIndex: 5 }} onClick={() => setOpenAction((state) => (state === item.id ? false : item.id))}>
           &#8942;
         </td>
         {openAction === item.id && (

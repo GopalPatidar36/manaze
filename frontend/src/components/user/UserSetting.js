@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUser } from "../../redux/slices/userSlice";
+import { updateUser, updateCurrentUser } from "../../redux/slices/userSlice";
 
 const UserSetting = (props) => {
   const dispatch = useDispatch();
@@ -11,7 +11,10 @@ const UserSetting = (props) => {
 
   const handleSubmit = (e) => {
     setIsEdit((item) => !item);
-    if (user.uid) dispatch(updateUser({ uid: user.uid, firstName, lastName }));
+    if (user.uid) {
+      dispatch(updateUser({ uid: user.uid, firstName, lastName }));
+      dispatch(updateCurrentUser({ firstName, lastName }));
+    }
   };
 
   return (

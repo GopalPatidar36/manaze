@@ -40,7 +40,6 @@ export const addTicket = createAsyncThunk("/ticket", async (data, thunkAPI) => {
   }
 });
 
-
 export const deleteTicket = createAsyncThunk("/ticket/deleteId", async (data, thunkAPI) => {
   try {
     await api.delete(`/ticket/${data.ticketId}`, data);
@@ -52,7 +51,7 @@ export const deleteTicket = createAsyncThunk("/ticket/deleteId", async (data, th
 export const updateTicket = createAsyncThunk("/updateTicket/", async (data, thunkAPI) => {
   try {
     const response = await api.post(`/ticket/${data.id}`, data);
-    thunkAPI.dispatch(assignUserToTicket({ ticketId: data.id, uid: data.userUids }));
+    if (data?.userUids?.length) thunkAPI.dispatch(assignUserToTicket({ ticketId: data.id, uid: data.userUids }));
     return response?.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);
@@ -85,7 +84,7 @@ export const initialState = {
 };
 
 const backlogSlice = createSlice({
-  name: "auth",
+  name: "tickets",
   initialState,
   reducers: {
     refreshState: (state) => {
