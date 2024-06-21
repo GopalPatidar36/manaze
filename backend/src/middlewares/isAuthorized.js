@@ -7,7 +7,7 @@ const createError = require("http-errors");
 const { verify } = require("crypto");
 const privateKey = fs.readFileSync(path.join(__dirname, "../../private.key"));
 
-const publicRoutes = ["/auth/login", "/auth/register"];
+const publicRoutes = ["/api/auth/login", "/api/auth/register"];
 async function isAuthorized(req, res, next) {
   try {
     req.session = res.session || {};

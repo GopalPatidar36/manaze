@@ -20,7 +20,7 @@ app.all("*", isAuthorized);
   for (const route of routes) {
     if (route.endsWith(".route.js")) {
       const [prefix] = route.split(".route.js");
-      app.use(`/${prefix}`, require(path.join(__dirname, "src/routes", route)));
+      app.use(`/api/${prefix}`, require(path.join(__dirname, "src/routes", route)));
     }
   }
   app.listen(PORT, () => {
