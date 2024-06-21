@@ -54,6 +54,17 @@ async function create(req, res, next) {
 
 async function update(req, res, next) {
   try {
+    const _User = await User.findOne({ where: { uid: req.params.uid } });
+    if (!_User) {
+      return next(createError(404));
+    }
+    const { $and: values } = filterModelData({ model: User, data: req.body });
+    for (const entry of values) {
+      for (const [k, v] of Object.entries(entry)) {
+        _User[k] = v;
+      }
+    }
+    await _User.save({ userId: req.session.userId });
     res.sendStatus(201);
   } catch (err) {
     next(err);
@@ -73,7 +84,7 @@ router.get("/search", get);
 router.get("/me", getCurrent);
 router.get("/:uid", getById);
 router.put("/", create);
-router.post("/:id", update);
+router.post("/:uid", update);
 router.delete("/:id", deleteById);
 
 module.exports = router;

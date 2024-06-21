@@ -5,3 +5,4 @@ import "./sidebar.css";
 import "./backlog.css";
 import "./datatable.css"
 import "./modal.css"
+import "./userSetting.css"

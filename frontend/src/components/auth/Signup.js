@@ -1,17 +1,23 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { registerUser } from "../../redux/slices/authSlice";
 
 const Signup = (props) => {
+  const dispatch = useDispatch();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
+  const [userEmail, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [emailError, setEmailError] = useState("");
-  const [passwordError, setPasswordError] = useState("");
 
-  const handleSubmit = () => {
-    // You'll update this function later...
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(registerUser({ firstName, lastName, userEmail: userEmail.toLowerCase(), password }));
+    setEmail("");
+    setFirstName("")
+    setLastName("")
+    setEmail("")
+    setPassword("")
   };
 
   return (
@@ -31,6 +37,7 @@ const Signup = (props) => {
         >
           <div className={"inputContainer"}>
             <input
+              required
               value={firstName}
               placeholder="Enter your first name here"
               onChange={(ev) => setFirstName(ev.target.value)}
@@ -40,34 +47,31 @@ const Signup = (props) => {
           <br />
 
           <div className={"inputContainer"}>
-            <input
-              value={lastName}
-              placeholder="Enter your last name here"
-              onChange={(ev) => setLastName(ev.target.value)}
-              className={"inputBox"}
-            />
-            <label className="errorLabel">{emailError}</label>
+            <input required value={lastName} placeholder="Enter your last name here" onChange={(ev) => setLastName(ev.target.value)} className={"inputBox"} />
           </div>
           <br />
 
           <div className={"inputContainer"}>
             <input
-              value={email}
+              type="email"
+              required
+              value={userEmail}
               placeholder="Enter your email here"
               onChange={(ev) => setEmail(ev.target.value)}
               className={"inputBox"}
             />
-            <label className="errorLabel">{emailError}</label>
           </div>
           <br />
           <div className={"inputContainer"}>
             <input
+              required
+              type="password"
+              minLength={5}
               value={password}
               placeholder="Enter your password here"
               onChange={(ev) => setPassword(ev.target.value)}
               className={"inputBox"}
             />
-            <label className="errorLabel">{passwordError}</label>
           </div>
           <br />
           <button className={"inputButton"} type="submit">

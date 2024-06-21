@@ -8,7 +8,6 @@ const bcrypt = require("bcrypt");
 const privateKey = fs.readFileSync(path.join(__dirname, "../../private.key"));
 const { User } = config.db.models;
 
-
 async function login(req, res, next) {
   try {
     const _User = await User.findOne({
@@ -27,6 +26,16 @@ async function login(req, res, next) {
   }
 }
 
+async function register(req, res, next) {
+  try {
+    const _User = await User.create(req.body);
+    res.status(201).json({ id: _User.id });
+  } catch (err) {
+    next(err);
+  }
+}
+
 router.post("/login", login);
+router.put("/register", register);
 
 module.exports = router;

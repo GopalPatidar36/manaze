@@ -1,0 +1,73 @@
+.userSetting {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  margin-top: 30px;
+  max-height: 600px;
+  max-width: 600px;
+}
+
+.innerUserSetting {
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 20px;
+  padding-top: 20px;
+  overflow-y: auto;
+  min-width: 300px;
+}
+
+.innerUserSetting h3 {
+  align-self: center;
+  padding-top: 0px;
+}
+
+.formUserSetting {
+  display: flex;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.userSetting label {
+  color: gray;
+  align-self: start;
+}
+
+.userSetting input {
+  padding: 2px 0Ppx;
+  margin-bottom: 10px;
+  font-size: 16px;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  max-height: 50px;
+}
+
+.innerUserSetting button {
+  margin-right: 20px;
+  align-self: end;
+  border: none;
+  background-color: white;
+  padding:  10px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 30%;
+}
+
+.fieldContainer {
+  display: flex;
+  flex-direction: column;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+}
+
+.fieldContainer p {
+  font-weight: bold;
+} 
+
+input[type="text"]:focus {
+  background-color: lightblue;
+}
+

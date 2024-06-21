@@ -5,15 +5,21 @@ import api from "../../plugin/axios";
 export const login = createAsyncThunk("auth/login", async (credentials) => {
   const response = await api.post("/auth/login", credentials);
   localStorage.setItem("accessToken", response?.data?.token);
-  localStorage.setItem("currentUser", JSON.stringify(response?.data?.user))
   return response?.data;
+});
+
+export const registerUser = createAsyncThunk("auth/register", async (credentials, thunkAPI) => {
+  try {
+    const response = await api.put("/auth/register", credentials);
+    return response?.data;
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error.response.data);
+  }
 });
 
 const initialState = {
   accessToken: localStorage.getItem("accessToken") || null,
-  currentUser: JSON.parse(localStorage.getItem("currentUser")) || null,
   status: "loading",
-  user: null,
   error: null,
 };
 
@@ -23,8 +29,8 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       localStorage.removeItem("accessToken");
+      localStorage.removeItem("currentUser");
       state.accessToken = null;
-      state.user = null;
     },
   },
   extraReducers: (builder) => {
@@ -33,7 +39,6 @@ const authSlice = createSlice({
         state.status = "loading";
       })
       .addCase(login.fulfilled, (state, action) => {
-        console.log("🚀 ~ .addCase ~ action:", action)
         state.status = "succeeded";
         state.accessToken = action.payload?.token;
         state.currentUser = action.payload?.user;
@@ -42,9 +47,12 @@ const authSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
         toatMessage("Please enter valid username and password", "error");
+      })
+      .addCase(registerUser.fulfilled, (state, action) => {
+        toatMessage("user created successfully", "success");
       });
   },
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, changeUserState } = authSlice.actions;
 export default authSlice.reducer;
