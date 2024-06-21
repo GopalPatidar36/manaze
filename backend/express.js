@@ -8,10 +8,14 @@ const isAuthorized = require("./src/middlewares/isAuthorized");
 
 const PORT = process.env.PORT || 6036;
 const app = express();
-app.use(cors())
+app.use(cors());
 app.use(bodyParser.json());
 
 app.all("*", isAuthorized);
+
+app.get("/vercel", (req, res) => {
+  res.send("Hello, this is the vercel endpoint!");
+});
 
 (async function () {
   const routes = fs.readdirSync(path.join(__dirname, "src/routes"), {
