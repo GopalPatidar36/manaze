@@ -3,6 +3,7 @@ const config = require("config");
 const createError = require("http-errors");
 const { Ticket } = config.db.models;
 const { filterModelData, getOrderData } = require("../utils/routeUtil");
+const { ticketCreated, ticketDeleted, ticketUpdated } = require("../utils/alertMessage");
 
 async function getCurrent(req, res, next) {
   const _Ticket = await Ticket.findAndCountAll({
@@ -63,7 +64,7 @@ async function create(req, res, next) {
       ...req.body,
       createdBy: req.session.uid,
     });
-    res.status(201).json({ id: _Ticket.id });
+    res.status(201).json({ id: _Ticket.id, alertMessage: ticketCreated });
   } catch (err) {
     next(err);
   }
@@ -82,7 +83,7 @@ async function update(req, res, next) {
       }
     }
     await _Ticket.save({ userId: req.session.userId });
-    res.sendStatus(201);
+    res.status(201).json({ alertMessage: ticketUpdated });
   } catch (err) {
     next(err);
   }
@@ -91,7 +92,7 @@ async function update(req, res, next) {
 async function deleteById(req, res, next) {
   try {
     await Ticket.destroy({ where: { id: req.params.id }, individualHooks: true });
-    res.send(204);
+    res.status(204).json({ alertMessage: ticketDeleted });
   } catch (err) {
     next(err);
   }

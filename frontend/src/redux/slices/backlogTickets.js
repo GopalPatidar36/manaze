@@ -34,6 +34,7 @@ export const addTicket = createAsyncThunk("/ticket", async (data, thunkAPI) => {
   try {
     const response = await api.put("/ticket", data);
     thunkAPI.dispatch(assignUserToTicket({ ticketId: response.data.id, uid: data.userUids }));
+    thunkAPI.fulfillWithValue(response);
     return response?.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);
@@ -42,7 +43,8 @@ export const addTicket = createAsyncThunk("/ticket", async (data, thunkAPI) => {
 
 export const deleteTicket = createAsyncThunk("/ticket/deleteId", async (data, thunkAPI) => {
   try {
-    await api.delete(`/ticket/${data.ticketId}`, data);
+    const response = await api.delete(`/ticket/${data.ticketId}`, data);
+    thunkAPI.fulfillWithValue(response);
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);
   }
@@ -52,6 +54,7 @@ export const updateTicket = createAsyncThunk("/updateTicket/", async (data, thun
   try {
     const response = await api.post(`/ticket/${data.id}`, data);
     if (data?.userUids?.length) thunkAPI.dispatch(assignUserToTicket({ ticketId: data.id, uid: data.userUids }));
+    thunkAPI.fulfillWithValue(response.data);
     return response?.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data);
@@ -106,9 +109,7 @@ const backlogSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(addTicket.fulfilled, () => {
-        toatMessage("Ticket logged successfuly", "success");
-      })
+      .addCase(addTicket.fulfilled, () => {})
       .addCase(currentUserTicket.fulfilled, (state, action) => {
         state.count = action.payload?.count;
         state.list = action.payload?.rows;

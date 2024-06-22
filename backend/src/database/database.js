@@ -1,8 +1,7 @@
 const { Sequelize, Op } = require("sequelize");
 const config = require("config");
-
 const database = async function () {
-  config.db = new Sequelize("manaze", "sitaram", "mindfire", {
+  config.db = new Sequelize(config.DBAdminAccessSecret.SCHEMA, config.DBAdminAccessSecret.USERNAME, config.DBAdminAccessSecret.PASSWORD, {
     operatorsAliases: {
       $like: Op.like,
       $and: Op.and,
@@ -14,11 +13,10 @@ const database = async function () {
       $ne: Op.ne,
       $in: Op.in,
     },
-    port: 3306,
-    host: "localhost",
+    port: config.DBAdminAccessSecret.PORT,
+    host: config.DBAdminAccessSecret.HOST,
     dialect: "mysql",
   });
-
   require("./index")({ sequelize: config.db });
   require("../models/init-models")(config.db);
   try {

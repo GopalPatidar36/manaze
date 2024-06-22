@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --toastify-toast-width: 70%;
+  --toastify-toast-width: 50%;
 }
 
 code {
