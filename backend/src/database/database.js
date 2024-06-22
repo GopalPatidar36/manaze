@@ -1,4 +1,6 @@
 const { Sequelize, Op } = require("sequelize");
+const mysql2 = require("mysql2");
+
 const config = require("config");
 const database = async function () {
   config.db = new Sequelize(config.DBAdminAccessSecret.SCHEMA, config.DBAdminAccessSecret.USERNAME, config.DBAdminAccessSecret.PASSWORD, {
@@ -13,6 +15,7 @@ const database = async function () {
       $ne: Op.ne,
       $in: Op.in,
     },
+    dialectOptions: { dialectModule: mysql2 },
     port: config.DBAdminAccessSecret.PORT,
     host: config.DBAdminAccessSecret.HOST,
     dialect: "mysql",
