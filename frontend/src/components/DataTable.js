@@ -42,7 +42,7 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
   new Date().toLocaleString();
   const tableHeader = headers.map(({ field }) => {
     return (
-      <th style={{ width: `${80 / headers.length}%` }} key={field} onClick={() => sortOnField(field, direction)}>
+      <th key={field} onClick={() => sortOnField(field, direction)}>
         {field[0].toUpperCase() + field.slice(1)}
         {direction && sorting == field ? direction === "asc" && field === sorting ? <FaArrowDownLong /> : <FaArrowUpLong /> : ""}
       </th>
@@ -54,11 +54,16 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
     list.slice(0, 15).map((item, index) => (
       <tr key={index} className="tableDataRow">
         {headers.map(({ field }) => (
-          <td key={field} style={{ width: `${80 / headers.length}%` }} onClick={() => handleNavigate(item.id)}>
+          <td key={field} onClick={() => handleNavigate(item.id)}>
             {item[field] ? (date[field] ? dataFormate(item[field]) : item[field]) : "N/A"}
           </td>
         ))}
-        <td key={headers.length + ":"} style={{ width: `1px`, zIndex: 5 }} onClick={() => setOpenAction((state) => (state === item.id ? false : item.id))}>
+        <td
+          id="action"
+          key={headers.length + ":"}
+          style={{ width: `1px`, zIndex: 5 }}
+          onClick={() => setOpenAction((state) => (state === item.id ? false : item.id))}
+        >
           &#8942;
         </td>
         {openAction === item.id && (
@@ -151,7 +156,9 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
       </div>
       <table>
         <tbody>
-          <tr>{tableHeader}</tr>
+          <tr>
+            {tableHeader} <th id="action"></th>{" "}
+          </tr>
           {tableData}
         </tbody>
       </table>
