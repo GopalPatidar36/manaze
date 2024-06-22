@@ -30,48 +30,33 @@ const Login = (props) => {
   return (
     <div className={"mainContainer"}>
       <div className="boxContainer">
-        <div className={"titleContainer"}>
-          <div>Login</div>
-        </div>
-        <br />
-        <form
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-          onSubmit={handleSubmit}
-        >
-          <div className={"inputContainer"}>
-            <input
-              value={userEmail}
-              placeholder="Enter your email here"
-              onChange={(ev) => setEmail(ev.target.value)} 
-              className={"inputBox"}
-              type="email"
-              required
-            />
-            <label className="errorLabel">{emailError}</label>
-          </div>
-          <br />
-          <div className={"inputContainer"}>
-            <input
-              value={password}
-              placeholder="Enter your password here"
-              onChange={(ev) => setPassword(ev.target.value)}
-              className={"inputBox"}
-              required
-              type="password"
-              minLength={5}
-            />
-            <label className="errorLabel">{passwordError}</label>
-          </div>
-          <br />
-          <button className={"inputButton"} type="submit">
+        <h3>Login</h3>
+        <form className="loginForm" onSubmit={handleSubmit}>
+          <input
+            value={userEmail}
+            placeholder="Enter your email here"
+            onChange={(ev) => setEmail(ev.target.value)}
+            className={"inputBox"}
+            type="email"
+            required
+          />
+          <label className="errorLabel">{emailError}</label>
+
+          <input
+            value={password}
+            placeholder="Enter your password here"
+            onChange={(ev) => setPassword(ev.target.value)}
+            className={"inputBox"}
+            required
+            type="password"
+            minLength={5}
+          />
+          <label className="errorLabel">{passwordError}</label>
+
+          <button className="inputButton" type="submit">
             Login
           </button>
         </form>
-        <br />
         <Link to="/signup">If you don't have account</Link>
       </div>
     </div>

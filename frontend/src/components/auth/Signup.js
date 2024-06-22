@@ -9,76 +9,72 @@ const Signup = (props) => {
   const [lastName, setLastName] = useState("");
   const [userEmail, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPass, setConfirmPass] = useState("");
+  const [passError, setPassError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (confirmPass !== password) {
+      setPassError("Password and Confirm Password do not match. Please try again");
+      return;
+    }
     dispatch(registerUser({ firstName, lastName, userEmail: userEmail.toLowerCase(), password }));
+    setFirstName("");
+    setLastName("");
     setEmail("");
-    setFirstName("")
-    setLastName("")
-    setEmail("")
-    setPassword("")
+    setPassword("");
+    setConfirmPass("");
   };
 
   return (
     <div className={"mainContainer"}>
       <div className="boxContainer">
-        <div className={"titleContainer"}>
-          <div>Signup</div>
-        </div>
-        <br />
-        <form
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-          onSubmit={handleSubmit}
-        >
-          <div className={"inputContainer"}>
-            <input
-              required
-              value={firstName}
-              placeholder="Enter your first name here"
-              onChange={(ev) => setFirstName(ev.target.value)}
-              className={"inputBox"}
-            />
-          </div>
-          <br />
+        <h3>Signup</h3>
+        <form className="loginForm" onSubmit={handleSubmit}>
+          <input required value={firstName} placeholder="Enter your first name here" onChange={(ev) => setFirstName(ev.target.value)} className={"inputBox"} />
 
-          <div className={"inputContainer"}>
-            <input required value={lastName} placeholder="Enter your last name here" onChange={(ev) => setLastName(ev.target.value)} className={"inputBox"} />
-          </div>
-          <br />
+          <input required value={lastName} placeholder="Enter your last name here" onChange={(ev) => setLastName(ev.target.value)} className={"inputBox"} />
 
-          <div className={"inputContainer"}>
-            <input
-              type="email"
-              required
-              value={userEmail}
-              placeholder="Enter your email here"
-              onChange={(ev) => setEmail(ev.target.value)}
-              className={"inputBox"}
-            />
-          </div>
-          <br />
-          <div className={"inputContainer"}>
-            <input
-              required
-              type="password"
-              minLength={5}
-              value={password}
-              placeholder="Enter your password here"
-              onChange={(ev) => setPassword(ev.target.value)}
-              className={"inputBox"}
-            />
-          </div>
-          <br />
+          <input
+            type="email"
+            required
+            value={userEmail}
+            placeholder="Enter your email here"
+            onChange={(ev) => setEmail(ev.target.value)}
+            className={"inputBox"}
+          />
+          <input
+            required
+            type="password"
+            minLength={5}
+            value={password}
+            placeholder="Enter your password here"
+            onChange={(ev) => {
+              setPassword(ev.target.value);
+              setPassError("");
+            }}
+            className={"inputBox"}
+          />
+          <label className="errorLabel">{passError}</label>
+
+          <input
+            required
+            type="password"
+            minLength={5}
+            value={confirmPass}
+            placeholder="Enter confirm password here"
+            onChange={(ev) => {
+              setConfirmPass(ev.target.value);
+              setPassError("");
+            }}
+            className={"inputBox"}
+          />
+          <label className="errorLabel">{passError}</label>
+
           <button className={"inputButton"} type="submit">
             Signup
           </button>
         </form>
-        <br />
         <Link to="/">Have an account? Log In</Link>
       </div>
     </div>
