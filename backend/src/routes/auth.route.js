@@ -5,7 +5,7 @@ const fs = require("fs");
 const path = require("path");
 const createError = require("http-errors");
 const bcrypt = require("bcrypt");
-const privateKey = fs.readFileSync(path.join(__dirname, "../../private.key"));
+const privateKey = config.PRIVATEKEY || fs.readFileSync(path.join(__dirname, "../../private.key"));
 const { User } = config.db.models;
 
 async function login(req, res, next) {
