@@ -5,10 +5,11 @@ const path = require("path");
 const { User } = config.db.models;
 const createError = require("http-errors");
 const { verify } = require("crypto");
-const privateKey = config.PRIVATEKEY || fs.readFileSync(path.join(__dirname, "../../private.key"));
+const privateKey = config.PRIVATEKEY;
 
 const publicRoutes = ["/api/auth/login", "/api/auth/register"];
 async function isAuthorized(req, res, next) {
+  console.log("🚀 ~ privateKey:", privateKey)
   try {
     req.session = res.session || {};
     if (publicRoutes.includes(req.path)) return next();

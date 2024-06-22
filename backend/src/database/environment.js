@@ -18,7 +18,7 @@ async function environment() {
       USERNAME: process.env.USERNAME,
       PASSWORD: process.env.PASSWORD,
     };
-    config.PRIVATEKEY=process.env.PRIVATEKEY
+    config.PRIVATEKEY = process.env.PRIVATEKEY;
   }
 }
 
