@@ -33,6 +33,10 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
     navigate(`/details/${id}`);
   };
 
+  const tableDataFormate = (item, field) => {
+    return item[field] ? (date[field] ? dataFormate(item[field]) : item[field].length < 50 ? item[field] : item[field].slice(0, 50) + "...") : "N/A";
+  };
+
   const sortOnField = (item, sort) => {
     const direction = revertSort[sort] || revertSort.default;
     setSorting(item);
@@ -42,7 +46,7 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
   new Date().toLocaleString();
   const tableHeader = headers.map(({ field }) => {
     return (
-      <th key={field} onClick={() => sortOnField(field, direction)}>
+      <th id={field} key={field} onClick={() => sortOnField(field, direction)}>
         {field[0].toUpperCase() + field.slice(1)}
         {direction && sorting == field ? direction === "asc" && field === sorting ? <FaArrowDownLong /> : <FaArrowUpLong /> : ""}
       </th>
@@ -54,8 +58,8 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
     list.slice(0, 15).map((item, index) => (
       <tr key={index} className="tableDataRow">
         {headers.map(({ field }) => (
-          <td key={field} onClick={() => handleNavigate(item.id)}>
-            {item[field] ? (date[field] ? dataFormate(item[field]) : item[field]) : "N/A"}
+          <td id={field} key={field} onClick={() => handleNavigate(item.id)}>
+            {tableDataFormate(item, field)}
           </td>
         ))}
         <td
