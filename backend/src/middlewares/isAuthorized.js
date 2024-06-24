@@ -4,7 +4,6 @@ const fs = require("fs");
 const path = require("path");
 const { User } = config.db.models;
 const createError = require("http-errors");
-const { verify } = require("crypto");
 const privateKey = config.PRIVATEKEY || fs.readFileSync(path.join(__dirname, "../../private.key"));
 
 const publicRoutes = ["/api/auth/login", "/api/auth/register"];
