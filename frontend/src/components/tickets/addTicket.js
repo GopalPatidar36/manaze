@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addTicket, refreshState, getTicketById, updateTicket, deleteUserFromTicket } from "../../redux/slices/backlogTickets";
 import { searchUser, refreshUserState } from "../../redux/slices/userSlice";
-import {  IoMdTrash } from "react-icons/io";
+import { IoMdTrash } from "react-icons/io";
+import { useOutsideClick } from "../UseOutsideClick";
 
 const AddTicket = ({ closeModal, ticketId } = {}) => {
   const newUsers = useSelector((state) => state.user.list);
@@ -84,9 +85,13 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
     dispatch(deleteUserFromTicket({ ticketId, uid: removedUser.uid }));
   };
 
+  const ref = useOutsideClick(() => {
+    handleClose();
+  });
+
   return (
     <div className="modal">
-      <div className="boxMoal">
+      <div className="boxMoal" ref={ref}>
         <h3 className="closeIcon" onClick={() => handleClose()}>
           X
         </h3>
