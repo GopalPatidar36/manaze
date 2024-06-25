@@ -9,6 +9,10 @@ const privateKey = process.env.PRIVATEKEY || fs.readFileSync(path.join(__dirname
 
 let publicRoutes: string[] = ["/api/auth/login", "/api/auth/register"];
 
+interface DataObject {
+  [key: string]: string;
+}
+
 export async function isAuthorized(req: Request, res: Response, next: NextFunction): Promise<void> {
   try {
     req.session = req.session || {};
@@ -21,11 +25,11 @@ export async function isAuthorized(req: Request, res: Response, next: NextFuncti
 
     if (!token) return next(createError(401, "Token is missing"));
 
-    const decoded = await verifyJwt(token);
+    const decoded = <DataObject>await verifyJwt(token);
     if (!decoded) next(createError(401));
 
     const _User: any = await Users.findOne({
-      where: { user_email: req.body.userEmail },
+      where: { userEmail: decoded.userEmail },
     });
     req.session.uid = _User.uid;
     return next();

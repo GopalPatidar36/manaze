@@ -85,6 +85,7 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
           type: DataTypes.CHAR(36),
           allowNull: true,
           unique: "uid",
+          defaultValue: DataTypes.UUIDV4
         },
         userEmail: {
           type: DataTypes.STRING(100),

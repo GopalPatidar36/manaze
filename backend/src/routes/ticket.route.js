@@ -14,7 +14,7 @@ async function getCurrent(req, res, next) {
         where: { assignee: req.session.uid },
       },
     ],
-    order: getOrderData({ model: Ticket, data: req.query }),
+    // order: getOrderData({ model: Ticket, data: req.query }),
     where: filterModelData({ model: Ticket, data: req.query }),
   });
   if (!_Ticket) return next(createError(404));
@@ -28,7 +28,7 @@ async function get(req, res, next) {
       include: [{ association: "userTickets" }],
       offset: Number(offset),
       limit: Number(limit),
-      order: getOrderData({ model: Ticket, data: req.query }),
+      // order: getOrderData({ model: Ticket, data: req.query }),
       where: filterModelData({ model: Ticket, data: req.query }),
     });
     if (!_Ticket) return next(createError(404));

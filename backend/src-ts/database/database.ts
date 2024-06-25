@@ -9,8 +9,19 @@ declare module "config" {
   }
 }
 
-export const database = async function () {
+export const database = async function (): Promise<void> {
   config.db = new Sequelize("manaze", "sitaram", "mindfire", {
+    operatorsAliases: {
+      $like: Op.like,
+      $and: Op.and,
+      $or: Op.or,
+      $gt: Op.gt,
+      $gte: Op.gte,
+      $lt: Op.lt,
+      $lte: Op.lte,
+      $ne: Op.ne,
+      $in: Op.in,
+    },
     dialectOptions: { dialectModule: mysql2 },
     port: 3306,
     host: "localhost",

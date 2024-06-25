@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, NextFunction } from "express";
+import express, { Express, Request, Response, NextFunction, Errback } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import fs from "fs";
@@ -8,7 +8,7 @@ import { isAuthorized } from "./src-ts/middlewares/isAuthorized";
 declare global {
   namespace Express {
     interface Request {
-      session: { uid: string };
+      session: { uid: string; userId: string };
     }
   }
 }
@@ -39,8 +39,8 @@ app.get("/vercel", (req: Request, res: Response) => {
   });
 })();
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  const statusCode = 500;
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  const statusCode = err.status || 500;
   const message = err.message || "Internal Server Error";
 
   res.status(statusCode).json({

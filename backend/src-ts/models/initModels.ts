@@ -28,9 +28,9 @@ export function initModels(sequelize: Sequelize) {
   const Users = _Users.initModel(sequelize);
 
   UserTicket.belongsTo(Tickets, { as: "ticket_ticket", foreignKey: "ticket" });
-  Tickets.hasMany(UserTicket, { as: "user_tickets", foreignKey: "ticket" });
+  Tickets.hasMany(UserTicket, { as: "userTickets", foreignKey: "ticket" });
   Tickets.belongsTo(Users, { as: "created_by_user", foreignKey: "created_by" });
-  Users.hasMany(Tickets, { as: "tickets", foreignKey: "created_by" });
+  Users.hasMany(Tickets, { as: "tickets", foreignKey: "created_by", sourceKey: "uid" });
   UserTicket.belongsTo(Users, { as: "assignee_user", foreignKey: "assignee" });
   Users.hasMany(UserTicket, { as: "user_tickets", foreignKey: "assignee" });
   UserTicket.belongsTo(Users, { as: "created_by_user", foreignKey: "created_by" });
