@@ -100,8 +100,8 @@ const TicketDetail = ({}) => {
         )}
       </div>
       <div className="secondDiv">
-        <div className="innerSelectContainer">
-          <label>Priority</label>
+        <br/>
+          <label className="label">Priority</label>
           <select
             className="selectOption"
             value={priority}
@@ -114,9 +114,8 @@ const TicketDetail = ({}) => {
             <option value="MEDIUM">Medium</option>
             <option value="HIGH">High</option>
           </select>
-        </div>
-        <div className="innerSelectContainer">
-          <label>Status</label>
+
+          <label className="label">Status</label>
           <select
             className="selectOption"
             value={status}
@@ -129,7 +128,6 @@ const TicketDetail = ({}) => {
             <option value="INPROGRESS">In Progress</option>
             <option value="CLOSED">Close</option>
           </select>
-        </div>
 
         {isEditSecondDiv ? (
           <button
@@ -145,15 +143,12 @@ const TicketDetail = ({}) => {
           ""
         )}
 
-        <div className="innerSelectContainer">
-          <label>Created At</label>
+          <label className="label">Created At</label>
           <p>{dataFormate(ticketsData[id]?.createdAt)}</p>
-        </div>
 
-        <div className="innerSelectContainer">
-          <label>Updated At</label>
+          <label className="label">Updated At</label>
           <p>{dataFormate(ticketsData[id]?.updatedAt)}</p>
-        </div>
+        
         <div className="innerSelectContainer">
           <label style={{ marginBottom: "5px" }}>Users</label>
           <div className="datalistContainer">
@@ -190,3 +185,4 @@ const TicketDetail = ({}) => {
   );
 };
 export default TicketDetail;
+
