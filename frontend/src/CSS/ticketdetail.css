@@ -2,9 +2,7 @@
   display: flex;
   flex-wrap: wrap-reverse;
   flex: 1;
-  border-color: orange;
   justify-content: space-between;
-  /* width: 100%; */
 }
 
 .firstDiv {

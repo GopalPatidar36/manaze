@@ -5,7 +5,12 @@ import Sidebar from "./Sidebar";
 
 const Layout = () => {
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        boxSizing:"border-box",
+      }}
+    >
       <Header />
       <Sidebar />
       <div className="outletContainer">
@@ -15,3 +20,4 @@ const Layout = () => {
   );
 };
 export default Layout;
+

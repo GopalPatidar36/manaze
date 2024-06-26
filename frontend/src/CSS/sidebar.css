@@ -39,11 +39,12 @@
 }
 
 .outletContainer {
+  flex:1;
   display: flex;
   margin-left: 150px;
   margin-top: 60px;
   padding: 20px;
-  width: calc(100vw - 150);
+  box-sizing: border-box;
 }
 
 .sidebarButton {
@@ -81,6 +82,7 @@
   }
   .outletContainer {
     margin-left: 0px;
+    margin-right: 0px;
   }
   .sidebarButton {
     display: block;
