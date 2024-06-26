@@ -3,6 +3,17 @@
   flex-direction: column;
 }
 
+.innerContainerDatatable {
+  flex: 1;
+  display: flex;
+}
+
+.innerContainerDatatable div {
+  display: flex;
+  flex-direction: column;
+  padding-left: 10px;
+}
+
 .DataTable table {
   table-layout: auto;
 }

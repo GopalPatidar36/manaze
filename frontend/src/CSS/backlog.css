@@ -11,12 +11,11 @@
   justify-content: space-between;
 }
 
-.createButton {
-  margin-right: 10%;
+.backlog2 button {
   background-color: #04aa6d; /* Green */
   border: none;
   color: white;
-  padding: 15px 32px;
+  padding: 10px 32px;
   text-align: center;
   text-decoration: none;
   font-size: 16px;

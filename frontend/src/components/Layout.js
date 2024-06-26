@@ -8,7 +8,7 @@ const Layout = () => {
     <div
       style={{
         display: "flex",
-        boxSizing:"border-box",
+        boxSizing: "border-box",
       }}
     >
       <Header />
@@ -20,4 +20,3 @@ const Layout = () => {
   );
 };
 export default Layout;
-

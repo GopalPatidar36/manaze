@@ -161,7 +161,7 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
       <table>
         <tbody>
           <tr>
-            {tableHeader} <th id="action"></th>{" "}
+            {tableHeader} <th id="action"></th>
           </tr>
           {tableData}
         </tbody>

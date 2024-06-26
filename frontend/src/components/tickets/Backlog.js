@@ -27,7 +27,7 @@ const Backlog = () => {
     <div className="backlog">
       <div className="backlog2">
         <h3 className="">Backlog Issue</h3>
-        <button className="createButton" type="submit" onClick={() => openModel({ isEdit: true })}>
+        <button type="submit" onClick={() => openModel({ isEdit: true })}>
           Create Issue
         </button>
       </div>
