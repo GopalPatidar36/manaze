@@ -3,12 +3,14 @@
   flex-direction: column;
 }
 
+.DataTable table {
+  table-layout: auto;
+}
+
 .DataTable tr {
   display: flex;
   justify-content: space-around;
   margin-top: 10px;
-  width: 100%;
-  min-width: 1000px;
 }
 
 .tableDataRow {
