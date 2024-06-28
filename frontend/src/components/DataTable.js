@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FaForward, FaBackward, FaArrowUpLong, FaArrowDownLong } from "react-icons/fa6";
@@ -171,4 +171,4 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
   );
 };
 
-export default DataTable;
+export default memo(DataTable);
