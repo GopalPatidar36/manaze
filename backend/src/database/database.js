@@ -15,12 +15,11 @@ const database = async function () {
       $ne: Op.ne,
       $in: Op.in,
     },
-    dialectOptions: { dialectModule: pg },
     port: config.DBAdminAccessSecret.PORT,
     host: config.DBAdminAccessSecret.HOST,
     dialect: config.DBAdminAccessSecret.DIALECT,
     ssl: true,
-    dialectOptions: { ssl: { require: true } },
+    dialectOptions: { dialectModule: pg, ssl: { require: true } },
   });
   require("./index")({ sequelize: config.db });
   require("../models/init-models")(config.db);
