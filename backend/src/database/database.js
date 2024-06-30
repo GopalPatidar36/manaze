@@ -3,7 +3,7 @@ const pg = require("pg");
 
 const config = require("config");
 const database = async function () {
-  config.db = new Sequelize(config.DBAdminAccessSecret.POSTGRES_URL, {
+  config.db = new Sequelize(config.DBAdminAccessSecret.SCHEMA, config.DBAdminAccessSecret.USERNAME, config.DBAdminAccessSecret.PASSWORD, {
     operatorsAliases: {
       $like: Op.like,
       $and: Op.and,
@@ -15,8 +15,8 @@ const database = async function () {
       $ne: Op.ne,
       $in: Op.in,
     },
-    // port: config.DBAdminAccessSecret.PORT,
-    // host: config.DBAdminAccessSecret.HOST,
+    port: config.DBAdminAccessSecret.PORT,
+    host: config.DBAdminAccessSecret.HOST,
     dialect: config.DBAdminAccessSecret.DIALECT,
     ssl: true,
     dialectOptions: { dialectModule: pg, ssl: { require: true } },
