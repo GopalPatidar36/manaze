@@ -1,10 +1,10 @@
 const http = require("http");
 const environment = require("./src/database/environment");
-const database = require("./src/database/database");
+// const database = require("./src/database/database");
 let server;
 (async function () {
   await environment();
-  await database();
+  // await database();
   const expressApp = require("./express");
   const PORT = process.env.PORT || 6036;
   server = http.createServer(expressApp);
