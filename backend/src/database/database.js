@@ -1,5 +1,5 @@
 const { Sequelize, Op } = require("sequelize");
-// const mysql2 = require("mysql2");
+const pg = require("pg");
 
 const config = require("config");
 const database = async function () {
@@ -15,6 +15,7 @@ const database = async function () {
       $ne: Op.ne,
       $in: Op.in,
     },
+    dialectOptions: { dialectModule: pg },
     port: config.DBAdminAccessSecret.PORT,
     host: config.DBAdminAccessSecret.HOST,
     dialect: config.DBAdminAccessSecret.DIALECT,
