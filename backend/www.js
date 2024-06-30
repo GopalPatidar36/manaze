@@ -5,3 +5,5 @@ const database = require("./src/database/database");
   await database();
   require("./express");
 })();
+
+module.exports;
