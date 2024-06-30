@@ -3,7 +3,7 @@ const pg = require("pg");
 
 const config = require("config");
 const database = async function () {
-  config.db = new Sequelize(config.DBAdminAccessSecret.SCHEMA, config.DBAdminAccessSecret.USERNAME, config.DBAdminAccessSecret.PASSWORD, {
+  config.db = new Sequelize(config.DBAdminAccessSecret.SCHEMA, "default", config.DBAdminAccessSecret.PASSWORD, {
     operatorsAliases: {
       $like: Op.like,
       $and: Op.and,
