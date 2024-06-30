@@ -10,7 +10,7 @@ class Tickets extends Sequelize.Model {
       {
         id: {
           autoIncrement: true,
-          type: DataTypes.BIGINT.UNSIGNED,
+          type: DataTypes.BIGINT,
           allowNull: false,
           primaryKey: true,
         },

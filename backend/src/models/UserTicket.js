@@ -8,7 +8,7 @@ class UserTicket extends Sequelize.Model {
   return sequelize.define('UserTicket', {
     id: {
       autoIncrement: true,
-      type: DataTypes.BIGINT.UNSIGNED,
+      type: DataTypes.BIGINT,
       allowNull: false,
       primaryKey: true
     },
@@ -30,7 +30,7 @@ class UserTicket extends Sequelize.Model {
       }
     },
     ticketId: {
-      type: DataTypes.BIGINT.UNSIGNED,
+      type: DataTypes.BIGINT,
       allowNull: false,
       field:"ticket",
       references: {
