@@ -18,6 +18,7 @@ async function environment() {
       USERNAME: process.env.USERNAME,
       PASSWORD: process.env.PASSWORD,
       DIALECT: process.env.DIALECT,
+      POSTGRES_URL: process.env.POSTGRES_URL
     };
     config.PRIVATEKEY = process.env.PRIVATEKEY;
   }
