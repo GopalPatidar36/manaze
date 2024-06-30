@@ -1,4 +1,4 @@
-import React, { useEffect, useState,memo } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FaForward, FaBackward, FaArrowUpLong, FaArrowDownLong } from "react-icons/fa6";
@@ -158,14 +158,16 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
           </select>
         </div>
       </div>
-      <table>
-        <tbody>
-          <tr>
-            {tableHeader} <th id="action"></th>
-          </tr>
-          {tableData}
-        </tbody>
-      </table>
+      <div style={{ overflowX: "auto" }}>
+        <table>
+          <tbody>
+            <tr>
+              {tableHeader} <th id="action"></th>
+            </tr>
+            {tableData}
+          </tbody>
+        </table>
+      </div>
       {ticketCount === 0 ? <p style={{ alignSelf: "center" }}>Empty table Please create a ticket</p> : paginationButton()}
     </div>
   );

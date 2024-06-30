@@ -17,6 +17,7 @@ async function environment() {
       SCHEMA: process.env.SCHEMA,
       USERNAME: process.env.USERNAME,
       PASSWORD: process.env.PASSWORD,
+      DIALECT: process.env.DIALECT,
     };
     config.PRIVATEKEY = process.env.PRIVATEKEY;
   }

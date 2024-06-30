@@ -4,6 +4,7 @@
   flex-direction: column;
   margin-top: 50px;
   box-sizing: border-box;
+  overflow-x: auto;
 }
 
 .backlog2 {
