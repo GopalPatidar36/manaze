@@ -137,7 +137,7 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
 
   return (
     <div className="DataTable">
-      <div style={{ flexDirection: "row", display: "flex" }}>
+      <div style={{ display: "flex", flexWrap: "wrap", marginTop: "5px" }}>
         <input value={searchText} placeholder="Search Ticket" onChange={(ev) => setSearchText(ev.target.value)} className={"modalInput"} />
         <div style={{ flexDirection: "column", display: "flex", marginLeft: "10px" }}>
           <label className="label">Priority</label>

@@ -45,7 +45,7 @@
   margin-top: 60px;
   padding: 20px;
   box-sizing: border-box;
-  overflow-x: auto;
+  overflow: hidden;
 }
 
 .sidebarButton {
