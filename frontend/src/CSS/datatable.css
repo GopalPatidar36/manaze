@@ -33,12 +33,13 @@ table {
   background-color: #ddd;
 }
 
-.DataTable th {
+.tableHeader {
   font-size: 20px;
   font-weight: bold;
   padding: 10px 2px;
   text-align: left;
   white-space: nowrap;
+  min-width: 150px;
 }
 
 .DataTable td {

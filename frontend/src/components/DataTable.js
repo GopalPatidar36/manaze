@@ -46,7 +46,7 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
   new Date().toLocaleString();
   const tableHeader = headers.map(({ field }) => {
     return (
-      <th id={field} key={field}>
+      <th className="tableHeader" id={field} key={field}>
         <span onClick={() => sortOnField(field, direction)} style={{ cursor: "pointer" }}>
           {field[0].toUpperCase() + field.slice(1)}
           {direction && sorting == field ? direction === "asc" && field === sorting ? <FaArrowDownLong /> : <FaArrowUpLong /> : ""}
@@ -162,7 +162,7 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
         <table>
           <tbody>
             <tr>
-              {tableHeader} <th id="actionHedar"></th>
+              {tableHeader} <th id="actionHeader"></th>
             </tr>
             {tableData}
           </tbody>
