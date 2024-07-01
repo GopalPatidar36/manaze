@@ -46,9 +46,11 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
   new Date().toLocaleString();
   const tableHeader = headers.map(({ field }) => {
     return (
-      <th id={field} key={field} onClick={() => sortOnField(field, direction)}>
-        {field[0].toUpperCase() + field.slice(1)}
-        {direction && sorting == field ? direction === "asc" && field === sorting ? <FaArrowDownLong /> : <FaArrowUpLong /> : ""}
+      <th id={field} key={field}>
+        <span onClick={() => sortOnField(field, direction)} style={{ cursor: "pointer" }}>
+          {field[0].toUpperCase() + field.slice(1)}
+          {direction && sorting == field ? direction === "asc" && field === sorting ? <FaArrowDownLong /> : <FaArrowUpLong /> : ""}
+        </span>
       </th>
     );
   });
@@ -69,8 +71,6 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
           onClick={() => setOpenAction((state) => (state === item.id ? false : item.id))}
         >
           &#8942;
-        </td>
-        {openAction === item.id && (
           <div className="actionInDatatable">
             <button className="actionButton" onClick={() => modalToggle({ id: item.id, isEdit: true })}>
               Edit
@@ -79,7 +79,7 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
               Delete
             </button>
           </div>
-        )}
+        </td>
       </tr>
     ));
 
@@ -162,7 +162,7 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
         <table>
           <tbody>
             <tr>
-              {tableHeader} <th id="action"></th>
+              {tableHeader} <th id="actionHedar"></th>
             </tr>
             {tableData}
           </tbody>

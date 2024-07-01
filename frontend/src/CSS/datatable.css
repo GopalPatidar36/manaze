@@ -69,18 +69,35 @@ table {
 }
 
 .actionInDatatable {
-  display: flex;
+  display: none;
   flex-direction: column;
   position: absolute;
-  z-index: 2;
-  margin-top: 25px;
-  background-color: rgb(241, 241, 236);
+  align-items: start;
+  margin-top: 10px;
+  margin-right: 20px;
+  right: 0;
+  background-color: #f1f1ec;
+  border: 1px solid #ccc;
   border-radius: 5px;
+  padding: 5px;
 }
 
 .actionButton {
+  display: flex;
+  align-items: start;
   border: none;
-  padding: 5px;
-  margin: 10px;
+  background: none;
   cursor: pointer;
+  padding: 5px 10px;
+  flex: 1;
+  width: 100%;
+}
+
+.actionButton:hover {
+  background-color: rgb(161, 158, 158);
+  border-radius: 5px;
+}
+
+#action:hover .actionInDatatable {
+  display: flex;
 }
