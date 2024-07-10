@@ -1,95 +1,139 @@
-import { Router, Request, Response, NextFunction } from "express";
+import GraphQL, { GraphQLList, GraphQLString } from "graphql";
+import UserTypeDef from "../TypeDef/user";
 import config from "config";
 import createError from "http-errors";
 import { filterModelData } from "../utils/routeUtil";
-import { UsersAttributes } from "../models/Users";
 const { Users } = config.db.models;
-const router = Router();
 
 interface DataObject {
   [key: string]: string;
 }
-async function getCurrent(req: Request, res: Response, next: NextFunction) {
-  const _User = await Users.findOne({
-    where: { uid: req.session.uid },
-  });
-  if (!_User) return next(createError(404));
-  res.json(_User);
-}
+// async function getCurrent(req: Request, res: Response, next: NextFunction) {
+//   const _User = await Users.findOne({
+//     where: { uid: req.session.uid },
+//   });
+//   if (!_User) return next(createError(404));
+//   res.json(_User);
+// }
 
-async function get(req: Request, res: Response, next: NextFunction) {
+async function get(req: any) {
   try {
-    const { limit = 20, offset = 0 } = req.query;
+    const { limit = 20, offset = 0 } = req;
     const _User = await Users.findAndCountAll({
       offset: Number(offset),
       limit: Number(limit),
-      where: filterModelData({ model: Users, data: <DataObject>req.query }),
+      where: filterModelData({ model: Users, data: <DataObject>req }),
     });
-    if (!_User) {
-      return next(createError(404));
-    }
-    res.json(_User);
+    return _User;
   } catch (err) {
-    next(err);
+    return err;
   }
 }
 
-async function getById(req: Request, res: Response, next: NextFunction) {
+async function getById(req: any) {
   try {
     const _User = await Users.findOne({
-      where: { uid: req.params.uid },
+      where: { uid: req.uid },
     });
-    if (!_User) {
-      return next(createError(404));
-    }
-    res.json(_User);
+    if (!_User) return createError(404);
+
+    return _User;
   } catch (err) {
-    next(err);
+    return err;
   }
 }
 
-async function create(req: Request, res: Response, next: NextFunction) {
+async function create(req: any) {
   try {
-    const _User: any = await Users.create(req.body);
-    res.status(201).json({ id: _User.id });
+    const _User: any = await Users.create(req);
+    return _User;
   } catch (err) {
-    next(err);
+    return err;
   }
 }
 
-async function update(req: Request, res: Response, next: NextFunction) {
+// async function update(req: Request, res: Response, next: NextFunction) {
+async function update(args: any) {
   try {
-    const _User = await Users.findOne({ where: { uid: req.params.uid } });
+    const _User = await Users.findOne({ where: { uid: args.uid } });
     if (!_User) {
-      return next(createError(404));
+      return createError(404);
     }
-    const { $and: values } = filterModelData({ model: Users, data: req.body });
+    const { $and: values } = filterModelData({ model: Users, data: args });
     for (const entry of values) {
       for (const [k, v] of Object.entries(entry)) {
         (_User as any)[k] = v;
       }
     }
     await _User.save();
-    res.sendStatus(201);
   } catch (err) {
-    next(err);
+    return err;
   }
 }
 
-async function deleteById(req: Request, res: Response, next: NextFunction) {
+async function deleteById(req: any) {
   try {
-    await Users.destroy({ where: { uid: req.params.uid } });
-    res.send(204);
+    await Users.destroy({ where: { uid: req.uid } });
   } catch (err) {
-    next(err);
+    return err;
   }
 }
 
-router.get("/search", get);
-router.get("/me", getCurrent);
-router.get("/:uid", getById);
-router.put("/", create);
-router.post("/:uid", update);
-router.delete("/:uid", deleteById);
+export const USERSEARCH = {
+  type: UserTypeDef.UserSearchResultType,
+  args: {
+    userEmail: { type: GraphQLString },
+    firstName: { type: GraphQLString },
+    lastName: { type: GraphQLString },
+  },
+  resolve(parent: any, req: any) {
+    return get(req);
+  },
+};
 
-module.exports = router;
+export const FINDONE = {
+  type: new GraphQLList(UserTypeDef.UserType),
+  args: {
+    uid: { type: GraphQLString },
+  },
+  resolve(parent: any, args: any) {
+    return getById(args);
+  },
+};
+
+export const CREATEUSER = {
+  type: UserTypeDef.UserType,
+  args: {
+    userEmail: { type: GraphQLString },
+    firstName: { type: GraphQLString },
+    lastName: { type: GraphQLString },
+    password: { type: GraphQLString },
+  },
+  resolve(parent: any, args: any) {
+    return create(args);
+  },
+};
+
+export const UPDATEUSER = {
+  type: UserTypeDef.UserType,
+  args: {
+    uid: { type: GraphQLString },
+    userEmail: { type: GraphQLString },
+    firstName: { type: GraphQLString },
+    lastName: { type: GraphQLString },
+    password: { type: GraphQLString },
+  },
+  resolve(parent: any, args: any) {
+    return update(args);
+  },
+};
+
+export const DELETEUSER = {
+  type: UserTypeDef.UserType,
+  args: {
+    uid: { type: GraphQLString },
+  },
+  resolve(parent: any, args: any) {
+    return deleteById(args);
+  },
+};
