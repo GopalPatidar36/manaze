@@ -137,15 +137,15 @@ const DataTable = ({ headers = [], api, slice, modalToggle, query } = {}) => {
     if (status) searchOnThisFields.status = status;
     if (priority) searchOnThisFields.priority = priority;
     headers.map(({ searchable, field }) => {
-      if (searchable) searchOnThisFields[field] = `or|%${searchText}%`;
+      if (searchable && searchText) searchOnThisFields[field] = `or|%${searchText}%`;
     });
-    // dispatch(api({ offset: (currentPage - 1) * 15, order, ...searchOnThisFields }));
     fetchData({
       variables: {
         offset: (currentPage - 1) * 15,
         order,
         ...searchOnThisFields,
       },
+      fetchPolicy: Object.keys(searchOnThisFields).length ? "no-cache" : "cache-first",
     });
   };
 
