@@ -1,4 +1,4 @@
-import GraphQl, { GraphQLObjectType, GraphQLString, GraphQLInt } from "graphql";
+import GraphQl, { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList } from "graphql";
 
 const TicketsType = new GraphQLObjectType({
   name: "ticketFields",
@@ -8,8 +8,15 @@ const TicketsType = new GraphQLObjectType({
     description: { type: GraphQLString },
     priority: { type: GraphQLString },
     status: { type: GraphQLString },
-    password: { type: GraphQLString },
   }),
 });
 
-export default TicketsType;
+const TicketListTypes = new GraphQLObjectType({
+  name: "ticketListTypes",
+  fields: () => ({
+    count: { type: GraphQLInt },
+    rows: { type: new GraphQLList(TicketsType) },
+  }),
+});
+
+export default { TicketsType, TicketListTypes };

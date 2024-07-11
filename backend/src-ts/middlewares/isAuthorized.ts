@@ -7,7 +7,7 @@ import createError from "http-errors";
 const { Users } = config.db.models;
 const privateKey = process.env.PRIVATEKEY || fs.readFileSync(path.join(__dirname, "../../private.key"));
 
-let publicRoutes: string[] = ["/api/auth/login", "/api/auth/register"];
+let publicRoutes: string[] = ["/public"];
 
 interface DataObject {
   [key: string]: string;

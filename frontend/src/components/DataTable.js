@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FaForward, FaBackward, FaArrowUpLong, FaArrowDownLong } from "react-icons/fa6";
 import { dataFormate } from "../utils/index";
+import { useLazyQuery } from "@apollo/client";
 
 const revertSort = {
   asc: "desc",
@@ -16,12 +17,22 @@ const date = {
   updatedAt: 1,
 };
 
-const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
+const DataTable = ({ headers = [], api, slice, modalToggle, query } = {}) => {
+  const [fetchData, { loading, error, data }] = useLazyQuery(query, {
+    onError: (error) => {
+      console.error("Datatable error:", error);
+    },
+  });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [currentPage, setCurrentpPges] = useState(1);
-  const ticketCount = useSelector((state) => state[slice].count);
-  const list = useSelector((state) => state[slice].list);
+
+  // const ticketCount = useSelector((state) => state[slice].count);
+  // const list = useSelector((state) => state[slice].list);
+
+  const [list, setList] = useState([]);
+  const [ticketCount, setTicketCount] = useState(0);
+
   const [openAction, setOpenAction] = useState("");
   const [sorting, setSorting] = useState("");
   const [direction, setDirection] = useState("");
@@ -128,12 +139,26 @@ const DataTable = ({ headers = [], api, slice, modalToggle } = {}) => {
     headers.map(({ searchable, field }) => {
       if (searchable) searchOnThisFields[field] = `or|%${searchText}%`;
     });
-    dispatch(api({ offset: (currentPage - 1) * 15, order, ...searchOnThisFields }));
+    // dispatch(api({ offset: (currentPage - 1) * 15, order, ...searchOnThisFields }));
+    fetchData({
+      variables: {
+        offset: (currentPage - 1) * 15,
+        order,
+        ...searchOnThisFields,
+      },
+    });
   };
 
   useEffect(() => {
     fatchData();
   }, [currentPage, ticketCount, searchText, status, priority]);
+
+  useEffect(() => {
+    if (data && data[slice]?.rows) {
+      setList(data[slice].rows);
+      setTicketCount(data[slice].count);
+    }
+  }, [data]);
 
   return (
     <div className="DataTable">

@@ -2,7 +2,7 @@ import GraphQL, { GraphQLList, GraphQLString, GraphQLInt } from "graphql";
 import config from "config";
 import createError from "http-errors";
 import { filterModelData, getOrderData } from "../utils/routeUtil";
-import TicketsType from "../TypeDef/ticket";
+import TicketTypeDef from "../TypeDef/ticket";
 
 import { alertMessage } from "../utils/alertMessage";
 const { ticketCreated, ticketDeleted, ticketUpdated } = alertMessage;
@@ -12,17 +12,20 @@ interface DataObject {
   [key: string]: string;
 }
 
-async function getCurrent(req: any) {
+async function getCurrent(parent: any, req: any) {
+  const { limit = 15, offset = 0 } = req;
   const _Ticket = await Tickets.findAndCountAll({
     include: [
       {
         association: "userTickets",
         required: true,
-        where: { assignee: req.session.uid },
+        where: { assignee: parent.session.uid },
       },
     ],
     where: filterModelData({ model: Tickets, data: <DataObject>req }),
     // order: getOrderData({ model: Tickets, data: <DataObject>req.query }),
+    offset: Number(offset),
+    limit: Number(limit),
   });
   if (!_Ticket) return createError(404);
   return _Ticket;
@@ -31,7 +34,7 @@ async function getCurrent(req: any) {
 async function get(req: any) {
   try {
     const { limit = 15, offset = 0 } = req;
-    const _Ticket = await Tickets.findAll({
+    const _Ticket = await Tickets.findAndCountAll({
       include: [{ association: "userTickets" }],
       offset: Number(offset),
       limit: Number(limit),
@@ -65,11 +68,11 @@ async function getById(req: any) {
   }
 }
 
-async function create(req: any) {
+async function create(parent: any, req: any) {
   try {
     const _Ticket: any = await Tickets.create({
       ...req,
-      // createdBy: req.session.uid,
+      createdBy: parent.session.uid,
     });
     return _Ticket;
   } catch (err) {
@@ -103,13 +106,30 @@ async function deleteById(req: any) {
   }
 }
 
-export const SEARCH = {
-  type: new GraphQLList(TicketsType),
+export const ME = {
+  type: TicketTypeDef.TicketListTypes,
   args: {
     title: { type: GraphQLString },
     description: { type: GraphQLString },
     priority: { type: GraphQLString },
     status: { type: GraphQLString },
+    limit: { type: GraphQLInt },
+    offset: { type: GraphQLInt },
+  },
+  resolve(parent: any, req: any) {
+    return getCurrent(parent, req);
+  },
+};
+
+export const SEARCH = {
+  type: TicketTypeDef.TicketListTypes,
+  args: {
+    title: { type: GraphQLString },
+    description: { type: GraphQLString },
+    priority: { type: GraphQLString },
+    status: { type: GraphQLString },
+    limit: { type: GraphQLInt },
+    offset: { type: GraphQLInt },
   },
   resolve(parent: any, req: any) {
     return get(req);
@@ -117,7 +137,7 @@ export const SEARCH = {
 };
 
 export const FINDONE = {
-  type: new GraphQLList(TicketsType),
+  type: new GraphQLList(TicketTypeDef.TicketsType),
   args: {
     id: { type: GraphQLInt },
   },
@@ -127,7 +147,7 @@ export const FINDONE = {
 };
 
 export const CREATE = {
-  type: TicketsType,
+  type: TicketTypeDef.TicketsType,
   args: {
     title: { type: GraphQLString },
     description: { type: GraphQLString },
@@ -135,12 +155,12 @@ export const CREATE = {
     status: { type: GraphQLString },
   },
   resolve(parent: any, args: any) {
-    return create(args);
+    return create(parent, args);
   },
 };
 
 export const UPDATE = {
-  type: TicketsType,
+  type: TicketTypeDef.TicketsType,
   args: {
     id: { type: GraphQLInt },
     title: { type: GraphQLString },
@@ -154,7 +174,7 @@ export const UPDATE = {
 };
 
 export const DELETE = {
-  type: TicketsType,
+  type: TicketTypeDef.TicketsType,
   args: {
     id: { type: GraphQLInt },
   },
@@ -164,6 +184,6 @@ export const DELETE = {
 };
 
 export default {
-  QUERY: { ticketList: SEARCH, ticketByID: FINDONE },
+  QUERY: { ticketList: SEARCH, ticketByID: FINDONE, currentUserTicket: ME },
   MUTATION: { createTicket: CREATE, updateTicket: UPDATE, deleteTicket: DELETE },
 };

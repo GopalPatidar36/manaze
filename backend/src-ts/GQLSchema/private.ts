@@ -1,13 +1,12 @@
 import GraphQL, { GraphQLObjectType, GraphQLSchema } from "graphql";
 
-import { USERSEARCH, CREATEUSER, DELETEUSER, UPDATEUSER, FINDONE } from "../routes/user.route";
+import User from "../routes/user.route";
 import TICKET from "../routes/ticket.route";
 
 const RootQuery = new GraphQLObjectType({
   name: "user",
   fields: {
-    userList: USERSEARCH,
-    userById: FINDONE,
+    ...User.QUERY,
     ...TICKET.QUERY,
   },
 });
@@ -15,9 +14,7 @@ const RootQuery = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: "userMT",
   fields: {
-    createUser: CREATEUSER,
-    deleteUser: DELETEUSER,
-    updateUser: UPDATEUSER,
+    ...User.MUTATION,
     ...TICKET.MUTATION,
   },
 });

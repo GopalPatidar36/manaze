@@ -4,8 +4,16 @@ import { addTicket, refreshState, getTicketById, updateTicket, deleteUserFromTic
 import { searchUser, refreshUserState } from "../../redux/slices/userSlice";
 import { IoMdTrash } from "react-icons/io";
 import { useOutsideClick } from "../UseOutsideClick";
+import { UPDATE_TICKET, GET_ALL_TICKET, GET_CURRENT_USER_TICKET } from "../../Query";
+import { useMutation } from "@apollo/client";
 
 const AddTicket = ({ closeModal, ticketId } = {}) => {
+  const [updateTckt, { data, loading, error }] = useMutation(UPDATE_TICKET, {
+    refetchQueries: [{ query: GET_ALL_TICKET }, { query: GET_CURRENT_USER_TICKET }],
+    onError: (error) => {
+      console.error("update ticket error:", error);
+    },
+  });
   const newUsers = useSelector((state) => state.user.list);
   const ticketsData = useSelector((state) => state.backlog.ticketsData);
 
@@ -29,7 +37,7 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
       return;
     }
     if (!ticketId) await dispatch(addTicket({ title, description, userUids, priority, status }));
-    else await dispatch(updateTicket({ id: ticketId, title, description, userUids, priority, status }));
+    else await updateTckt({ variables: { id: ticketId, title, description, userUids, priority, status } });
     await dispatch(refreshState());
     setTitle("");
     setDescription("");

@@ -1,4 +1,4 @@
-import express, { Express, Request, Response, NextFunction, Errback } from "express";
+import express, { Express } from "express";
 import { createHandler } from "graphql-http/lib/use/express";
 
 import bodyParser from "body-parser";
@@ -7,7 +7,8 @@ import fs from "fs";
 import path from "path";
 import { isAuthorized } from "./src-ts/middlewares/isAuthorized";
 
-import Schema from "./src-ts/GQLSchema/user";
+import PrivateSchema from "./src-ts/GQLSchema/private";
+import PublicSchema from "./src-ts/GQLSchema/public";
 
 declare global {
   namespace Express {
@@ -22,9 +23,14 @@ const app: Express = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// app.all("*", isAuthorized);
+app.all("*", isAuthorized);
 
-app.all("/api", createHandler({ schema: Schema }));
+app.all("/public", createHandler({ schema: PublicSchema }));
+
+app.all("/api", (req, res, next) => {
+  const handler = createHandler({ schema: PrivateSchema, rootValue: { session: req.session } });
+  return handler(req, res, next);
+});
 
 // app.get("/vercel", (req: Request, res: Response) => {
 //   res.send("Hello, this is the vercel endpoint!");

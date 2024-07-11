@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { changeUserState } from "../../redux/slices/authSlice";
 
 const Board = () => {
   const dispatch = useDispatch();
@@ -16,7 +15,7 @@ const Board = () => {
       }}
     >
       <div style={{ padding: "20px", border: "2px", borderColor: "red", minWidth: "400px", maxWidth: "500px" }}>
-        <button onClick={() => dispatch(changeUserState({ name: "krishn" }))}>Check Update state</button>
+        {/* <button onClick={() => dispatch(changeUserState({ name: "krishn" }))}>Check Update state</button> */}
         <h3>OPEN</h3>
       </div>
       <div style={{ padding: "20px", border: "2px", borderColor: "black", minWidth: "400px", maxWidth: "500px" }}>

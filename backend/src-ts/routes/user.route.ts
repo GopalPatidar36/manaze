@@ -8,13 +8,13 @@ const { Users } = config.db.models;
 interface DataObject {
   [key: string]: string;
 }
-// async function getCurrent(req: Request, res: Response, next: NextFunction) {
-//   const _User = await Users.findOne({
-//     where: { uid: req.session.uid },
-//   });
-//   if (!_User) return next(createError(404));
-//   res.json(_User);
-// }
+async function getCurrent(parent: any, req: any) {
+  const _User = await Users.findOne({
+    where: { uid: parent.session.uid },
+  });
+  if (!_User) return createError(404);
+  return _User;
+}
 
 async function get(req: any) {
   try {
@@ -79,6 +79,18 @@ async function deleteById(req: any) {
   }
 }
 
+export const ME = {
+  type: UserTypeDef.UserType,
+  args: {
+    userEmail: { type: GraphQLString },
+    firstName: { type: GraphQLString },
+    lastName: { type: GraphQLString },
+  },
+  resolve(parent: any, req: any) {
+    return getCurrent(parent, req);
+  },
+};
+
 export const USERSEARCH = {
   type: UserTypeDef.UserSearchResultType,
   args: {
@@ -135,5 +147,18 @@ export const DELETEUSER = {
   },
   resolve(parent: any, args: any) {
     return deleteById(args);
+  },
+};
+
+export default {
+  MUTATION: {
+    createUser: CREATEUSER,
+    deleteUser: DELETEUSER,
+    updateUser: UPDATEUSER,
+  },
+  QUERY: {
+    me: ME,
+    userList: USERSEARCH,
+    userById: FINDONE,
   },
 };

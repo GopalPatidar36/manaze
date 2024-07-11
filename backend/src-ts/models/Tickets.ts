@@ -5,7 +5,7 @@ import type { Users, UsersId } from "./Users";
 
 export interface TicketsAttributes {
   id: number;
-  created_by: string;
+  createdBy: string;
   title: string;
   description?: string;
   priority: "LOW" | "MEDIUM" | "HIGH";
@@ -22,7 +22,7 @@ export type TicketsCreationAttributes = Optional<TicketsAttributes, TicketsOptio
 
 export class Tickets extends Model<TicketsAttributes, TicketsCreationAttributes> implements TicketsAttributes {
   id!: number;
-  created_by!: string;
+  createdBy!: string;
   title!: string;
   description?: string;
   priority!: "LOW" | "MEDIUM" | "HIGH";
@@ -43,7 +43,7 @@ export class Tickets extends Model<TicketsAttributes, TicketsCreationAttributes>
   hasUser_ticket!: Sequelize.HasManyHasAssociationMixin<UserTicket, UserTicketId>;
   hasUser_tickets!: Sequelize.HasManyHasAssociationsMixin<UserTicket, UserTicketId>;
   countUser_tickets!: Sequelize.HasManyCountAssociationsMixin;
-  // Tickets belongsTo Users via created_by
+  // Tickets belongsTo Users via createdBy
   created_by_user!: Users;
   getCreated_by_user!: Sequelize.BelongsToGetAssociationMixin<Users>;
   setCreated_by_user!: Sequelize.BelongsToSetAssociationMixin<Users, UsersId>;
@@ -59,9 +59,10 @@ export class Tickets extends Model<TicketsAttributes, TicketsCreationAttributes>
           allowNull: false,
           primaryKey: true,
         },
-        created_by: {
+        createdBy: {
           type: DataTypes.CHAR(36),
           allowNull: false,
+          field: "created_by",
           references: {
             model: "users",
             key: "uid",
@@ -116,9 +117,9 @@ export class Tickets extends Model<TicketsAttributes, TicketsCreationAttributes>
             fields: [{ name: "id" }],
           },
           {
-            name: "created_by",
+            name: "createdBy",
             using: "BTREE",
-            fields: [{ name: "created_by" }],
+            fields: [{ name: "createdBy" }],
           },
         ],
       }

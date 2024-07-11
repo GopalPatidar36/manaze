@@ -1,11 +1,36 @@
-import React, { useState } from "react";
+import { Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { login } from "../../redux/slices/authSlice";
 import { Link } from "react-router-dom";
+import { useLazyQuery, gql } from "@apollo/client";
+import { updateAuthState } from "../../redux/slices/authSlice";
+
+const LOGIN = gql`
+  query Login($userEmail: String!, $password: String!) {
+    login(userEmail: $userEmail, password: $password) {
+      token
+      user {
+        uid
+        userEmail
+        password
+        firstName
+        lastName
+      }
+    }
+  }
+`;
 
 const Login = (props) => {
+  const [login, { loading, error, data }] = useLazyQuery(LOGIN, {
+    context: { public: true },
+    onError: (error) => {
+      console.error("Login error:", error);
+    },
+  });
+
   const [userEmail, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const dispatch = useDispatch();
@@ -20,13 +45,16 @@ const Login = (props) => {
       setPasswordError("Please Enter password");
       return;
     }
-    dispatch(login({ userEmail, password }));
+    login({ variables: { userEmail, password } });
     setEmail("");
     setPassword("");
     setEmailError("");
     setPasswordError("");
   };
 
+  useEffect(() => {
+    if (data?.login?.token) dispatch(updateAuthState(data.login));
+  }, [loading, error, data]);
   return (
     <div className={"mainContainer"}>
       <div className="boxContainer">
@@ -52,10 +80,9 @@ const Login = (props) => {
             minLength={5}
           />
           <label className="errorLabel">{passwordError}</label>
-
-          <button className="inputButton" type="submit">
+          <Button sx={{ margin: "15px" }} disabled={loading} variant="contained" type="submit" color="success" size="large" className="inputButton">
             Login
-          </button>
+          </Button>
         </form>
         <Link to="/signup">If you don't have account</Link>
       </div>

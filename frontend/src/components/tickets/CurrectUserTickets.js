@@ -3,6 +3,7 @@ import { currentUserTicket } from "../../redux/slices/backlogTickets";
 import DataTable from "../DataTable";
 import AddTicket from "./addTicket";
 import DeleteTicket from "./Delete";
+import { GET_CURRENT_USER_TICKET } from "../../Query/index";
 
 const Backlog = () => {
   const headers = [
@@ -31,7 +32,7 @@ const Backlog = () => {
           Create Issue
         </button>
       </div>
-      <DataTable headers={headers} api={currentUserTicket} modalToggle={openModel} slice="backlog" />
+      <DataTable headers={headers} api={currentUserTicket} query={GET_CURRENT_USER_TICKET} modalToggle={openModel} slice="currentUserTicket" />
       {modal && <AddTicket ticketId={ticketId} closeModal={openModel} />}
       {deleteTicket && <DeleteTicket ticketId={ticketId} closeModal={openModel} />}
     </div>
