@@ -1,16 +1,30 @@
 import { gql } from "@apollo/client";
 
+const CORE_FIELDS = gql`
+  fragment CoreFields on Ticket {
+    id
+    title
+    description
+    priority
+    status
+  }
+`;
+
+const TicketList = gql`
+  ${CORE_FIELDS}
+  fragment ticketList on TicketList {
+    count
+    rows {
+      ...CoreFields
+    }
+  }
+`;
+
 export const GET_CURRENT_USER_TICKET = gql`
+  ${TicketList}
   query CurrentUserTicket($title: String, $description: String, $priority: String, $status: String, $limit: Int, $offset: Int) {
     currentUserTicket(title: $title, description: $description, priority: $priority, status: $status, limit: $limit, offset: $offset) {
-      count
-      rows {
-        id
-        title
-        description
-        priority
-        status
-      }
+      ...ticketList
     }
   }
 `;
@@ -18,16 +32,10 @@ export const GET_CURRENT_USER_TICKET = gql`
 export const GET_ALL_TICKET = gql`
   query TicketList($title: String, $description: String, $priority: String, $status: String, $limit: Int, $offset: Int) {
     ticketList(title: $title, description: $description, priority: $priority, status: $status, limit: $limit, offset: $offset) {
-      count
-      rows {
-        id
-        title
-        description
-        priority
-        status
-      }
+      ...ticketList
     }
   }
+  ${TicketList}
 `;
 
 export const UPDATE_TICKET = gql`

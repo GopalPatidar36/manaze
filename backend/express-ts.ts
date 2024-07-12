@@ -3,8 +3,6 @@ import { createHandler } from "graphql-http/lib/use/express";
 
 import bodyParser from "body-parser";
 import cors from "cors";
-import fs from "fs";
-import path from "path";
 import { isAuthorized } from "./src-ts/middlewares/isAuthorized";
 
 import PrivateSchema from "./src-ts/GQLSchema/private";
@@ -31,33 +29,8 @@ app.all("/api", (req, res, next) => {
   const handler = createHandler({ schema: PrivateSchema, rootValue: { session: req.session } });
   return handler(req, res, next);
 });
-
-// app.get("/vercel", (req: Request, res: Response) => {
-//   res.send("Hello, this is the vercel endpoint!");
-// });
-
 (async function () {
-  // const routes = fs.readdirSync(path.join(__dirname, "src-ts/routes"), {
-  //   encoding: "utf8",
-  // });
-  // for (const route of routes) {
-  //   if (route.endsWith(".route.ts")) {
-  //     const [prefix] = route.split(".route.ts");
-  //     app.use(`/api/${prefix}`, require(path.join(__dirname, "src-ts/routes", route)));
-  //   }
-  // }
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
   });
 })();
-
-// app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-//   const statusCode = err.status || 500;
-//   const message = err.message || "Internal Server Error";
-
-//   res.status(statusCode).json({
-//     status: "error",
-//     statusCode,
-//     message,
-//   });
-// });

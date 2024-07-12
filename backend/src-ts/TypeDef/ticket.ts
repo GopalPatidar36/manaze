@@ -1,7 +1,7 @@
 import GraphQl, { GraphQLObjectType, GraphQLString, GraphQLInt, GraphQLList } from "graphql";
 
 const TicketsType = new GraphQLObjectType({
-  name: "ticketFields",
+  name: "Ticket",
   fields: () => ({
     id: { type: GraphQLInt },
     title: { type: GraphQLString },
@@ -12,7 +12,7 @@ const TicketsType = new GraphQLObjectType({
 });
 
 const TicketListTypes = new GraphQLObjectType({
-  name: "ticketListTypes",
+  name: "TicketList",
   fields: () => ({
     count: { type: GraphQLInt },
     rows: { type: new GraphQLList(TicketsType) },
