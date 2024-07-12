@@ -40,7 +40,8 @@ class UserTicket extends Sequelize.Model {
     },
     estimate_time: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
+      defaultValue: null
     },
     createdAt: {
       type: DataTypes.DATE,

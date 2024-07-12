@@ -104,7 +104,7 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
           X
         </h3>
         <p className={"boxTitle"}>{ticketId ? "Update" : " Log new"} ticket</p>
-        <form style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center" }} onSubmit={handleSubmit}>
+        <form style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", padding: "12px" }} onSubmit={handleSubmit}>
           <label className="modalErrorLabel">{titleError}</label>
           <input value={title} placeholder="Enter title" onChange={(ev) => setTitle(ev.target.value)} className={"modalInput"} />
           <input value={description} placeholder="Enter description" onChange={(ev) => setDescription(ev.target.value)} className={"modalInput"} />
@@ -130,7 +130,7 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
 
           <div className="datalistContainer">
             <input
-              className={"datalistBox"}
+              className={"datalistInput"}
               value={selectUser}
               placeholder="Search User"
               type="text"

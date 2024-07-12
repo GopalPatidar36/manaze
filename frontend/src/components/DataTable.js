@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FaForward, FaBackward, FaArrowUpLong, FaArrowDownLong } from "react-icons/fa6";
@@ -57,9 +57,11 @@ const DataTable = ({ headers = [], api, slice, modalToggle, query } = {}) => {
   new Date().toLocaleString();
   const tableHeader = headers.map(({ field }) => {
     return (
-      <th id={field} key={field} onClick={() => sortOnField(field, direction)}>
-        {field[0].toUpperCase() + field.slice(1)}
-        {direction && sorting == field ? direction === "asc" && field === sorting ? <FaArrowDownLong /> : <FaArrowUpLong /> : ""}
+      <th className="tableHeader" id={field} key={field}>
+        <span onClick={() => sortOnField(field, direction)} style={{ cursor: "pointer" }}>
+          {field[0].toUpperCase() + field.slice(1)}
+          {direction && sorting == field ? direction === "asc" && field === sorting ? <FaArrowDownLong /> : <FaArrowUpLong /> : ""}
+        </span>
       </th>
     );
   });
@@ -80,8 +82,6 @@ const DataTable = ({ headers = [], api, slice, modalToggle, query } = {}) => {
           onClick={() => setOpenAction((state) => (state === item.id ? false : item.id))}
         >
           &#8942;
-        </td>
-        {openAction === item.id && (
           <div className="actionInDatatable">
             <button className="actionButton" onClick={() => modalToggle({ id: item.id, isEdit: true })}>
               Edit
@@ -90,7 +90,7 @@ const DataTable = ({ headers = [], api, slice, modalToggle, query } = {}) => {
               Delete
             </button>
           </div>
-        )}
+        </td>
       </tr>
     ));
 
@@ -162,8 +162,8 @@ const DataTable = ({ headers = [], api, slice, modalToggle, query } = {}) => {
 
   return (
     <div className="DataTable">
-      <div style={{ flexDirection: "row", display: "flex" }}>
-        <input value={searchText} placeholder="Search Ticket" onChange={(ev) => setSearchText(ev.target.value)} className={"modalInput"} />
+      <div style={{ display: "flex", flexWrap: "wrap", marginTop: "5px" }}>
+        <input value={searchText} placeholder="Search Ticket" onChange={(ev) => setSearchText(ev.target.value)} className="searchInput" />
         <div style={{ flexDirection: "column", display: "flex", marginLeft: "10px" }}>
           <label className="label">Priority</label>
           <select className="selectOption" id="country" value={priority} onChange={(ev) => setPriority(ev.target.value)}>
@@ -183,17 +183,19 @@ const DataTable = ({ headers = [], api, slice, modalToggle, query } = {}) => {
           </select>
         </div>
       </div>
-      <table>
-        <tbody>
-          <tr>
-            {tableHeader} <th id="action"></th>{" "}
-          </tr>
-          {tableData}
-        </tbody>
-      </table>
+      <div style={{ overflowX: "auto" }}>
+        <table>
+          <tbody>
+            <tr>
+              {tableHeader} <th id="actionHeader"></th>
+            </tr>
+            {tableData}
+          </tbody>
+        </table>
+      </div>
       {ticketCount === 0 ? <p style={{ alignSelf: "center" }}>Empty table Please create a ticket</p> : paginationButton()}
     </div>
   );
 };
 
-export default DataTable;
+export default memo(DataTable);

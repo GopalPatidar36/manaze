@@ -8,17 +8,14 @@ async function create(req, res, next) {
     const userUuid = Array.isArray(req.body.uid) ? req.body.uid : [req.body.uid];
     const uerTicket = [];
     for (const user of userUuid) {
-      uerTicket.push({
+      const userData = {
         assignee: user,
         createdBy: req.session.uid,
-        ticketId: req.params.ticketId,
+        ticketId: `${req.params.ticketId}`,
         deletedAt: null,
-      });
+      };
+      await UserTicket.upsert(userData, {});
     }
-    await UserTicket.bulkCreate(uerTicket, {
-      updateOnDuplicate: ["deletedAt"],
-      createdBy: req.session.uid,
-    });
     res.sendStatus(201);
   } catch (err) {
     next(err);
