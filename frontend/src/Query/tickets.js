@@ -22,16 +22,16 @@ const TicketList = gql`
 
 export const GET_CURRENT_USER_TICKET = gql`
   ${TicketList}
-  query CurrentUserTicket($title: String, $description: String, $priority: String, $status: String, $limit: Int, $offset: Int) {
-    currentUserTicket(title: $title, description: $description, priority: $priority, status: $status, limit: $limit, offset: $offset) {
+  query CurrentUserTicket($title: String, $description: String, $priority: String, $status: String, $limit: Int, $offset: Int, $order: String) {
+    currentUserTicket(title: $title, description: $description, priority: $priority, status: $status, limit: $limit, offset: $offset, order: $order) {
       ...ticketList
     }
   }
 `;
 
 export const GET_ALL_TICKET = gql`
-  query TicketList($title: String, $description: String, $priority: String, $status: String, $limit: Int, $offset: Int) {
-    ticketList(title: $title, description: $description, priority: $priority, status: $status, limit: $limit, offset: $offset) {
+  query TicketList($title: String, $description: String, $priority: String, $status: String, $limit: Int, $offset: Int, $order: String) {
+    ticketList(title: $title, description: $description, priority: $priority, status: $status, limit: $limit, offset: $offset, order: $order) {
       ...ticketList
     }
   }

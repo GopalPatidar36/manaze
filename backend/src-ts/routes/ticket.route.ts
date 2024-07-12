@@ -13,22 +13,26 @@ interface DataObject {
 }
 
 async function getCurrent(parent: any, req: any) {
-  const { limit = 15, offset = 0 } = req;
-  const _Ticket = await Tickets.findAndCountAll({
-    include: [
-      {
-        association: "userTickets",
-        required: true,
-        where: { assignee: parent.session.uid },
-      },
-    ],
-    where: filterModelData({ model: Tickets, data: <DataObject>req }),
-    // order: getOrderData({ model: Tickets, data: <DataObject>req.query }),
-    offset: Number(offset),
-    limit: Number(limit),
-  });
-  if (!_Ticket) return createError(404);
-  return _Ticket;
+  try {
+    const { limit = 15, offset = 0 } = req;
+    const _Ticket = await Tickets.findAndCountAll({
+      include: [
+        {
+          association: "userTickets",
+          required: true,
+          where: { assignee: parent.session.uid },
+        },
+      ],
+      where: filterModelData({ model: Tickets, data: <DataObject>req }),
+      order: getOrderData({ model: Tickets, data: <DataObject>req }),
+      offset: Number(offset),
+      limit: Number(limit),
+    });
+    if (!_Ticket) return createError(404);
+    return _Ticket;
+  } catch (err) {
+    return err;
+  }
 }
 
 async function get(req: any) {
@@ -39,7 +43,7 @@ async function get(req: any) {
       offset: Number(offset),
       limit: Number(limit),
       where: filterModelData({ model: Tickets, data: <DataObject>req }),
-      // order: getOrderData({ model: Tickets, data: <DataObject>req.query }),
+      order: getOrderData({ model: Tickets, data: <DataObject>req }),
     });
     if (!_Ticket) return createError(404);
 
@@ -115,6 +119,7 @@ export const ME = {
     status: { type: GraphQLString },
     limit: { type: GraphQLInt },
     offset: { type: GraphQLInt },
+    order: { type: GraphQLString },
   },
   resolve(parent: any, req: any) {
     return getCurrent(parent, req);
@@ -130,6 +135,7 @@ export const SEARCH = {
     status: { type: GraphQLString },
     limit: { type: GraphQLInt },
     offset: { type: GraphQLInt },
+    order: { type: GraphQLString },
   },
   resolve(parent: any, req: any) {
     return get(req);

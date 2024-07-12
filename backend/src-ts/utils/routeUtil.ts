@@ -27,7 +27,7 @@ function filterOperations(update: ItemObject[], item: any, key: string) {
   update.push(entry);
 }
 
-export function getOrderData({ model, data }: { model: any; data: DataObject }) {
+export function getOrderData({ model, data }: { model: any; data: DataObject }): any[] {
   const directions: DataObject = { asc: "ASC", desc: "DESC" };
   const order: string[][] = [];
   const sort = Array.isArray(data.order) ? data.order : [data.order || ""];
@@ -37,7 +37,7 @@ export function getOrderData({ model, data }: { model: any; data: DataObject }) 
       order.push([field, directions[dir.toLowerCase()] || directions.desc]);
     }
   }
-  return Object.fromEntries(order);
+  return order;
 }
 
 export function filterModelData({ model, data }: { model: any; data: DataObject }) {
