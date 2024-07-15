@@ -48,6 +48,14 @@ export const UPDATE_TICKET = gql`
   }
 `;
 
+export const CREATE_TICKET = gql`
+  mutation CreateTicket($title: String, $description: String, $priority: String, $status: String) {
+    createTicket(title: $title, description: $description, priority: $priority, status: $status) {
+      id
+    }
+  }
+`;
+
 export const GET_TICKET = gql`
   ${CORE_FIELDS}
   query TicketByID($id: Int!) {

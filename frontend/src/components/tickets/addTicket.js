@@ -4,7 +4,7 @@ import { addTicket, refreshState, deleteUserFromTicket } from "../../redux/slice
 import { searchUser, refreshUserState } from "../../redux/slices/userSlice";
 import { IoMdTrash } from "react-icons/io";
 import { useOutsideClick } from "../UseOutsideClick";
-import { UPDATE_TICKET, GET_ALL_TICKET, GET_CURRENT_USER_TICKET, GET_TICKET } from "../../Query";
+import { UPDATE_TICKET, GET_ALL_TICKET, GET_CURRENT_USER_TICKET, GET_TICKET, CREATE_TICKET } from "../../Query";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { alertMessage, MESSAGE } from "../ToastifyAlert";
 
@@ -16,6 +16,11 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
   const [updateTicket] = useMutation(UPDATE_TICKET, {
     refetchQueries: [{ query: GET_ALL_TICKET }, { query: GET_CURRENT_USER_TICKET }, { query: GET_TICKET, variables: { id: Number(ticketId) } }],
     onCompleted: () => alertMessage(MESSAGE.ticketUpdated),
+  });
+
+  const [addTicket] = useMutation(CREATE_TICKET, {
+    refetchQueries: [{ query: GET_ALL_TICKET }, { query: GET_CURRENT_USER_TICKET }],
+    onCompleted: () => alertMessage(MESSAGE.ticketCreated),
   });
 
   const newUsers = useSelector((state) => state.user.list);
@@ -40,7 +45,7 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
       setTitleError("Please Enter the ticket title");
       return;
     }
-    if (!ticketId) await dispatch(addTicket({ title, description, userUids, priority, status }));
+    if (!ticketId) await addTicket({ variables: { title, description, userUids, priority, status } });
     else await updateTicket({ variables: { id: Number(ticketId), title, description, userUids, priority, status } });
     // await dispatch(refreshState());
     setTitle("");
