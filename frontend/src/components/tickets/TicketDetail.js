@@ -1,15 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getTicketById, deleteUserFromTicket, assignUserToTicket, updateTicket } from "../../redux/slices/backlogTickets";
+import { deleteUserFromTicket, assignUserToTicket } from "../../redux/slices/backlogTickets";
 import { searchUser, refreshUserState } from "../../redux/slices/userSlice";
 import { dataFormate } from "../../utils/index";
 import { IoMdTrash } from "react-icons/io";
+import { useQuery, useMutation } from "@apollo/client";
+import { GET_TICKET, GET_ALL_TICKET, GET_CURRENT_USER_TICKET, UPDATE_TICKET } from "../../Query/index";
+import { alertMessage } from "../ToastifyAlert";
 
 const TicketDetail = ({}) => {
   const { id } = useParams();
+  const { loading, data } = useQuery(GET_TICKET, {
+    variables: { id: Number(id) },
+  });
+
+  const [updateTicket] = useMutation(UPDATE_TICKET, {
+    refetchQueries: [{ query: GET_ALL_TICKET }, { query: GET_CURRENT_USER_TICKET }, { query: GET_TICKET, variables: { id: Number(id) } }],
+    onCompleted: (success) => alertMessage("ticketUpdated"),
+  });
+
   const dispatch = useDispatch();
-  const ticketsData = useSelector((state) => state.backlog.ticketsData);
+  const ticketsData = !loading && data?.ticketByID ? data?.ticketByID : {};
   const [priority, setPriority] = useState();
   const [status, setStatus] = useState();
   const [title, setTitle] = useState();
@@ -21,15 +33,14 @@ const TicketDetail = ({}) => {
   const [isEditSecondDiv, setSecondDiv] = useState(false);
 
   useEffect(() => {
-    if (!ticketsData[id] && id) dispatch(getTicketById({ id: id }));
-    else if (ticketsData[id]) {
-      setPriority(ticketsData[id].priority);
-      setStatus(ticketsData[id].status);
-      setTitle(ticketsData[id].title);
-      setDescription(ticketsData[id].description);
-      setAssigneeUser(ticketsData[id]?.ticketIdUsers || []);
+    if (ticketsData.id) {
+      setPriority(ticketsData.priority);
+      setStatus(ticketsData.status);
+      setTitle(ticketsData.title);
+      setDescription(ticketsData.description);
+      setAssigneeUser(ticketsData?.ticketUsersDetails || []);
     }
-  }, [id, ticketsData[id]]);
+  }, [id, ticketsData]);
 
   useEffect(() => {
     if (selectUser)
@@ -60,7 +71,7 @@ const TicketDetail = ({}) => {
   };
 
   const handleSave = () => {
-    dispatch(updateTicket({ id, title, description, priority, status }));
+    updateTicket({ variables: { id: Number(id), title, description, priority, status } });
   };
 
   return (
@@ -100,34 +111,34 @@ const TicketDetail = ({}) => {
         )}
       </div>
       <div className="secondDiv">
-        <br/>
-          <label className="label">Priority</label>
-          <select
-            className="selectOption"
-            value={priority}
-            onChange={(ev) => {
-              setPriority(ev.target.value);
-              setSecondDiv(true);
-            }}
-          >
-            <option value="LOW">Low</option>
-            <option value="MEDIUM">Medium</option>
-            <option value="HIGH">High</option>
-          </select>
+        <br />
+        <label className="label">Priority</label>
+        <select
+          className="selectOption"
+          value={priority}
+          onChange={(ev) => {
+            setPriority(ev.target.value);
+            setSecondDiv(true);
+          }}
+        >
+          <option value="LOW">Low</option>
+          <option value="MEDIUM">Medium</option>
+          <option value="HIGH">High</option>
+        </select>
 
-          <label className="label">Status</label>
-          <select
-            className="selectOption"
-            value={status}
-            onChange={(ev) => {
-              setStatus(ev.target.value);
-              setSecondDiv(true);
-            }}
-          >
-            <option value="OPEN">Open</option>
-            <option value="INPROGRESS">In Progress</option>
-            <option value="CLOSED">Close</option>
-          </select>
+        <label className="label">Status</label>
+        <select
+          className="selectOption"
+          value={status}
+          onChange={(ev) => {
+            setStatus(ev.target.value);
+            setSecondDiv(true);
+          }}
+        >
+          <option value="OPEN">Open</option>
+          <option value="INPROGRESS">In Progress</option>
+          <option value="CLOSED">Close</option>
+        </select>
 
         {isEditSecondDiv ? (
           <button
@@ -143,17 +154,17 @@ const TicketDetail = ({}) => {
           ""
         )}
 
-          <label className="label">Created At</label>
-          <p>{dataFormate(ticketsData[id]?.createdAt)}</p>
+        <label className="label">Created At</label>
+        <p>{dataFormate(ticketsData?.createdAt)}</p>
 
-          <label className="label">Updated At</label>
-          <p>{dataFormate(ticketsData[id]?.updatedAt)}</p>
-        
+        <label className="label">Updated At</label>
+        <p>{dataFormate(ticketsData?.updatedAt)}</p>
+
         <div className="innerSelectContainer">
           <label style={{ marginBottom: "5px" }}>Users</label>
           <div className="datalistContainer">
             <input
-              className={"datalistBox"}
+              className="datalistInput"
               value={selectUser}
               placeholder="Search User"
               type="text"
@@ -185,4 +196,3 @@ const TicketDetail = ({}) => {
   );
 };
 export default TicketDetail;
-

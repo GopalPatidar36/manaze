@@ -28,13 +28,13 @@ const LoginTypes = new GraphQLObjectType({
   }),
 });
 
-async function login(req: { userEmail: string; password: string }) {
+async function login(parent: any, req: { userEmail: string; password: string }) {
   try {
     const _User: any = await Users.findOne({
       where: { userEmail: req.userEmail },
     });
     const pass = bcrypt.compareSync(req.password, _User.password);
-    if (!_User || !pass) return createError(404);
+    if (!_User || !pass) return createError(401);
     var token = jsonwebtoken.sign({ userEmail: _User.userEmail }, privateKey, {
       algorithm: "RS256",
       expiresIn: "1h",
@@ -62,7 +62,7 @@ export const LOGIN = {
     password: { type: GraphQLString },
   },
   resolve(parent: any, args: any) {
-    return login(args);
+    return login(parent, args);
   },
 };
 

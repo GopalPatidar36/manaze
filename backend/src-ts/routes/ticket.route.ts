@@ -55,10 +55,10 @@ async function get(req: any) {
 
 async function getById(req: any) {
   try {
-    const _Ticket = await Tickets.findAll({
+    const _Ticket = await Tickets.findOne({
       include: [
         {
-          association: "ticketIdUsers",
+          association: "ticketUsersDetails",
         },
       ],
       where: { id: req.id },
@@ -143,7 +143,7 @@ export const SEARCH = {
 };
 
 export const FINDONE = {
-  type: new GraphQLList(TicketTypeDef.TicketsType),
+  type: TicketTypeDef.TicketsType,
   args: {
     id: { type: GraphQLInt },
   },

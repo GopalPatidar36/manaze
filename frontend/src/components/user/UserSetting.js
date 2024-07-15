@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUser, updateCurrentUser } from "../../redux/slices/userSlice";
+import { useMutation } from "@apollo/client";
+import { GET_CURRENT_USER, UPDATE_USER } from "../../Query/index";
+import { alertMessage } from "../ToastifyAlert";
 
 const UserSetting = (props) => {
+  const [updateUser] = useMutation(UPDATE_USER, {
+    refetchQueries: [{ query: GET_CURRENT_USER }],
+    onCompleted: () => alertMessage("userUpdated"),
+  });
+
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
   const [isEdit, setIsEdit] = useState(true);
@@ -12,8 +19,7 @@ const UserSetting = (props) => {
   const handleSubmit = (e) => {
     setIsEdit((item) => !item);
     if (user.uid) {
-      dispatch(updateUser({ uid: user.uid, firstName, lastName }));
-      dispatch(updateCurrentUser({ firstName, lastName }));
+      updateUser({ variables: { uid: user.uid, firstName, lastName } });
     }
   };
 

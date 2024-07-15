@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { useLazyQuery, gql } from "@apollo/client";
 import { updateAuthState } from "../../redux/slices/authSlice";
+import { toatMessage } from "../../components/ToastifyAlert";
 
 const LOGIN = gql`
   query Login($userEmail: String!, $password: String!) {
@@ -24,7 +25,7 @@ const Login = (props) => {
   const [login, { loading, error, data }] = useLazyQuery(LOGIN, {
     context: { public: true },
     onError: (error) => {
-      console.error("Login error:", error);
+      toatMessage("Please enter valid username and password", "error");
     },
   });
 

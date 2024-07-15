@@ -1,21 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTicket, refreshState, getTicketById, updateTicket, deleteUserFromTicket } from "../../redux/slices/backlogTickets";
+import { addTicket, refreshState, deleteUserFromTicket } from "../../redux/slices/backlogTickets";
 import { searchUser, refreshUserState } from "../../redux/slices/userSlice";
 import { IoMdTrash } from "react-icons/io";
 import { useOutsideClick } from "../UseOutsideClick";
-import { UPDATE_TICKET, GET_ALL_TICKET, GET_CURRENT_USER_TICKET } from "../../Query";
-import { useMutation } from "@apollo/client";
+import { UPDATE_TICKET, GET_ALL_TICKET, GET_CURRENT_USER_TICKET, GET_TICKET } from "../../Query";
+import { useLazyQuery, useMutation } from "@apollo/client";
+import { alertMessage, MESSAGE } from "../ToastifyAlert";
 
 const AddTicket = ({ closeModal, ticketId } = {}) => {
-  const [updateTckt, { data, loading, error }] = useMutation(UPDATE_TICKET, {
-    refetchQueries: [{ query: GET_ALL_TICKET }, { query: GET_CURRENT_USER_TICKET }],
-    onError: (error) => {
-      console.error("update ticket error:", error);
-    },
+  const [getTicketDetail, { loading: loadTD, data: getTD }] = useLazyQuery(GET_TICKET, {
+    variables: { id: Number(ticketId) },
   });
+
+  const [updateTicket] = useMutation(UPDATE_TICKET, {
+    refetchQueries: [{ query: GET_ALL_TICKET }, { query: GET_CURRENT_USER_TICKET }, { query: GET_TICKET, variables: { id: Number(ticketId) } }],
+    onCompleted: () => alertMessage(MESSAGE.ticketUpdated),
+  });
+
   const newUsers = useSelector((state) => state.user.list);
-  const ticketsData = useSelector((state) => state.backlog.ticketsData);
+  const ticketsData = !loadTD && getTD?.ticketByID ? getTD.ticketByID : {};
 
   const dispatch = useDispatch();
 
@@ -37,8 +41,8 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
       return;
     }
     if (!ticketId) await dispatch(addTicket({ title, description, userUids, priority, status }));
-    else await updateTckt({ variables: { id: ticketId, title, description, userUids, priority, status } });
-    await dispatch(refreshState());
+    else await updateTicket({ variables: { id: Number(ticketId), title, description, userUids, priority, status } });
+    // await dispatch(refreshState());
     setTitle("");
     setDescription("");
     setTitleError("");
@@ -62,13 +66,16 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
   }, [selectUser]);
 
   useEffect(() => {
-    if (!ticketsData[ticketId] && ticketId) dispatch(getTicketById({ id: ticketId }));
-    else if (ticketsData[ticketId]) {
-      setDescription(ticketsData[ticketId].description);
-      setTitle(ticketsData[ticketId].title);
-      setAssigneeUser(ticketsData[ticketId]?.ticketIdUsers || []);
+    if (ticketsData?.id) {
+      setDescription(ticketsData.description);
+      setTitle(ticketsData.title);
+      setAssigneeUser(ticketsData?.ticketUsersDetails || []);
     }
-  }, [ticketId, ticketsData[ticketId]]);
+  }, [ticketsData]);
+
+  useEffect(() => {
+    if (ticketId) getTicketDetail({ variables: { id: Number(ticketId) } });
+  }, []);
 
   const addUser = async (e) => {
     const user = newUsers.find((user) => user.fullName === selectUser);

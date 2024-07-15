@@ -23,7 +23,15 @@ app.use(bodyParser.json());
 
 app.all("*", isAuthorized);
 
-app.all("/public", createHandler({ schema: PublicSchema }));
+const formatError = (err: any): any => {
+  return {
+    message: err.message,
+    statusCode: err.originalError.statusCode || 500, // Access statusCode from extensions
+    stack: err.originalError.stack || [], // Access stack trace if available
+  };
+};
+
+app.all("/public", createHandler({ schema: PublicSchema, formatError, rootValue: {} }));
 
 app.all("/api", (req, res, next) => {
   const handler = createHandler({ schema: PrivateSchema, rootValue: { session: req.session } });

@@ -8,8 +8,8 @@ export interface UsersAttributes {
   id: number;
   uid?: string;
   user_email: string;
-  first_name: string;
-  last_name?: string;
+  firstName: string;
+  lastName?: string;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date;
@@ -19,15 +19,15 @@ export interface UsersAttributes {
 
 export type UsersPk = "id";
 export type UsersId = Users[UsersPk];
-export type UsersOptionalAttributes = "id" | "uid" | "last_name" | "created_at" | "updated_at" | "deleted_at" | "password";
+export type UsersOptionalAttributes = "id" | "uid" | "lastName" | "created_at" | "updated_at" | "deleted_at" | "password";
 export type UsersCreationAttributes = Optional<UsersAttributes, UsersOptionalAttributes>;
 
 export class Users extends Model<UsersAttributes, UsersCreationAttributes> implements UsersAttributes {
   id!: number;
   uid?: string;
   user_email!: string;
-  first_name!: string;
-  last_name?: string;
+  firstName!: string;
+  lastName?: string;
   created_at?: Date;
   updated_at?: Date;
   deleted_at?: Date;
@@ -103,6 +103,12 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
           allowNull: true,
           field: "last_name",
         },
+        fullName: {
+          type: DataTypes.VIRTUAL(DataTypes.STRING, ["first_name", "last_name"]),
+          get() {
+            return `${this.firstName || ""} ${this.lastName || ""}`.replace(/\s+/g, " ");
+          },
+        },
         role: {
           type: DataTypes.STRING(25),
           allowNull: false,
@@ -163,7 +169,7 @@ export class Users extends Model<UsersAttributes, UsersCreationAttributes> imple
             name: "unique_firstname_lastnaame",
             unique: true,
             using: "BTREE",
-            fields: [{ name: "first_name" }, { name: "last_name" }],
+            fields: [{ name: "firstName" }, { name: "lastName" }],
           },
         ],
       }

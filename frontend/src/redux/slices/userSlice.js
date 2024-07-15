@@ -48,6 +48,9 @@ const userSlice = createSlice({
     updateCurrentUser: (state, action) => {
       state.currentUser.firstName = action.payload.firstName;
       state.currentUser.lastName = action.payload.lastName;
+      state.currentUser.userEmail = action.payload.userEmail ? action.payload.userEmail : state.currentUser.userEmail;
+      state.currentUser.role = action.payload.userEmail ? action.payload.role : state.currentUser.role;
+      state.currentUser.uid = action.payload.userEmail ? action.payload.uid : state.currentUser.uid;
       localStorage.setItem("currentUser", JSON.stringify(state.currentUser));
     },
   },

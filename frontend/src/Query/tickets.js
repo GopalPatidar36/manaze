@@ -7,6 +7,8 @@ const CORE_FIELDS = gql`
     description
     priority
     status
+    createdAt
+    updatedAt
   }
 `;
 
@@ -41,6 +43,29 @@ export const GET_ALL_TICKET = gql`
 export const UPDATE_TICKET = gql`
   mutation UpdateTicket($id: Int!, $title: String, $description: String, $priority: String, $status: String) {
     updateTicket(id: $id, title: $title, description: $description, priority: $priority, status: $status) {
+      id
+    }
+  }
+`;
+
+export const GET_TICKET = gql`
+  ${CORE_FIELDS}
+  query TicketByID($id: Int!) {
+    ticketByID(id: $id) {
+      ...CoreFields
+      ticketUsersDetails {
+        uid
+        firstName
+        lastName
+        fullName
+      }
+    }
+  }
+`;
+
+export const DELETE_TICKET = gql`
+ mutation DeleteTicket($id: Int!) {
+    deleteTicket(id: $id) {
       id
     }
   }

@@ -14,7 +14,7 @@ async function login(req, res, next) {
       where: { userEmail: req.body.userEmail },
     });
     const pass = bcrypt.compareSync(req.body.password, _User?.password);
-    if (!_User || !pass) return next(createError(404));
+    if (!_User || !pass) return createError(404);
     var token = jsonwebtoken.sign({ userEmail: _User.userEmail }, privateKey, {
       algorithm: "RS256",
       expiresIn: "1h",

@@ -1,21 +1,25 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { refreshState, getTicketById, deleteTicket } from "../../redux/slices/backlogTickets";
+import React from "react";
+import { useQuery, useMutation } from "@apollo/client";
+import { DELETE_TICKET, GET_ALL_TICKET, GET_CURRENT_USER_TICKET, GET_TICKET } from "../../Query/index";
+import { alertMessage, MESSAGE } from "../ToastifyAlert";
 
 const DeleteTicket = ({ closeModal, ticketId }) => {
-  const ticketsData = useSelector((state) => state.backlog.ticketsData);
+  const { data: { ticketByID: ticketsData } = {} } = useQuery(GET_TICKET, {
+    variables: { id: Number(ticketId) },
+  });
 
-  const dispatch = useDispatch();
+  const [deleteTicket] = useMutation(DELETE_TICKET, {
+    refetchQueries: [{ query: GET_ALL_TICKET }, { query: GET_CURRENT_USER_TICKET }],
+    onCompleted: () => alertMessage(MESSAGE.ticketDeleted),
+  });
+
+  // const dispatch = useDispatch();
 
   const handleDeleteTicket = async () => {
-    dispatch(deleteTicket({ ticketId }));
-    await dispatch(refreshState());
-    await closeModal({ isDelete: true });
+    await deleteTicket({ variables: { id: Number(ticketId) } });
+    // await dispatch(refreshState());
+    closeModal({ isDelete: true });
   };
-
-  useEffect(() => {
-    if (!ticketsData[ticketId] && ticketId) dispatch(getTicketById({ id: ticketId }));
-  }, []);
 
   return (
     <div className="modal">
@@ -27,10 +31,10 @@ const DeleteTicket = ({ closeModal, ticketId }) => {
           <p className={"deleteBoxTitle"}>Are you sure you want to delete this ticket?</p>
 
           <label style={{ color: "grey" }}>Title</label>
-          <p style={{ margin: "0px", marginBottom: "10px", marginLeft: "10px" }}>{ticketsData[ticketId]?.title}</p>
+          <p style={{ margin: "0px", marginBottom: "10px", marginLeft: "10px" }}>{ticketsData?.title}</p>
 
           <label style={{ color: "grey" }}>Description</label>
-          <p style={{ margin: "0px", marginBottom: "10px", marginLeft: "10px" }}>{ticketsData[ticketId]?.description || "N/A"}</p>
+          <p style={{ margin: "0px", marginBottom: "10px", marginLeft: "10px" }}>{ticketsData?.description || "N/A"}</p>
 
           <label style={{ margin: "0px", color: "grey" }}>Assigned User</label>
           <div
@@ -43,7 +47,7 @@ const DeleteTicket = ({ closeModal, ticketId }) => {
               marginLeft: "10px",
             }}
           >
-            {ticketsData[ticketId]?.ticketIdUsers?.map((item, index) => (
+            {ticketsData?.ticketIdUsers?.map((item, index) => (
               <h3 key={item + index} class="userInfo">
                 {item.fullName}
               </h3>

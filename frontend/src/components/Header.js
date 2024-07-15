@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineLogout } from "react-icons/hi";
 import { logout } from "../redux/slices/authSlice";
-import { getCurrentUser } from "../redux/slices/userSlice";
+import { updateCurrentUser } from "../redux/slices/userSlice";
+import { useQuery } from "@apollo/client";
+import { GET_CURRENT_USER } from "../Query/index";
 
 const Header = () => {
+  const { loading, error, data } = useQuery(GET_CURRENT_USER);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.currentUser);
+  const user = !loading ? data?.me : {};
   const [hoverDisabled, setHoverDisabled] = useState([false, false, false]);
   const handleSubmit = (e) => {
     dispatch(logout());
   };
 
   useEffect(() => {
-    if (!user.currentUser) dispatch(getCurrentUser());
-  }, []);
+    if (!loading) dispatch(updateCurrentUser(data.me));
+  }, [loading]);
 
   useEffect(() => {
     if (hoverDisabled) setHoverDisabled(false);

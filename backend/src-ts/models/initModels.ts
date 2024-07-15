@@ -27,6 +27,8 @@ export function initModels(sequelize: Sequelize) {
   const UserTicket = _UserTicket.initModel(sequelize);
   const Users = _Users.initModel(sequelize);
 
+  Tickets.belongsToMany(Users, { as: 'ticketUsersDetails', through: UserTicket, foreignKey: 'ticket', otherKey: 'assignee', targetKey: 'uid' });
+
   UserTicket.belongsTo(Tickets, { as: "ticket_ticket", foreignKey: "ticket" });
   Tickets.hasMany(UserTicket, { as: "userTickets", foreignKey: "ticket" });
   Tickets.belongsTo(Users, { as: "created_by_user", foreignKey: "created_by" });

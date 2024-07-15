@@ -18,7 +18,7 @@ const date = {
 };
 
 const DataTable = ({ headers = [], api, slice, modalToggle, query } = {}) => {
-  const [fetchData, { loading, error, data }] = useLazyQuery(query, {
+  const [fetchData, { data }] = useLazyQuery(query, {
     onError: (error) => {
       console.error("Datatable error:", error);
     },
