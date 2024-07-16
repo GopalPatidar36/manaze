@@ -1,23 +1,23 @@
-import React from "react";
-import { useQuery, useMutation } from "@apollo/client";
+import React, { useEffect } from "react";
+import { useLazyQuery, useMutation } from "@apollo/client";
 import { DELETE_TICKET, GET_ALL_TICKET, GET_CURRENT_USER_TICKET, GET_TICKET } from "../../Query/index";
 import { alertMessage, MESSAGE } from "../ToastifyAlert";
 
 const DeleteTicket = ({ closeModal, ticketId }) => {
-  const { data: { ticketByID: ticketsData } = {} } = useQuery(GET_TICKET, {
+  const { data: { ticketByID: ticketsData } = {} } = useLazyQuery(GET_TICKET, {
     variables: { id: Number(ticketId) },
   });
 
   const [deleteTicket] = useMutation(DELETE_TICKET, {
-    refetchQueries: [{ query: GET_ALL_TICKET }, { query: GET_CURRENT_USER_TICKET }],
+    refetchQueries: [
+      { query: GET_ALL_TICKET, variables: { offset: 0 } },
+      { query: GET_CURRENT_USER_TICKET, variables: { offset: 0 } },
+    ],
     onCompleted: () => alertMessage(MESSAGE.ticketDeleted),
   });
 
-  // const dispatch = useDispatch();
-
   const handleDeleteTicket = async () => {
     await deleteTicket({ variables: { id: Number(ticketId) } });
-    // await dispatch(refreshState());
     closeModal({ isDelete: true });
   };
 

@@ -39,6 +39,7 @@ async function get(req: any) {
   try {
     const { limit = 15, offset = 0 } = req;
     const _Ticket = await Tickets.findAndCountAll({
+      distinct: true,
       include: [{ association: "userTickets" }],
       offset: Number(offset),
       limit: Number(limit),

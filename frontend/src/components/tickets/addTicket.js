@@ -14,12 +14,19 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
   });
 
   const [updateTicket] = useMutation(UPDATE_TICKET, {
-    refetchQueries: [{ query: GET_ALL_TICKET }, { query: GET_CURRENT_USER_TICKET }, { query: GET_TICKET, variables: { id: Number(ticketId) } }],
+    refetchQueries: [
+      { query: GET_ALL_TICKET, variables: { offset: 0 } },
+      { query: GET_CURRENT_USER_TICKET, variables: { offset: 0 } },
+      { query: GET_TICKET, variables: { id: Number(ticketId) } },
+    ],
     onCompleted: () => alertMessage(MESSAGE.ticketUpdated),
   });
 
   const [addTicket] = useMutation(CREATE_TICKET, {
-    refetchQueries: [{ query: GET_ALL_TICKET }, { query: GET_CURRENT_USER_TICKET }],
+    refetchQueries: [
+      { query: GET_ALL_TICKET, variables: { offset: 0 } },
+      { query: GET_CURRENT_USER_TICKET, variables: { offset: 0 } },
+    ],
     onCompleted: () => alertMessage(MESSAGE.ticketCreated),
   });
 
