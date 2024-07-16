@@ -145,7 +145,7 @@ const DataTable = ({ headers = [], api, slice, modalToggle, query } = {}) => {
         order,
         ...searchOnThisFields,
       },
-      fetchPolicy: Object.keys(searchOnThisFields).length ? "no-cache" : "cache-first",
+      fetchPolicy: Object.keys(searchOnThisFields).length || order ? "no-cache" : "cache-first",
     });
   };
 
