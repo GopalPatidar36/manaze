@@ -1,0 +1,101 @@
+[
+  {
+    "id": 1,
+    "uid": "asc",
+    "userEmail": "GopalPatidar@gmail.com",
+    "firstName": "gopal-1",
+    "lastName": "Patidar",
+    "password": "$2b$10$ae.JPSwLayynmeOVO3u/luuyI.bJQ5Bwz0b0Bp/2HqNyP1z4KJ9gq",
+    "role": "admin",
+    "createdAt": "1718184894000",
+    "updatedAt": "1718184894000"
+  },
+  {
+    "id": 3,
+    "uid": "b5d6e253-9ec9-431c-9ee1-40edde0450df",
+    "userEmail": "GopalPatidar1@gmail.com",
+    "firstName": "gopal-3",
+    "lastName": "Patidar",
+    "password": "$2b$10$HTOCGbvnc9tf5tRsxDbOnu1VDqooCpMjwaxxCWMUmR33lr9iKmSR2",
+    "role": "admin",
+    "createdAt": "1718184951000",
+    "updatedAt": "1718184951000"
+  },
+  {
+    "id": 7,
+    "uid": "fdf9db0d-d9df-4755-afd7-450e2983b32b",
+    "userEmail": "GopalPatidar2@gmail.com",
+    "firstName": "gopal-7",
+    "lastName": "Patidar",
+    "password": "$2b$10$Ey5VEJlvv4oCfRugKhd.k.flS0eUjY/1ycQ9XPbwXIM7mfF7IV62O",
+    "role": "admin",
+    "createdAt": "1718184975000",
+    "updatedAt": "1718184976000"
+  },
+  {
+    "id": 10,
+    "uid": "66d407c9-eec3-4312-8d09-68b616857ebf",
+    "userEmail": "a",
+    "firstName": "gopal-10-a",
+    "lastName": "Patidar",
+    "password": "$2b$10$kSel9UrrDdFoO791o0fiRuQdU78aYrmiCJ0hMcmAM24x8g1xBg9wi",
+    "role": "admin",
+    "createdAt": "1718380790000",
+    "updatedAt": "1718953947000"
+  },
+  {
+    "id": 11,
+    "uid": "236139b2-e7a5-49b8-9a56-f1b71cb12653",
+    "userEmail": "ramp@gmail.com",
+    "firstName": "ram",
+    "lastName": "Patidar",
+    "password": "$2b$10$zz9Ww63QJzW6D9urJWFZYuSzSIKmB6qIysTGtCOB16EcWRMED7JhO",
+    "role": "member",
+    "createdAt": "1718956192000",
+    "updatedAt": "1721115089000"
+  },
+  {
+    "id": 13,
+    "uid": "cfa709a1-28aa-47f8-b666-e39e92ab163c",
+    "userEmail": "krishnap@gmail.com",
+    "firstName": "krishna",
+    "lastName": "Patidar",
+    "password": "$2b$10$JJq74fxyON1SvjNMQ3dqAeZkGqPZzevQHFlaAepEVU60WiXyDeEmK",
+    "role": "admin",
+    "createdAt": "1719037938000",
+    "updatedAt": "1719037938000"
+  },
+  {
+    "id": 17,
+    "uid": "418ac3e1-fd5d-480d-a51b-9c1b18cff8d9",
+    "userEmail": "monap@gmail.com",
+    "firstName": "Mona",
+    "lastName": "patidar",
+    "password": "$2b$10$5Cj780KiFAkr.lrZCj2jXOojmcbu2axG0qn.TDf3yxkoMJjO6d32a",
+    "role": "member",
+    "createdAt": "1719061159000",
+    "updatedAt": "1719061159000"
+  },
+  {
+    "id": 18,
+    "uid": null,
+    "userEmail": "vaishnavip@gmail.com",
+    "firstName": "vaishnavi",
+    "lastName": "Patidar",
+    "password": "$2b$10$wgURsEF5fY8nrZ5fEr5uXOf0Is05owHaK43peQXMVCTVpJOHbTD1q",
+    "role": "member",
+    "createdAt": "1719312633000",
+    "updatedAt": "1719312633000"
+  },
+  {
+    "id": 21,
+    "uid": "02ba93f4-b5f2-4815-9bbf-f861910526c5",
+    "userEmail": "GrapQL3@gmail.com",
+    "firstName": "graph3",
+    "lastName": "QL",
+    "password": "$2b$10$z7GSie9V4Iluegu5Fosd7.PGpW6s040/jdyMSnwu7SqfE2BrQkUOe",
+    "role": "member",
+    "createdAt": "1720613400000",
+    "updatedAt": "1720613400000"
+  }
+]

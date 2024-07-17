@@ -1,4 +1,4 @@
-import GraphQL, { GraphQLList, GraphQLString } from "graphql";
+import GraphQL, { GraphQLInt, GraphQLString } from "graphql";
 import UserTypeDef from "../TypeDef/user";
 import config from "config";
 import createError from "http-errors";
@@ -97,6 +97,8 @@ export const USERSEARCH = {
     userEmail: { type: GraphQLString },
     firstName: { type: GraphQLString },
     lastName: { type: GraphQLString },
+    limit: { type: GraphQLInt },
+    offset: { type: GraphQLInt },
   },
   resolve(parent: any, req: any) {
     return get(req);
@@ -104,7 +106,7 @@ export const USERSEARCH = {
 };
 
 export const FINDONE = {
-  type: new GraphQLList(UserTypeDef.UserType),
+  type: UserTypeDef.UserType,
   args: {
     uid: { type: GraphQLString },
   },
