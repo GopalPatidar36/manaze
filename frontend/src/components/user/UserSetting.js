@@ -1,20 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { GET_CURRENT_USER, UPDATE_USER } from "../../Query/index";
 import { alertMessage } from "../ToastifyAlert";
 
 const UserSetting = (props) => {
+  const { loading, error, data } = useQuery(GET_CURRENT_USER);
+  const user = !loading ? data?.me : {};
+
   const [updateUser] = useMutation(UPDATE_USER, {
     refetchQueries: [{ query: GET_CURRENT_USER }],
     onCompleted: () => alertMessage("userUpdated"),
   });
 
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.currentUser);
   const [isEdit, setIsEdit] = useState(true);
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
+  const [firstName, setFirstName] = useState();
+  const [lastName, setLastName] = useState();
 
   const handleSubmit = (e) => {
     setIsEdit((item) => !item);
@@ -22,6 +23,13 @@ const UserSetting = (props) => {
       updateUser({ variables: { uid: user.uid, firstName, lastName } });
     }
   };
+
+  useEffect(() => {
+    if (data?.me) {
+      setFirstName(data?.me.firstName);
+      setLastName(data?.me.lastName);
+    }
+  }, [data]);
 
   return (
     <div className="userSetting">

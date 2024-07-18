@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 
 const CORE_FIELDS = gql`
-  fragment CoreFields on userFields {
+  fragment initialUserFields on userFields {
     uid
     firstName
     lastName
@@ -17,7 +17,7 @@ const TicketList = gql`
   fragment userList on UserSearchResult {
     count
     rows {
-      ...CoreFields
+      ...initialUserFields
     }
   }
 `;
@@ -26,7 +26,7 @@ export const GET_CURRENT_USER = gql`
   ${CORE_FIELDS}
   query Me {
     me {
-      ...CoreFields
+      ...initialUserFields
     }
   }
 `;
