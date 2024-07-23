@@ -1,9 +1,11 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useMemo, useCallback, lazy, Suspense } from "react";
 import { getTicket } from "../../redux/slices/backlogTickets";
-import DataTable from "../DataTable";
+// import DataTable from "../DataTable";
 import AddTicket from "./addTicket";
 import DeleteTicket from "./Delete";
 import { GET_ALL_TICKET } from "../../Query/index";
+
+const DataTable = lazy(() => import("../DataTable"));
 const Backlog = () => {
   const headers = useMemo(
     () => [
@@ -34,7 +36,9 @@ const Backlog = () => {
           Create Issue
         </button>
       </div>
-      <DataTable headers={headers} api={getTicket} modalToggle={openModel} query={GET_ALL_TICKET} slice="ticketList" />
+      <Suspense fallback={<div>data is loading...</div>}>
+        <DataTable headers={headers} api={getTicket} modalToggle={openModel} query={GET_ALL_TICKET} slice="ticketList" />
+      </Suspense>
       {modal && <AddTicket ticketId={ticketId} closeModal={openModel} />}
       {deleteTicket && <DeleteTicket ticketId={ticketId} closeModal={openModel} />}
     </div>

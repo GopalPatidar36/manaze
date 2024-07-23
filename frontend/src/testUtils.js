@@ -3,6 +3,7 @@ import React from "react";
 import { render as rtlRender } from "@testing-library/react";
 import { Provider } from "react-redux";
 import { MockedProvider } from "@apollo/client/testing";
+import { BrowserRouter as Router } from "react-router-dom";
 import store from "./store";
 
 function render(ui, { preloadedState, apolloMocks, ...renderOptions } = {}) {
@@ -10,7 +11,7 @@ function render(ui, { preloadedState, apolloMocks, ...renderOptions } = {}) {
     return (
       <Provider store={store}>
         <MockedProvider mocks={apolloMocks} addTypename={false}>
-          {children}
+          <Router>{children}</Router>
         </MockedProvider>
       </Provider>
     );

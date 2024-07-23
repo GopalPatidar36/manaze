@@ -9,55 +9,47 @@ import { GET_CURRENT_USER, UPDATE_USER } from "../Query/index";
 
 jest.mock("../plugin/axios");
 
-const mocks = [
-  {
-    request: {
-      query: GET_CURRENT_USER,
-    },
-    result: {
-      data: {
-        me: {
-          __typename: "userFields",
-          id: 11,
-          uid: "236139b2-e7a5-49b8-9a56-f1b71cb12653",
-          userEmail: "ramp@gmail.com",
-          firstName: "ram",
-          lastName: "Patidar",
-          role: "member",
-          createdAt: "2024-07-20T12:00:00Z",
-          updatedAt: "2024-07-20T12:30:00Z",
-        },
+const GetCurrentUserMock = {
+  request: {
+    query: GET_CURRENT_USER,
+  },
+  result: {
+    data: {
+      me: {
+        __typename: "userFields",
+        id: 11,
+        uid: "236139b2-e7a5-49b8-9a56-f1b71cb12653",
+        userEmail: "ramp@gmail.com",
+        firstName: "ram",
+        lastName: "Patidar",
+        role: "member",
+        createdAt: "2024-07-20T12:00:00Z",
+        updatedAt: "2024-07-20T12:30:00Z",
       },
     },
   },
-  // {
-  //   request: {
-  //     query: UPDATE_USER,
-  //   },
-  //   result: {
-  //     data: {
-  //       updateUser: {
-  //         id: 11,
-  //       },
-  //     },
-  //   },
-  // },
-];
-
-const errorMocks = [
-  {
-    request: {
-      query: GET_CURRENT_USER,
-    },
-    error: new Error("Network Error"),
+};
+const updateUserMock = {
+  request: {
+    query: UPDATE_USER,
+    variables: { uid: "236139b2-e7a5-49b8-9a56-f1b71cb12653", firstName: "Gopal", lastName: "Patidar" },
   },
-];
+  result: {
+    data: {
+      updateUser: {
+        __typename: "userFields",
+        id: 11,
+      },
+    },
+  },
+};
+const mocks = [GetCurrentUserMock, updateUserMock, GetCurrentUserMock];
 
-// const data = { data: "12345" };
 // axios.get.mockResolvedValue({ data });
 describe("fetches and displays data", () => {
+  let userSetting;
   beforeEach(async () => {
-    render(<UserSetting />, { apolloMocks: mocks });
+    userSetting = render(<UserSetting />, { apolloMocks: mocks });
   });
 
   test("displays personal information header", async () => {
@@ -90,27 +82,8 @@ describe("fetches and displays data", () => {
       expect(screen.getByText("Gopal")).toBeInTheDocument();
     });
   });
+
+  it("should match dom snapshot", () => {
+    expect(userSetting.asFragment()).toMatchSnapshot();
+  });
 });
-
-// test("Update and Fetch data", async () => {
-//   render(<UserSetting />, { apolloMocks: mocks });
-
-//   await waitFor(() => {
-//     expect(screen.getByText(/Personal Information/)).toBeInTheDocument();
-//   });
-
-//   await waitFor(() => {
-//     expect(screen.getByText(/ram/)).toBeInTheDocument();
-//     expect(screen.getByText(/ramp@gmail.com/)).toBeInTheDocument();
-//   });
-// });
-
-// test("handles error", async () => {
-//   axios.get.mockRejectedValue(new Error("Network Error"));
-
-//   render(<App />);
-
-//   expect(screen.getByText("Loading...")).toBeInTheDocument();
-
-//   await waitFor(() => expect(screen.getByText("Error fetching data")).toBeInTheDocument());
-// });

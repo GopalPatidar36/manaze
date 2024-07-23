@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing with ToastifyAlert data should match dom snapshot:-ToastifyAlert 1`] = `
+<DocumentFragment>
+  <div
+    class="Toastify"
+  />
+</DocumentFragment>
+`;

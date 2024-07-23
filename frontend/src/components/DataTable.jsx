@@ -1,5 +1,4 @@
 import React, { useEffect, useState, memo } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { FaForward, FaBackward, FaArrowUpLong, FaArrowDownLong } from "react-icons/fa6";
 import { dataFormate } from "../utils/index";
@@ -17,23 +16,18 @@ const date = {
   updatedAt: 1,
 };
 
-const DataTable = ({ headers = [], api, slice, modalToggle, query } = {}) => {
+const DataTable = ({ headers = [], slice, modalToggle, query } = {}) => {
   const [fetchData, { data }] = useLazyQuery(query, {
     onError: (error) => {
       console.error("Datatable error:", error);
     },
   });
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [currentPage, setCurrentpPges] = useState(1);
-
-  // const ticketCount = useSelector((state) => state[slice].count);
-  // const list = useSelector((state) => state[slice].list);
 
   const [list, setList] = useState([]);
   const [ticketCount, setTicketCount] = useState(0);
 
-  const [openAction, setOpenAction] = useState("");
   const [sorting, setSorting] = useState("");
   const [direction, setDirection] = useState("");
   const [searchText, setSearchText] = useState("");
@@ -75,12 +69,7 @@ const DataTable = ({ headers = [], api, slice, modalToggle, query } = {}) => {
             {tableDataFormate(item, field)}
           </td>
         ))}
-        <td
-          id="action"
-          key={headers.length + ":"}
-          style={{ width: `1px`, zIndex: 5 }}
-          onClick={() => setOpenAction((state) => (state === item.id ? false : item.id))}
-        >
+        <td id="action" key={headers.length + ":"} style={{ width: `1px`, zIndex: 5 }}>
           &#8942;
           <div className="actionInDatatable">
             <button className="actionButton" onClick={() => modalToggle({ id: item.id, isEdit: true })}>
@@ -187,7 +176,7 @@ const DataTable = ({ headers = [], api, slice, modalToggle, query } = {}) => {
         <table>
           <tbody>
             <tr>
-              {tableHeader} <th id="actionHeader"></th>
+              {tableHeader}<th id="actionHeader"></th>
             </tr>
             {tableData}
           </tbody>

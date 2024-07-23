@@ -9,7 +9,6 @@
     "@mui/material": "^5.16.0",
     "@reduxjs/toolkit": "^2.2.5",
     "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.2",
     "graphql": "^16.9.0",
@@ -53,6 +52,7 @@
     "@babel/core": "^7.24.9",
     "@babel/preset-env": "^7.24.8",
     "@babel/preset-react": "^7.24.7",
+    "@testing-library/react": "^16.0.0",
     "babel-jest": "^29.7.0"
   },
   "jest": {

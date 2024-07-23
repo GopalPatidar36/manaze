@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
 import { useMutation, useQuery } from "@apollo/client";
 import { GET_CURRENT_USER, UPDATE_USER } from "../../Query/index";
 import { alertMessage } from "../ToastifyAlert";

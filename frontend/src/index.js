@@ -10,8 +10,8 @@ import reportWebVitals from "./reportWebVitals";
 import store from "./store";
 import { logout } from "./redux/slices/authSlice";
 
-const publicLink = new HttpLink({ uri: "http://localhost:6036/public" });
-const privateLink = new HttpLink({ uri: "http://localhost:6036/api" });
+const publicLink = new HttpLink({ uri: "https://manaze-backend-git-graphql-ts-gopals-projects-bbc81707.vercel.app/public" });
+const privateLink = new HttpLink({ uri: "https://manaze-backend-git-graphql-ts-gopals-projects-bbc81707.vercel.app/api" });
 
 // Middleware to add headers for private requests
 const authMiddleware = new ApolloLink((operation, forward) => {
