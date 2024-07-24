@@ -18,7 +18,21 @@ declare global {
 
 const PORT: String | Number = process.env.PORT || 6036;
 const app: Express = express();
-app.use(cors());
+const corsOptions = {
+  origin: (origin: any, callback: any) => {
+    // Allow requests with no origin, like mobile apps or curl requests
+    if (!origin) return callback(null, true);
+    // Add allowed origins here
+    const allowedOrigins = ["https://manaze-git-graphql-ts-gopals-projects-bbc81707.vercel.app"];
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = "The CORS policy for this site does not allow access from the specified origin.";
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true, // Access-Control-Allow-Credentials
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 
 app.all("*", isAuthorized);

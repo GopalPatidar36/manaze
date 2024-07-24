@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`fetches and displays data should match dom Login 1`] = `
+<DocumentFragment>
+  <div
+    class="mainContainer"
+  >
+    <div
+      class="boxContainer"
+    >
+      <h3>
+        Login
+      </h3>
+      <form
+        class="loginForm"
+      >
+        <input
+          class="inputBox"
+          placeholder="Enter your email here"
+          required=""
+          type="email"
+          value=""
+        />
+        <label
+          class="errorLabel"
+        />
+        <input
+          class="inputBox"
+          minlength="5"
+          placeholder="Enter your password here"
+          required=""
+          type="password"
+          value=""
+        />
+        <label
+          class="errorLabel"
+        />
+        <button
+          class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedSuccess MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSuccess MuiButton-root MuiButton-contained MuiButton-containedSuccess MuiButton-sizeLarge MuiButton-containedSizeLarge MuiButton-colorSuccess inputButton css-b6mb5h-MuiButtonBase-root-MuiButton-root"
+          tabindex="0"
+          type="submit"
+        >
+          Login
+          <span
+            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+          />
+        </button>
+      </form>
+      <a
+        href="/signup"
+      >
+        If you don't have account
+      </a>
+    </div>
+  </div>
+</DocumentFragment>
+`;

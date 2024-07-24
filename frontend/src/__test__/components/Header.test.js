@@ -1,7 +1,7 @@
 import { screen, waitFor, fireEvent } from "@testing-library/react";
-import Header from "../components/Header";
-import { GET_CURRENT_USER } from "../Query/index";
-import { render } from "../testUtils";
+import Header from "../../components/Header";
+import { GET_CURRENT_USER } from "../../Query/index";
+import { render } from "../../testUtils";
 
 const mocks = [
   {

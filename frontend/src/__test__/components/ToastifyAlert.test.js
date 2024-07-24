@@ -1,5 +1,5 @@
-import ToastifyAlert from "../components/ToastifyAlert";
-import { render } from "../testUtils";
+import ToastifyAlert from "../../components/ToastifyAlert";
+import { render } from "../../testUtils";
 
 describe("Testing with ToastifyAlert data", () => {
   let components;

@@ -1,5 +1,5 @@
-import Sidebar from "../components/Sidebar";
-import { render } from "../testUtils";
+import Sidebar from "../../components/Sidebar";
+import { render } from "../../testUtils";
 
 describe("Testing with Sidebar data", () => {
   let components;

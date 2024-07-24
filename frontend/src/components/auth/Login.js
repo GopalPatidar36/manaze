@@ -5,21 +5,7 @@ import { Link } from "react-router-dom";
 import { useLazyQuery, gql } from "@apollo/client";
 import { updateAuthState } from "../../redux/slices/authSlice";
 import { toatMessage } from "../../components/ToastifyAlert";
-
-const LOGIN = gql`
-  query Login($userEmail: String!, $password: String!) {
-    login(userEmail: $userEmail, password: $password) {
-      token
-      user {
-        uid
-        userEmail
-        password
-        firstName
-        lastName
-      }
-    }
-  }
-`;
+import { LOGIN } from "../../Query/index";
 
 const Login = (props) => {
   const [login, { loading, error, data }] = useLazyQuery(LOGIN, {

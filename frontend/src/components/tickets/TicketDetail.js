@@ -182,7 +182,7 @@ const TicketDetail = ({}) => {
           </div>
           <div className="assignUser">
             {assigneeUser.map((item, index) => (
-              <h3 key={item + index} class="userInfo">
+              <h3 key={item + index} className="userInfo">
                 {item.fullName}
                 <button type="button" className="deleteIcon" onClick={() => deleteUser(item)}>
                   <IoMdTrash />

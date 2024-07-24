@@ -1,8 +1,8 @@
-import { screen, waitFor, within } from "@testing-library/react";
-import Backlog from "../components/tickets/Backlog";
-import { render } from "../testUtils";
+import { screen, waitFor, act } from "@testing-library/react";
+import Backlog from "../../components/tickets/Backlog";
+import { render } from "../../testUtils";
 
-import { GET_ALL_TICKET } from "../Query/index";
+import { GET_ALL_TICKET } from "../../Query/index";
 
 const mocks = [
   {
@@ -78,7 +78,9 @@ const mocks = [
 describe("Testing with Backlog data", () => {
   let components;
   beforeEach(async () => {
-    components = render(<Backlog />, { apolloMocks: mocks });
+    await act(async () => {
+      components = render(<Backlog />, { apolloMocks: mocks });
+    });
   });
   test("Check backlog text", async () => {
     await waitFor(() => {
