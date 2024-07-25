@@ -39,9 +39,9 @@ app.all("*", isAuthorized);
 
 const formatError = (err: any): any => {
   return {
-    message: err.message,
-    statusCode: err.originalError.statusCode || 500, // Access statusCode from extensions
-    stack: err.originalError.stack || [], // Access stack trace if available
+    message: err?.message || "Something went wrong",
+    statusCode: err?.originalError?.statusCode || 500, // Access statusCode from extensions
+    stack: err?.originalError?.stack || [], // Access stack trace if available
   };
 };
 
