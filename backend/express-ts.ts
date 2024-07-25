@@ -18,24 +18,24 @@ declare global {
 
 const PORT: String | Number = process.env.PORT || 6036;
 const app: Express = express();
-const corsOptions = {
-  origin: (origin: any, callback: any) => {
-    console.log("🚀 ~ origin:", origin)
-    // Allow requests with no origin, like mobile apps or curl requests
-    if (!origin) return callback(null, true);
-    // Add allowed origins here
-    const allowedOrigins = ["https://manaze-git-graphql-ts-gopals-projects-bbc81707.vercel.app"];
-    if (allowedOrigins.indexOf(origin) === -1) {
-      const msg = "The CORS policy for this site does not allow access from the specified origin.";
-      console.log("🚀 ~ msg:", msg)
-      return callback(new Error(msg), false);
-    }
-    console.log("after if conditionS::::::::::::::::::")
-    return callback(null, true);
-  },
-  credentials: true, // Access-Control-Allow-Credentials
-};
-app.use(cors(corsOptions));
+// const corsOptions = {
+//   origin: (origin: any, callback: any) => {
+//     console.log("🚀 ~ origin:", origin)
+//     // Allow requests with no origin, like mobile apps or curl requests
+//     if (!origin) return callback(null, true);
+//     // Add allowed origins here
+//     const allowedOrigins = ["https://manaze-git-graphql-ts-gopals-projects-bbc81707.vercel.app"];
+//     if (allowedOrigins.indexOf(origin) === -1) {
+//       const msg = "The CORS policy for this site does not allow access from the specified origin.";
+//       console.log("🚀 ~ msg:", msg)
+//       return callback(new Error(msg), false);
+//     }
+//     console.log("after if conditionS::::::::::::::::::")
+//     return callback(null, true);
+//   },
+//   credentials: true, // Access-Control-Allow-Credentials
+// };
+app.use(cors());
 app.use(bodyParser.json());
 
 app.all("*", isAuthorized);
