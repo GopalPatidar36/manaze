@@ -25,9 +25,6 @@ app.get("/vercel", (req, res) => {
       app.use(`/api/${prefix}`, require(path.join(__dirname, "src/routes", route)));
     }
   }
-  // app.listen(PORT, () => {
-  //   console.log(`Server running on port ${PORT}`);
-  // });
 })();
 
 app.use((err, req, res, next) => {
