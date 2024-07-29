@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { registerUser } from "../../redux/slices/authSlice";
+import { alertMessage, MESSAGE } from "../ToastifyAlert";
+import { CREATE_USER } from "../../Query";
+import { useMutation } from "@apollo/client";
 
 const Signup = (props) => {
+  const [AddUser] = useMutation(CREATE_USER, {
+    onCompleted: () => alertMessage(MESSAGE.userCreated),
+  });
+
   const dispatch = useDispatch();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -18,7 +24,7 @@ const Signup = (props) => {
       setPassError("Password and Confirm Password do not match. Please try again");
       return;
     }
-    dispatch(registerUser({ firstName, lastName, userEmail: userEmail.toLowerCase(), password }));
+    AddUser({ variables: { firstName, lastName, userEmail: userEmail.toLowerCase(), password } });
     setFirstName("");
     setLastName("");
     setEmail("");

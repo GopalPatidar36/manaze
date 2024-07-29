@@ -1,0 +1,73 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Signup page testing should match dom Login 1`] = `
+<DocumentFragment>
+  <div
+    class="mainContainer"
+  >
+    <div
+      class="boxContainer"
+    >
+      <h3>
+        Signup
+      </h3>
+      <form
+        class="loginForm"
+      >
+        <input
+          class="inputBox"
+          placeholder="Enter your first name here"
+          required=""
+          value=""
+        />
+        <input
+          class="inputBox"
+          placeholder="Enter your last name here"
+          required=""
+          value=""
+        />
+        <input
+          class="inputBox"
+          placeholder="Enter your email here"
+          required=""
+          type="email"
+          value=""
+        />
+        <input
+          class="inputBox"
+          minlength="5"
+          placeholder="Enter your password here"
+          required=""
+          type="password"
+          value=""
+        />
+        <label
+          class="errorLabel"
+        />
+        <input
+          class="inputBox"
+          minlength="5"
+          placeholder="Enter confirm password here"
+          required=""
+          type="password"
+          value=""
+        />
+        <label
+          class="errorLabel"
+        />
+        <button
+          class="inputButton"
+          type="submit"
+        >
+          Signup
+        </button>
+      </form>
+      <a
+        href="/"
+      >
+        Have an account? Log In
+      </a>
+    </div>
+  </div>
+</DocumentFragment>
+`;

@@ -3,9 +3,9 @@
 import React from "react";
 import { screen, waitFor, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
-import { render } from "../../testUtils";
-import UserSetting from "../../components/user/UserSetting";
-import { GET_CURRENT_USER, UPDATE_USER } from "../../Query/index";
+import { render } from "../../../testUtils";
+import UserSetting from "../../../components/user/UserSetting";
+import { GET_CURRENT_USER, UPDATE_USER } from "../../../Query/index";
 
 // jest.mock("../plugin/axios");
 

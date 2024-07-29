@@ -38,3 +38,12 @@ export const UPDATE_USER = gql`
     }
   }
 `;
+
+
+export const CREATE_USER = gql`
+  mutation UpdateUser($firstName: String, $lastName: String, $userEmail: String, $password: String) {
+    updateUser(firstName: $firstName, lastName: $lastName, userEmain: $userEmail, password: $password) {
+      id
+    }
+  }
+`;
