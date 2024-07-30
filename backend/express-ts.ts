@@ -36,7 +36,7 @@ const app: Express = express();
 // };
 app.use(
   cors({
-    origin: ["*"], // Comma separated list of your urls to access your api. * means allow everything
+    origin: "*", // Comma separated list of your urls to access your api. * means allow everything
     credentials: true,
   })
 );

@@ -32,7 +32,6 @@ describe("Test Ticket Delete Modal", () => {
 
       const button = screen.getByRole("button", { name: /Delete/i });
       fireEvent.click(button);
-      //   expect(closeModal).toHaveBeenCalledTimes(1);
     });
   });
 });

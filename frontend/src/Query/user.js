@@ -5,6 +5,7 @@ const CORE_FIELDS = gql`
     uid
     firstName
     lastName
+    fullName
     role
     createdAt
     updatedAt
@@ -12,7 +13,7 @@ const CORE_FIELDS = gql`
   }
 `;
 
-const TicketList = gql`
+const UserList = gql`
   ${CORE_FIELDS}
   fragment userList on UserSearchResult {
     count
@@ -31,6 +32,18 @@ export const GET_CURRENT_USER = gql`
   }
 `;
 
+export const SEARCH_USER = gql`
+  ${CORE_FIELDS}
+  query UserList($firstName: String, $lastName: String, $fullName: String, $userEmail: String) {
+    userList(firstName: $firstName, lastName: $lastName, fullName: $fullName, userEmail: $userEmail) {
+      count
+      rows {
+        ...initialUserFields
+      }
+    }
+  }
+`;
+
 export const UPDATE_USER = gql`
   mutation UpdateUser($uid: String!, $firstName: String, $lastName: String) {
     updateUser(uid: $uid, firstName: $firstName, lastName: $lastName) {
@@ -38,7 +51,6 @@ export const UPDATE_USER = gql`
     }
   }
 `;
-
 
 export const CREATE_USER = gql`
   mutation UpdateUser($firstName: String, $lastName: String, $userEmail: String, $password: String) {

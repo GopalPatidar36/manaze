@@ -1,4 +1,4 @@
-import { GET_ALL_TICKET, GET_CURRENT_USER, GET_TICKET, GET_CURRENT_USER_TICKET, DELETE_TICKET } from "../../Query/index";
+import { GET_ALL_TICKET, GET_CURRENT_USER, GET_TICKET, GET_CURRENT_USER_TICKET, DELETE_TICKET, UPDATE_USER, CREATE_TICKET } from "../../Query/index";
 
 export const getCurrentUSER = {
   request: { query: GET_CURRENT_USER },
@@ -11,12 +11,41 @@ export const getCurrentUSER = {
         userEmail: "ramp@gmail.com",
         firstName: "ram",
         lastName: "Patidar",
+        fullName: "ram Patidar",
         role: "member",
         createdAt: "2024-07-20T12:00:00Z",
         updatedAt: "2024-07-20T12:30:00Z",
       },
     },
   },
+};
+
+export const updateUser = {
+  request: {
+    query: UPDATE_USER,
+    variables: { uid: "236139b2-e7a5-49b8-9a56-f1b71cb12653", firstName: "Gopal", lastName: "Patidar" },
+  },
+  result: {
+    data: {
+      updateUser: {
+        __typename: "userFields",
+        id: 11,
+      },
+    },
+  },
+};
+
+export const createTicket = {
+  request: {
+    query: CREATE_TICKET,
+    variables: {
+      title: "dummpy title for test",
+      description: "dummpy description for test",
+      priority: "LOW",
+      status: "OPEN",
+    },
+  },
+  result: { data: { createTicket: { id: 12 } } },
 };
 
 export const getTicket = {

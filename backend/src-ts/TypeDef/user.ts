@@ -8,6 +8,7 @@ const UserType = new GraphQLObjectType({
     userEmail: { type: GraphQLString },
     firstName: { type: GraphQLString },
     lastName: { type: GraphQLString },
+    fullName: { type: GraphQLString },
     password: { type: GraphQLString },
     role: { type: GraphQLString },
     createdAt: { type: GraphQLString },
@@ -15,8 +16,8 @@ const UserType = new GraphQLObjectType({
   }),
 });
 
-const UserSearchResultType = new GraphQLObjectType({
-  name: "UserSearchResult",
+const UserList = new GraphQLObjectType({
+  name: "userList",
   fields: () => ({
     count: { type: GraphQLInt },
     rows: { type: new GraphQLList(UserType) },
@@ -25,5 +26,5 @@ const UserSearchResultType = new GraphQLObjectType({
 
 export default {
   UserType,
-  UserSearchResultType,
+  UserList,
 };

@@ -92,11 +92,12 @@ export const ME = {
 };
 
 export const USERSEARCH = {
-  type: UserTypeDef.UserSearchResultType,
+  type: UserTypeDef.UserList,
   args: {
     userEmail: { type: GraphQLString },
     firstName: { type: GraphQLString },
     lastName: { type: GraphQLString },
+    fullName: { type: GraphQLString },
     limit: { type: GraphQLInt },
     offset: { type: GraphQLInt },
   },

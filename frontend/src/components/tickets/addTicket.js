@@ -1,16 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { addTicket, refreshState, deleteUserFromTicket } from "../../redux/slices/backlogTickets";
-import { searchUser, refreshUserState } from "../../redux/slices/userSlice";
+import { useDispatch } from "react-redux";
+import { deleteUserFromTicket } from "../../redux/slices/backlogTickets";
+import { refreshUserState } from "../../redux/slices/userSlice";
 import { IoMdTrash } from "react-icons/io";
 import { useOutsideClick } from "../UseOutsideClick";
-import { UPDATE_TICKET, GET_ALL_TICKET, GET_CURRENT_USER_TICKET, GET_TICKET, CREATE_TICKET } from "../../Query";
+import { UPDATE_TICKET, GET_ALL_TICKET, GET_CURRENT_USER_TICKET, GET_TICKET, CREATE_TICKET, SEARCH_USER } from "../../Query";
 import { useLazyQuery, useMutation } from "@apollo/client";
 import { alertMessage, MESSAGE } from "../ToastifyAlert";
 
 const AddTicket = ({ closeModal, ticketId } = {}) => {
   const [getTicketDetail, { loading: loadTD, data: getTD }] = useLazyQuery(GET_TICKET, {
     variables: { id: Number(ticketId) },
+  });
+
+  const [searchUser, { data: { userList: { rows: newUsers = [] } = {} } = {}, loading: userLoading } = {}] = useLazyQuery(SEARCH_USER, {
+    fetchPolicy: "no-cache",
   });
 
   const [updateTicket] = useMutation(UPDATE_TICKET, {
@@ -30,7 +34,6 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
     onCompleted: () => alertMessage(MESSAGE.ticketCreated),
   });
 
-  const newUsers = useSelector((state) => state.user.list);
   const ticketsData = !loadTD && getTD?.ticketByID ? getTD.ticketByID : {};
 
   const dispatch = useDispatch();
@@ -52,9 +55,8 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
       setTitleError("Please Enter the ticket title");
       return;
     }
-    if (!ticketId) await addTicket({ variables: { title, description, userUids, priority, status } });
+    if (!ticketId) await addTicket({ variables: { title, description, priority, status } });
     else await updateTicket({ variables: { id: Number(ticketId), title, description, userUids, priority, status } });
-    // await dispatch(refreshState());
     setTitle("");
     setDescription("");
     setTitleError("");
@@ -63,15 +65,9 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
 
   useEffect(() => {
     if (selectUser)
-      dispatch(
-        searchUser({
-          firstName: `or|%${selectUser}%`,
-          userEmail: `or|%${selectUser}%`,
-          lastName: `or|%${selectUser}%`,
-          fullName: `or|%${selectUser}%`,
-        })
-      );
-
+      searchUser({
+        variables: { firstName: `or|%${selectUser}%`, userEmail: `or|%${selectUser}%`, lastName: `or|%${selectUser}%`, fullName: `or|%${selectUser}%` },
+      });
     if (refreState) {
       setRefreState(false);
     }
@@ -131,7 +127,7 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
           <div className="selectContainer">
             <div className="innerSelectContainer">
               <label>Priority</label>
-              <select className="selectOption" id="country" value={priority} onChange={(ev) => setPriority(ev.target.value)}>
+              <select className="selectOption" id="priority" value={priority} onChange={(ev) => setPriority(ev.target.value)}>
                 <option value="LOW">Low</option>
                 <option value="MEDIUM">Medium</option>
                 <option value="HIGH">High</option>
@@ -139,7 +135,7 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
             </div>
             <div className="innerSelectContainer">
               <label>Status</label>
-              <select className="selectOption" id="country" value={status} onChange={(ev) => setStatus(ev.target.value)}>
+              <select className="selectOption" id="status" value={status} onChange={(ev) => setStatus(ev.target.value)}>
                 <option value="OPEN">Open</option>
                 <option value="INPROGRESS">In Progress</option>
                 <option value="CLOSED">Close</option>
@@ -158,7 +154,9 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
             />
             <datalist id="data">
               {newUsers.map((item, key) => (
+                <>
                 <option key={key} value={item.fullName} />
+                </>
               ))}
             </datalist>
             <button type="button" className="datalistButton" disabled={!selectUser} onClick={() => addUser()}>
