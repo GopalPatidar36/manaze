@@ -161,7 +161,7 @@ export const getCurrentUSERTicket = {
   },
   result: {
     data: {
-      ticketList: {
+      currentUserTicket: {
         __typename: "TicketList",
         count: 5,
         rows: [

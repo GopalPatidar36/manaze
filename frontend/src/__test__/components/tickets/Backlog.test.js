@@ -1,7 +1,7 @@
 import { screen, waitFor, act } from "@testing-library/react";
-import Backlog from "../../components/tickets/Backlog";
-import { render } from "../../testUtils";
-import { getAllTicket } from "./dummyData";
+import Backlog from "../../../components/tickets/Backlog";
+import { render } from "../../../testUtils";
+import { getAllTicket } from "../dummyData";
 
 const mocks = [getAllTicket];
 
