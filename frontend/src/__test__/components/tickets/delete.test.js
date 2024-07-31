@@ -28,7 +28,7 @@ describe("Test Ticket Delete Modal", () => {
   test("Check Ticket Description", async () => {
     await waitFor(() => {
       expect(screen.getByText(/Description/)).toBeInTheDocument();
-      expect(screen.getByText(/dummpy Discription for test/)).toBeInTheDocument();
+      expect(screen.getByText(/dummpy description for test/)).toBeInTheDocument();
 
       const button = screen.getByRole("button", { name: /Delete/i });
       fireEvent.click(button);

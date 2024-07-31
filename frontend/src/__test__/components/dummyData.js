@@ -1,4 +1,13 @@
-import { GET_ALL_TICKET, GET_CURRENT_USER, GET_TICKET, GET_CURRENT_USER_TICKET, DELETE_TICKET, UPDATE_USER, CREATE_TICKET } from "../../Query/index";
+import {
+  GET_ALL_TICKET,
+  GET_CURRENT_USER,
+  GET_TICKET,
+  GET_CURRENT_USER_TICKET,
+  DELETE_TICKET,
+  UPDATE_USER,
+  CREATE_TICKET,
+  UPDATE_TICKET,
+} from "../../Query/index";
 
 export const getCurrentUSER = {
   request: { query: GET_CURRENT_USER },
@@ -42,10 +51,53 @@ export const createTicket = {
       title: "dummpy title for test",
       description: "dummpy description for test",
       priority: "LOW",
-      status: "OPEN",
+      status: "INPROGRESS",
     },
   },
   result: { data: { createTicket: { id: 12 } } },
+};
+
+export const updateTicket = {
+  request: {
+    query: UPDATE_TICKET,
+    variables: {
+      id: 12,
+      title: "update title for test",
+      description: "update description for test",
+      priority: "HIGH",
+      status: "CLOSED",
+    },
+  },
+  result: { data: { updateTicket: { id: 12 } } },
+};
+
+export const getUpdatedTicket = {
+  request: {
+    query: GET_TICKET,
+    variables: { id: 12 },
+  },
+  result: {
+    data: {
+      ticketByID: {
+        __typename: "Ticket",
+        id: 12,
+        title: "update title for test",
+        description: "update description for test",
+        priority: "HIGH",
+        status: "CLOSED",
+        createdAt: "234",
+        updatedAt: "234",
+        ticketUsersDetails: [
+          {
+            uid: "qalk-12321-w2dn",
+            firstName: "gopal",
+            lastName: "patidar",
+            fullName: "gopal patidar",
+          },
+        ],
+      },
+    },
+  },
 };
 
 export const getTicket = {
@@ -59,7 +111,7 @@ export const getTicket = {
         __typename: "Ticket",
         id: 12,
         title: "dummpy title for test",
-        description: "dummpy Discription for test",
+        description: "dummpy description for test",
         priority: "LOW",
         status: "OPEN",
         createdAt: "234",

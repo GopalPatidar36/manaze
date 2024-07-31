@@ -56,7 +56,7 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
       return;
     }
     if (!ticketId) await addTicket({ variables: { title, description, priority, status } });
-    else await updateTicket({ variables: { id: Number(ticketId), title, description, userUids, priority, status } });
+    else await updateTicket({ variables: { id: Number(ticketId), title, description, priority, status } });
     setTitle("");
     setDescription("");
     setTitleError("");
@@ -166,7 +166,7 @@ const AddTicket = ({ closeModal, ticketId } = {}) => {
 
           <div className="assignUser">
             {assigneeUser.map((item, index) => (
-              <h3 key={item + index} class="userInfo">
+              <h3 key={item + index} className="userInfo">
                 {item.fullName}
                 <button type="button" className="deleteIcon" onClick={() => deleteUser(item)}>
                   <IoMdTrash />

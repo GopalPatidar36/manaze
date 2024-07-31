@@ -1,9 +1,10 @@
 import { screen, waitFor, fireEvent } from "@testing-library/react";
 import AddTicket from "../../../components/tickets/addTicket";
 import { render } from "../../../testUtils";
-import { createTicket, deleteTicket, getAllTicket, getCurrentUSERTicket } from "../dummyData";
+import { createTicket, updateTicket, getAllTicket, getCurrentUSERTicket, getUpdatedTicket, getTicket } from "../dummyData";
 
-const mocks = [createTicket, getAllTicket, getCurrentUSERTicket];
+const mocks = [getTicket, createTicket, getAllTicket, getCurrentUSERTicket];
+const updateMocks = [getTicket, getAllTicket, getCurrentUSERTicket, getUpdatedTicket, updateTicket];
 
 describe("Test Add Ticket Modal", () => {
   let headerData;
@@ -27,16 +28,11 @@ describe("Test Add Ticket Modal", () => {
       const desc = screen.getByPlaceholderText("Enter description");
       fireEvent.change(desc, { target: { value: "dummpy description for test" } });
 
-      // const priority = screen.findByText("priority");
-      // const priority = screen.findByAltText('select');
-      // const priority = screen.getByRole('combobox', { name: /priority/i });
-      // fireEvent.change(priority, { target: { value: "LOW" } });
-      // console.log("🚀 ~ awaitwaitFor ~ priority:", priority)
-    //   expect(screen.getByRole("option", { name: "LOW" }).selected).toBe(true);
+      const priority = screen.getAllByRole("combobox", { id: "priority" });
+      fireEvent.change(priority[0], { target: { value: "LOW" } });
 
-    //   const status = screen.getByTestId("status");
-    //   console.log("🚀 ~ awaitwaitFor ~ status:", status);
-    //   fireEvent.change(status, { target: { value: "OPEN" } });
+      const status = screen.getAllByRole("combobox", { id: "status" });
+      fireEvent.change(status[1], { target: { value: "INPROGRESS" } });
 
       const button = screen.getByRole("button", { name: /Create/i });
       fireEvent.click(button);
@@ -52,4 +48,52 @@ describe("Test Add Ticket Modal", () => {
   //   fireEvent.click(button);
   // });
   //   });
+});
+
+describe("Test Update Ticket Modal", () => {
+  let components;
+  const closeModal = jest.fn(); // Mock the closeModal function
+
+  beforeEach(() => {
+    components = render(<AddTicket ticketId="12" closeModal={closeModal} />, { apolloMocks: updateMocks });
+  });
+
+  test("Update Ticket", async () => {
+    // Use await with waitFor to handle async operations
+    await waitFor(() => {
+      const title = screen.getByPlaceholderText("Enter title");
+      expect(title).toBeInTheDocument();
+      expect(title.value).toBe("dummpy title for test");
+    });
+
+    const title = screen.getByPlaceholderText("Enter title");
+    fireEvent.change(title, { target: { value: "update title for test" } });
+    expect(title.value).toBe("update title for test");
+
+    await waitFor(() => {
+      const desc = screen.getByPlaceholderText("Enter description");
+      expect(desc).toBeInTheDocument();
+      expect(desc.value).toBe("dummpy description for test");
+    });
+
+    const desc = screen.getByPlaceholderText("Enter description");
+    fireEvent.change(desc, { target: { value: "update description for test" } });
+    expect(desc.value).toBe("update description for test");
+
+    const priority = screen.getAllByRole("combobox", { id: "priority" });
+    fireEvent.change(priority[0], { target: { value: "HIGH" } });
+    expect(priority[0].value).toBe("HIGH");
+
+    const status = screen.getAllByRole("combobox", { id: "status" });
+    fireEvent.change(status[1], { target: { value: "CLOSED" } });
+    expect(status[1].value).toBe("CLOSED");
+
+    const button = screen.getByRole("button", { name: "Update" });
+    fireEvent.click(button);
+
+    // Optionally, add assertions to verify that the closeModal function was called
+    await waitFor(() => {
+      expect(closeModal).toHaveBeenCalled();
+    });
+  });
 });
