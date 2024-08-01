@@ -12,7 +12,7 @@ const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = !loading ? data?.me : {};
-  const [hoverDisabled, setHoverDisabled] = useState([false, false, false]);
+  const [hoverDisabled, setHoverDisabled] = useState(false);
   const handleSubmit = (e) => {
     dispatch(logout());
   };
