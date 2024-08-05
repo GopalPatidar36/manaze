@@ -1,4 +1,20 @@
+// import Cypress from "cypress";
 import { GET_ALL_TICKET } from "../../src/Query/index";
+
+Cypress.Commands.add("login", (email, password) => {
+  cy.get('input[type="email"]').as("userEmail");
+
+  cy.title().should("eq", "ticket management");
+
+  cy.get("@userEmail").type(email);
+
+  // Enter the password
+  cy.get('input[type="password"]').type(password);
+
+  // Click the login button
+  cy.get('button[type="submit"]').click();
+});
+
 describe("template spec", () => {
   beforeEach(() => {
     // Replace with the actual URL of your application
@@ -6,18 +22,7 @@ describe("template spec", () => {
   });
 
   it("should display error messages for invalid login credentials", () => {
-    // Enter fake email
-    cy.get('input[type="email"]').as("userEmail");
-
-    cy.title().should("eq", "ticket management");
-
-    cy.get('input[type="email"]').type("ramp@gmail.com");
-
-    // Enter fake password
-    cy.get('input[type="password"]').type("12345");
-
-    // Click on login button
-    cy.get('button[type="submit"]').click();
+    cy.login("ramp@gmail.com", "12345");
 
     cy.wait(500);
     // const abcd = cy.window().localStorage;
