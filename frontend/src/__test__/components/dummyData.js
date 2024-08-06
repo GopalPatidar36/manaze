@@ -9,6 +9,26 @@ import {
   UPDATE_TICKET,
 } from "../../Query/index";
 
+export const login = {
+  result: {
+    data: {
+      login: {
+        token:
+          "dummy.token.Ca1Ab6lXUn0v_nGvBnFNJDzd5SWr6hL-uEHukKW6IVeGA764MIH7pLsbrknBczubbfRedpgoOWeLp-e9jnOPFA3bjPoEYX8wTH60RUQtOiZv9ttBrxVXcpg4cRAuRCRsxyHp79riJyo8WBP_Jlwa9gnhj0vweazQeFwsq-cO1VS7EoCp_79vbr8draenM_Ly0F2ZDxxbyMguigqFYJN_lGO4V14aYhhVVZyqj2AVnp24NwdE258PH93fWscif2RE8Lxw344zoLx73S4bLo4YU9aq0Z7ZAwoATTKvC95_OIhhNFJ5QYx2HESuNYDa1Arfn4p0dqX1x9Q3ZQ1OsgMV0N7aSxRu09zwl_IL4B-3Grq2GMgFNW_icR46tSerV8wih2tZV6e18hFojtYu7I6LKWZlOYyTw2W3ZF3gZvCTjs__Gj0ZRYZJSpw1vTtxC0iR163XWDShYtWY6Rem94pSjmK_q923qe49GEMDE1F7NTC65e_kOQZwjMbu8AINIbx8uUlXei0LhdTCDXyQgUxpIjh8bTkysClVK5ZMk81w4zIGvd5h1t_4z3w2ts53iEfd_EiwJDTkxbY9GAsV5ijKJ-CQUbzPxuVuX_MTmi3kxarIdBU179EWA2cln9YMXYqWxHL2NLW0kHsoTlILzs89Mo7dvQ_Py-YyDZsHSGpNJIE",
+        user: {
+          uid: "236139b2-e7a5-49b8-9a56-f1b71cb12653",
+          userEmail: "ramp@gmail.com",
+          password: null,
+          firstName: "ram",
+          lastName: "Patidar",
+          __typename: "RegistrationType",
+        },
+        __typename: "LoginTypes",
+      },
+    },
+  },
+};
+
 export const getCurrentUSER = {
   request: { query: GET_CURRENT_USER },
   result: {
@@ -146,7 +166,7 @@ export const getAllTicket = {
     data: {
       ticketList: {
         __typename: "TicketList",
-        count: 5,
+        count: 8,
         rows: [
           {
             __typename: "Ticket",
@@ -200,6 +220,36 @@ export const getAllTicket = {
             updatedAt: "1721052088000",
             createdAt: "1718716708000",
           },
+          {
+            __typename: "Ticket",
+            id: 20,
+            title: "title-20",
+            description: "description-20",
+            priority: "LOW",
+            status: "INPROGRESS",
+            updatedAt: "1721052088000",
+            createdAt: "1718716708000",
+          },
+          {
+            __typename: "Ticket",
+            id: 21,
+            title: "title-21",
+            description: "description-21",
+            priority: "LOW",
+            status: "INPROGRESS",
+            updatedAt: "1721052088000",
+            createdAt: "1718716708000",
+          },
+          {
+            __typename: "Ticket",
+            id: 22,
+            title: "title-22",
+            description: "description-22",
+            priority: "LOW",
+            status: "INPROGRESS",
+            updatedAt: "1721052088000",
+            createdAt: "1718716708000",
+          },
         ],
       },
     },
@@ -220,7 +270,7 @@ export const getCurrentUSERTicket = {
           {
             __typename: "Ticket",
             id: 1,
-            title: "create a ticket update  -61",
+            title: "current user a ticket update  -61",
             description:
               "the update is from the ticket details page   the update is from the ticket details page   the update is from the ticket details page   the update is from the ticket details page   the update is from the ticket details page   the update is from the ticket details page   the update is from the ticket details page   ",
             priority: "LOW",
