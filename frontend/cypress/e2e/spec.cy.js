@@ -1,5 +1,8 @@
 import { getAllTicket, getCurrentUSERTicket, login, getCurrentUSER } from "../../src/__test__/components/dummyData";
 
+Cypress.Keyboard.defaults({
+  keystrokeDelay: 100,
+});
 // Add custom Cypress command for login
 Cypress.Commands.add("login", (email, password) => {
   cy.get('input[type="email"]').as("userEmail");
@@ -60,13 +63,9 @@ describe("Template Spec", () => {
     // Click on the Backlog link
     cy.get(".navlink").contains("Backlog").click();
     cy.url().should("include", "/backlog");
-
+    // cy.get('.DataTable').scrollTo('top')
     // Validate the fifth ticket's description in the DataTable
-    cy.get(".DataTable")
-      .find("tr")
-      .eq(5)
-      .find("td#description")
-      .should("contain.text", getAllTicket.result.data.ticketList.rows[4].description);
+    cy.get(".DataTable").find("tr").eq(5).find("td#description").should("contain.text", getAllTicket.result.data.ticketList.rows[4].description);
 
     // Interact with the DataTable
     cy.get(".DataTable").find("tr").eq(2).click();
@@ -75,14 +74,16 @@ describe("Template Spec", () => {
     cy.get(".navlink").contains("Issue").click();
 
     // Validate the number of rows in the DataTable
-    cy.get(".DataTable")
-      .find("tr")
-      .its("length")
-      .should("be.lt", 16);
+    cy.get(".DataTable").find("tr").its("length").should("be.lt", 16);
 
     // Interact with profile settings dropdown
     cy.get(".dropContain").invoke("show").wait(1000).get(".profileSettingBtn").click();
+    // cy.screenshot()
 
+    cy.viewport(550, 750); // Set viewport to 550px x 750px
+    cy.wait(5000);
+    cy.viewport("iphone-6"); // Set viewport to 375px x 667px
+    cy.wait(5000);
     // Validate URL change after clicking profile settings button
     cy.url().should("include", "/userprofile");
 
