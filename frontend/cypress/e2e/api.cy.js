@@ -1,4 +1,4 @@
-import { LOGIN, GET_CURRENT_USER } from "./query";
+import { LOGIN, GET_CURRENT_USER, GET_ALL_TICKET, GET_TICKET } from "./query";
 Cypress.Commands.add("publicAPI", (query, variables = {}) => {
   cy.request({
     method: "POST",
@@ -52,6 +52,43 @@ describe("Template Spec", () => {
       //     firstName: "ram JI",
       //     userEmail: "ramp@gmail.com",
       //   });
+    });
+  });
+  it("get data && and check limit", () => {
+    cy.privateAPI(GET_ALL_TICKET).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.data.ticketList).to.have.property("count");
+      expect(response.body.data.ticketList.rows.length).to.be.at.most(response.body.data.ticketList.count);
+      expect(response.body.data.ticketList.rows.length).to.be.at.most(15);
+    });
+  });
+
+  it("get data with LOW Status", () => {
+    cy.privateAPI(GET_ALL_TICKET, { status: "LOW" }).then((response) => {
+      const data = response.body.data.ticketList.rows;
+      expect(response.status).to.eq(200);
+      expect(response.body.data.ticketList).to.have.property("count");
+      expect(data.length).to.be.at.most(response.body.data.ticketList.count);
+      expect(data.length).to.be.at.most(15);
+      for (let item of data) {
+        expect(item.status).to.eq("LOW");
+      }
+    });
+  });
+
+  it("check single ticket property", () => {
+    cy.privateAPI(GET_TICKET, { id: 65 }).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.data.ticketByID).to.have.property("id");
+      expect(response.body.data.ticketByID).to.have.property("title");
+      expect(response.body.data.ticketByID).to.have.property("status");
+      expect(response.body.data.ticketByID).to.have.property("priority");
+    });
+  });
+  it("Get it by non existing id", () => {
+    cy.privateAPI(GET_TICKET, { id: 65123 }).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.data.ticketByID).to.eq(null);
     });
   });
 });

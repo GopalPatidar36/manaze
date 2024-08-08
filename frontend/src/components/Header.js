@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { HiOutlineLogout } from "react-icons/hi";
@@ -6,8 +6,10 @@ import { logout } from "../redux/slices/authSlice";
 import { updateCurrentUser } from "../redux/slices/userSlice";
 import { useQuery } from "@apollo/client";
 import { GET_CURRENT_USER } from "../Query/index";
+import HeaderElement from "../CustomElement/HeaderElement";
 
 const Header = () => {
+  const headerRef = useRef();
   const { loading, error, data } = useQuery(GET_CURRENT_USER);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,34 +25,22 @@ const Header = () => {
 
   useEffect(() => {
     if (hoverDisabled) setHoverDisabled(false);
+    headerRef.current.navigate = navigate;
+    headerRef.current.logout = handleSubmit;
   }, [hoverDisabled]);
 
   return (
-    <div className="header">
-      <p className="welComeNote">Hi {user?.firstName}! Wel-come to manaze</p>
-      <div className="dropDown">
-        <button className="dropButton">
-          {user?.firstName && user.firstName[0].toUpperCase()}
-          {user?.lastName && user?.lastName[0]?.toUpperCase()}
-        </button>
-        <div style={hoverDisabled ? { display: "none" } : {}} className="dropContain">
-          <button
-            className="profileSettingBtn"
-            onClick={() => {
-              navigate("/userprofile");
-              setHoverDisabled(true);
-            }}
-            type="submit"
-          >
-            Profile Settings
-          </button>
-          <button className="logoutButton" onClick={handleSubmit} type="submit">
-            logout
-            <HiOutlineLogout className="logoutIcon" />
-          </button>
-        </div>
-      </div>
-    </div>
+    <header-element ref={headerRef} hoverDisabled={hoverDisabled}>
+      <span slot="headerTitle">Hi {user?.firstName}! Wel-come to manaze</span>
+      <span slot="buttonTitle">
+        {user?.firstName && user.firstName[0].toUpperCase()}
+        {user?.lastName && user?.lastName[0]?.toUpperCase()}
+      </span>
+      <span slot="logout">
+        logout
+        <HiOutlineLogout class="logoutIcon" />
+      </span>
+    </header-element>
   );
 };
 export default Header;
